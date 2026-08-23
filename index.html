@@ -378,6 +378,18 @@
       .notice-item { flex-direction: column; align-items: flex-start; gap: 6px; }
       .hero h1 { font-size: 1.8rem; }
     }
+
+    body {
+      font-family: 'M PLUS Rounded 1c', sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      line-height: 1.6;
+      /* ↓ ここから追加（背景画像を画面いっぱいに固定して表示） */
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+    }
   </style>
 </head>
 <body>
@@ -610,12 +622,24 @@
     // 6. フッター & グローバル設定
     function renderFooter(footerData, globalData) {
       if (globalData && globalData.length > 0) {
-        const g = globalData[0];
-        if (g.site_title) {
-          document.title = g.site_title;
-          document.getElementById('site-logo').textContent = g.site_title;
+        // サイトタイトルの設定（item が site_title の場合、または直接カラム名の場合に対応）
+        const siteTitleItem = globalData.find(row => row.item === 'site_title');
+        if (siteTitleItem && siteTitleItem.value) {
+          document.title = siteTitleItem.value;
+          document.getElementById('site-logo').textContent = siteTitleItem.value;
+        } else if (globalData[0].site_title) {
+          document.title = globalData[0].site_title;
+          document.getElementById('site-logo').textContent = globalData[0].site_title;
+        }
+
+        // ★ page_background の背景画像を設定
+        const bgItem = globalData.find(row => row.item === 'page_background');
+        if (bgItem && bgItem.value) {
+          document.body.style.backgroundImage = `url('${bgItem.value}')`;
         }
       }
+
+      // フッターリンクの描画
       if (footerData && footerData.length > 0) {
         const container = document.getElementById('footer-links');
         footerData.forEach(f => {
