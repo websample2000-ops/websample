@@ -132,29 +132,51 @@
       padding: 0 20px;
     }
 
+    body {
+      font-family: 'M PLUS Rounded 1c', sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      line-height: 1.6;
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      overflow-x: hidden; /* はみ出た立ち絵による横スクロールバーの発生を防止 */
+    }
+
     .profile-card {
       background: #ffffff;
       border-radius: var(--radius);
       box-shadow: var(--shadow);
       padding: 50px 40px;
       position: relative;
-      overflow: hidden;
+      overflow: visible; /* 立ち絵がカード枠からはみ出るのを許可 */
       display: block;
       min-height: 920px;
     }
 
-    /* 立ち絵エリア：最背面レイヤーとして右端に全高配置 */
+    /* 立ち絵エリア：中心をカードの右半分中央（緑線：left: 50%）に配置 */
     .profile-visual-box {
       position: absolute;
-      top: 0;
-      right: 0;
-      width: 70%;
-      height: 100%;
+      top: 30px; /* キャラクター名の高さに合わせる */
+      bottom: 30px; /* MVスライダー下部の高さに合わせる */
+      left: 50%; /* カードの右半分（中心線） */
+      transform: translateX(-50%); /* 画像自体の中心を緑線に合わせる */
+      height: calc(100% - 60px);
+      width: auto;
       display: flex;
-      justify-content: flex-end;
+      justify-content: center;
       align-items: center;
       pointer-events: none;
-      z-index: 1;
+      z-index: 1; /* 背面レイヤー */
+    }
+
+    .profile-visual-box img {
+      height: 100%; /* 高さをコンテンツ全体にフィット */
+      width: auto;  /* アスペクト比を維持して横幅は自然にはみ出させる */
+      max-width: none; /* 幅の制限を解除 */
+      object-fit: contain;
+      filter: drop-shadow(0 15px 25px rgba(0, 0, 0, 0.15));
     }
 
     .profile-visual-box img {
