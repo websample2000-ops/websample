@@ -391,7 +391,7 @@
       background-attachment: fixed;
     }
 
-    /* --- New Profile Layout --- */
+    /* --- Profile Layout (2-tier structure) --- */
     .profile-section {
       max-width: 1050px;
       margin: 20px auto 50px;
@@ -402,25 +402,30 @@
       background: #ffffff;
       border-radius: var(--radius);
       box-shadow: var(--shadow);
-      display: flex;
-      position: relative;
-      overflow: hidden;
       padding: 40px;
-     gap: 30px;
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+    }
+
+    /* 上段：テキストと立ち絵を横並び */
+    .profile-main-row {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 30px;
     }
 
     .profile-info {
-      flex: 1 1 55%;
+      flex: 1 1 50%;
       z-index: 2;
-      display: flex;
-      flex-direction: column;
     }
 
     /* 名前・サブタイトル */
     .prof-title {
       font-size: 3rem;
       font-weight: 900;
-      color: #00158f; /* 画像に合わせた深いブルー */
+      color: #00158f;
       line-height: 1.1;
       letter-spacing: -1px;
     }
@@ -429,7 +434,7 @@
       font-weight: 700;
       color: #00158f;
       margin-top: 6px;
-      margin-bottom: 28px;
+      margin-bottom: 24px;
     }
 
     /* コメント・メッセージ */
@@ -451,12 +456,11 @@
       white-space: pre-line;
     }
 
-    /* スペックリスト（誕生日・身長など） */
+    /* ステータス行 */
     .profile-specs {
       display: flex;
       flex-direction: column;
       gap: 4px;
-      margin-bottom: 30px;
     }
     .spec-row {
       display: flex;
@@ -464,39 +468,60 @@
       font-size: 0.95rem;
       font-weight: 700;
       color: #00158f;
+      white-space: nowrap; /* 折り返し防止 */
     }
     .spec-row.space-top {
       margin-top: 10px;
     }
     .spec-label {
-      width: 95px;
+      width: 110px; /* 折り返さない十分な幅 */
       letter-spacing: 0.5px;
+      white-space: nowrap;
     }
     .spec-colon {
       width: 25px;
       text-align: center;
+      white-space: nowrap;
     }
     .spec-value {
       font-family: 'Outfit', 'M PLUS Rounded 1c', sans-serif;
       letter-spacing: 0.5px;
+      white-space: nowrap;
     }
 
-    /* クレジット & ミニアイコン */
-    .profile-bottom-group {
-      margin-top: auto;
+    /* 立ち絵エリア（名前の横に配置） */
+    .profile-visual-box {
+      flex: 1 1 50%;
       display: flex;
-      align-items: flex-end;
-      gap: 24px;
+      justify-content: center;
+      align-items: center;
+      min-height: 420px;
+    }
+    .profile-visual-box img {
+      max-width: 100%;
+      max-height: 480px;
+      object-fit: contain;
+      filter: drop-shadow(0 15px 25px rgba(0, 0, 0, 0.15));
+    }
+
+    /* 下段：クレジットとアイコン一覧 */
+    .profile-bottom-group {
+      display: flex;
+      align-items: flex-start;
+      gap: 30px;
+      padding-top: 15px;
+      border-top: 1px dashed #e2e8f0;
       flex-wrap: wrap;
     }
+
     .profile-credits {
       font-size: 0.85rem;
       font-weight: 700;
       color: #00158f;
       display: flex;
       flex-direction: column;
-      gap: 3px;
-      min-width: 200px;
+      gap: 4px;
+      white-space: nowrap;
     }
 
     /* 2層アイコンリスト */
@@ -507,30 +532,26 @@
       flex-wrap: wrap;
     }
 
-    /* 下地 + サムネイルの重なりコンテナ */
     .visual-thumb-item {
-      width: 70px;
-      height: 70px;
+      width: 65px;
+      height: 65px;
       border-radius: 8px;
       overflow: hidden;
       position: relative;
       cursor: pointer;
       border: 2px solid transparent;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
       transition: transform 0.2s, border-color 0.2s;
       background-color: #f1f2f6;
     }
-
     .visual-thumb-item:hover {
       transform: translateY(-2px);
     }
-
     .visual-thumb-item.active {
       border-color: #00158f;
       box-shadow: 0 0 0 2px rgba(0, 21, 143, 0.3);
     }
 
-    /* 下地画像 */
     .thumb-bg {
       position: absolute;
       top: 0;
@@ -541,7 +562,6 @@
       z-index: 1;
     }
 
-    /* 前面サムネイル */
     .thumb-fg {
       position: absolute;
       top: 0;
@@ -552,41 +572,20 @@
       z-index: 2;
     }
 
-    /* 立ち絵エリア */
-    .profile-visual-box {
-      flex: 1 1 45%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      position: relative;
-      min-height: 450px;
-    }
-    .profile-visual-box img {
-      max-width: 100%;
-      max-height: 550px;
-      object-fit: contain;
-      filter: drop-shadow(0 15px 25px rgba(0, 0, 0, 0.15));
-    }
-
-    /* スマホ表示対応 */
+    /* スマホ表示 */
     @media (max-width: 860px) {
-      .profile-card {
+      .profile-main-row {
         flex-direction: column-reverse;
-        padding: 24px;
-        gap: 20px;
-      }
-      .prof-title {
-        font-size: 2.2rem;
       }
       .profile-visual-box {
-        min-height: 300px;
+        min-height: 280px;
+        width: 100%;
       }
       .profile-visual-box img {
-        max-height: 380px;
+        max-height: 320px;
       }
       .profile-bottom-group {
-        flex-direction: column-reverse;
-        align-items: flex-start;
+        flex-direction: column;
       }
     }
   </style>
@@ -613,11 +612,13 @@
     </nav>
   </header>
 
-  <!-- Profile Section (Image Layout) -->
-  <section id="profile" class="profile-section">
-    <div class="profile-card">
+  <!-- Profile Section -->
+<section id="profile" class="profile-section">
+  <div class="profile-card">
     
-      <!-- 左側：テキスト・ステータス詳細 -->
+    <!-- 上段：左側にプロフィールテキスト、右側にメイン立ち絵 -->
+    <div class="profile-main-row">
+      <!-- 左側：テキスト・ステータス -->
       <div class="profile-info">
         <!-- 名前 & ふりがな/ローマ字 -->
         <div class="profile-header-group">
@@ -625,7 +626,7 @@
           <div id="prof-sub" class="prof-sub-title">-</div>
         </div>
 
-        <!-- コメント (サンプル見出し) & メッセージ -->
+        <!-- コメント & メッセージ -->
         <div class="profile-comment-block">
           <h2 id="prof-comment" class="prof-comment-title"></h2>
           <p id="prof-message" class="prof-message-text"></p>
@@ -659,24 +660,24 @@
             <span id="prof-streaming" class="spec-value">-</span>
           </div>
         </div>
-
-        <!-- 下部クレジット & アイコンセレクター -->
-        <div class="profile-bottom-group">
-          <div class="profile-credits" id="prof-credits"></div>
-          <div class="visual-thumb-list" id="visual-thumb-list"></div>
-        </div>
-
-        <!-- SNSリンク -->
-        <div class="social-links" id="profile-links" style="margin-top: 25px;"></div>
       </div>
 
       <!-- 右側：メイン立ち絵 -->
       <div class="profile-visual-box">
-        <img id="prof-standing-img" src="" alt="Standing Character" style="display:none;">
+        <img id="prof-standing-img" src="" alt="Character Visual" style="display:none;">
       </div>
-
     </div>
-  </section>
+
+    <!-- 下段：クレジット & アイコン一覧 & SNSリンク -->
+    <div class="profile-bottom-group">
+      <div class="profile-credits" id="prof-credits"></div>
+      <div class="visual-thumb-list" id="visual-thumb-list"></div>
+    </div>
+
+    <div class="social-links" id="profile-links" style="margin-top: 20px;"></div>
+
+  </div>
+</section>
 
   <!-- Notice Section -->
   <section id="notice">
@@ -766,13 +767,16 @@
         }
       });
 
-      // 日付フォーマットヘルパー（ISO文字列を YYYY年M月D日 に変換）
-      const formatDate = (valStr) => {
-        if (!valStr) return '-';
+      // 日付フォーマット関数（ISO文字列対応）
+      // showYear = false のときは「M月D日」、true のときは「YYYY年M月D日」
+      const formatDate = (valStr, showYear = true) => {
+        if (!valStr || valStr === '') return '-';
         if (typeof valStr === 'string' && valStr.includes('T')) {
           const d = new Date(valStr);
           if (!isNaN(d.getTime())) {
-            return `${d.getFullYear()}年${d.getMonth() + 1}月${d.getDate()}日`;
+            const m = d.getMonth() + 1;
+            const day = d.getDate();
+            return showYear ? `${d.getFullYear()}年${m}月${day}日` : `${m}月${day}日`;
           }
         }
         return valStr;
@@ -785,8 +789,10 @@
         return '-';
       };
 
-      // 名前・サブタイトル
+      // 1. 名前
       document.getElementById('prof-name').textContent = getVal('name');
+
+      // 2. pronunciation & romanization
       const pron = p['pronunciation'] || '';
       const roma = p['romanization'] || '';
       let subText = '-';
@@ -794,7 +800,7 @@
       else if (pron || roma) subText = pron || roma;
       document.getElementById('prof-sub').textContent = subText;
 
-      // コメント・メッセージ
+      // 3. comment & message
       const commentEl = document.getElementById('prof-comment');
       const messageEl = document.getElementById('prof-message');
       if (p['comment']) {
@@ -810,16 +816,15 @@
         messageEl.style.display = 'none';
       }
 
-      // 詳細ステータス
-      document.getElementById('prof-birthday').textContent = getVal('birthday');
+      // 4. 詳細ステータス（誕生日は月日形式に自動フォーマット）
+      document.getElementById('prof-birthday').textContent = formatDate(p['birthday'], false);
       document.getElementById('prof-age').textContent = getVal('age', typeof p['age'] === 'number' || (p['age'] && !p['age'].includes('歳')) ? '歳' : '');
       document.getElementById('prof-height').textContent = getVal('height', typeof p['height'] === 'number' || (p['height'] && !p['height'].includes('cm')) ? 'cm' : '');
       document.getElementById('prof-fan-name').textContent = getVal('fan_name');
-      document.getElementById('prof-streaming').textContent = formatDate(p['streaming']);
+      document.getElementById('prof-streaming').textContent = formatDate(p['streaming'], true);
 
-      // 立ち絵とクレジットを更新する内部関数
+      // 5. 立ち絵とクレジットを更新する関数
       const updateVisualDisplay = (item) => {
-        // メイン立ち絵の更新
         const standingImg = document.getElementById('prof-standing-img');
         const visualSrc = item.visual_url || item.standing_url || p['standing_url'];
         if (visualSrc) {
@@ -842,18 +847,22 @@
           if (val && String(val).trim() !== '') {
             const row = document.createElement('div');
             row.className = 'spec-row';
-            row.innerHTML = `<span style="width:105px;">${c.label}</span><span class="spec-colon">:</span><span>${val}</span>`;
+            row.innerHTML = `<span class="spec-label">${c.label}</span><span class="spec-colon">:</span><span class="spec-value">${val}</span>`;
             creditsContainer.appendChild(row);
           }
         });
       };
 
-      // visualシートのアイコン一覧生成
+      // 6. visualシートのデータフィルタリング（idが空欄のものは除外）
       const thumbListContainer = document.getElementById('visual-thumb-list');
       thumbListContainer.innerHTML = '';
 
-      if (visualData && visualData.length > 0) {
-        visualData.forEach((vItem, index) => {
+      const validVisualData = (visualData || []).filter(v => {
+        return v && v.id !== undefined && v.id !== null && String(v.id).trim() !== '';
+      });
+
+      if (validVisualData.length > 0) {
+        validVisualData.forEach((vItem, index) => {
           const thumbBox = document.createElement('div');
           thumbBox.className = `visual-thumb-item ${index === 0 ? 'active' : ''}`;
 
@@ -883,14 +892,13 @@
           thumbListContainer.appendChild(thumbBox);
         });
 
-        // 初期表示（1件目のビジュアルとクレジットを表示）
-        updateVisualDisplay(visualData[0]);
+        // 初期表示（1件目の立ち絵 & クレジット）
+        updateVisualDisplay(validVisualData[0]);
       } else {
-        // visualデータがない場合はprofile側の情報でフォールバック
         updateVisualDisplay(p);
       }
 
-      // SNSリンク生成
+      // 7. SNSリンク
       const linksContainer = document.getElementById('profile-links');
       linksContainer.innerHTML = '';
       const snsConfigs = [
