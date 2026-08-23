@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ガイドライン | Official Website</title>
+  
+  <!-- Google Fonts (Potta One, Fredoka, M PLUS Rounded 1c, Outfit) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600;700&family=M+PLUS+Rounded+1c:wght@400;700;800&family=Outfit:wght@400;600;800&family=Potta+One&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+    :root {
+      --primary: #ff758c;
+      --primary-dark: #ff477e;
+      --secondary: #6c5ce7;
+      --bg-color: #fafbfc;
+      --card-bg: #ffffff;
+      --text-main: #2d3436;
+      --text-muted: #636e72;
+      --border-color: #edf2f7;
+      --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01);
+      --radius: 16px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'M PLUS Rounded 1c', sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      line-height: 1.6;
+      background-size: cover;
+      background-position: center top;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      overflow-x: hidden;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    /* --- Loading Spinner --- */
+    #loading {
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(255, 255, 255, 0.95);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      transition: opacity 0.4s ease, visibility 0.4s;
+    }
+    .spinner {
+      width: 50px;
+      height: 50px;
+      border: 5px solid var(--border-color);
+      border-top-color: var(--primary);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* --- Header / Navigation --- */
+    header {
+      position: sticky;
+      top: 0;
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border-color);
+      z-index: 1000;
+      padding: 12px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .logo {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 800;
+      font-size: 1.25rem;
+      color: var(--primary-dark);
+      text-decoration: none;
+    }
+    .back-to-home {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      text-decoration: none;
+      color: #00158f;
+      font-weight: 800;
+      font-size: 0.92rem;
+      padding: 6px 14px;
+      border-radius: 20px;
+      background: rgba(255, 204, 213, 0.35);
+      border: 1.5px solid #ffccd5;
+      transition: all 0.2s;
+    }
+    .back-to-home:hover {
+      background: var(--primary);
+      color: #ffffff;
+      border-color: var(--primary);
+    }
+
+    /* --- Main Container & Frame --- */
+    main {
+      flex: 1;
+      max-width: 920px;
+      width: 100%;
+      margin: 30px auto 60px;
+      padding: 0 20px;
+    }
+
+    .guideline-frame-box {
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-radius: 24px;
+      padding: 40px 44px;
+      border: 3.5px solid #ffccd5;
+      box-shadow: 
+        0 10px 30px rgba(255, 117, 140, 0.18),
+        0 4px 10px rgba(0, 0, 0, 0.05),
+        inset 0 0 0 2px #ffffff,
+        inset 0 3px 6px rgba(255, 204, 213, 0.3);
+      min-height: 360px;
+    }
+
+    /* 1. タイトル（大・中央・和風フォント） */
+    .guideline-main-title {
+      font-family: 'Potta One', cursive;
+      font-size: 2rem;
+      font-weight: 400;
+      color: #00158f;
+      text-align: center;
+      margin: 10px 0 32px 0;
+      letter-spacing: 1px;
+      text-shadow: 
+        0 0 8px #ffffff,
+        0 0 15px #ffffff,
+        2px 2px 0px #ffffff,
+        3px 4px 8px rgba(0, 21, 143, 0.2);
+    }
+
+    /* 2. 項目見出し（中・左・下線とアクセントボーダー） */
+    .guideline-heading {
+      font-family: 'Potta One', 'M PLUS Rounded 1c', cursive;
+      font-size: 1.35rem;
+      color: #00158f;
+      margin: 36px 0 16px 0;
+      padding-left: 12px;
+      border-left: 5px solid var(--primary);
+      border-bottom: 1.5px dashed rgba(255, 117, 140, 0.4);
+      padding-bottom: 6px;
+      letter-spacing: 0.5px;
+    }
+    .guideline-heading:first-of-type {
+      margin-top: 10px;
+    }
+
+    /* 3. ○付き段落ブロック */
+    .guideline-paragraph-block {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      margin: 14px 0 18px 0;
+    }
+    .guideline-bullet {
+      font-size: 1rem;
+      line-height: 1.7;
+      color: var(--primary);
+      font-weight: bold;
+      user-select: none;
+      flex-shrink: 0;
+    }
+    .guideline-paragraph-body {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .guideline-paragraph-line {
+      font-size: 0.95rem;
+      font-weight: 500;
+      color: var(--text-main);
+      line-height: 1.75;
+      word-break: break-word;
+    }
+
+    /* 4. 通常テキスト */
+    .guideline-text {
+      font-size: 0.95rem;
+      font-weight: 500;
+      color: var(--text-main);
+      line-height: 1.8;
+      margin: 10px 0;
+      word-break: break-word;
+    }
+
+    /* 5. 注釈（赤系のアラート枠） */
+    .guideline-annotation {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: #d63031;
+      line-height: 1.6;
+      margin: 14px 0;
+      background: rgba(255, 118, 117, 0.12);
+      border-left: 3.5px solid #ff7675;
+      padding: 8px 14px;
+      border-radius: 0 8px 8px 0;
+    }
+
+    /* 太字指定 */
+    .is-bold-text {
+      font-weight: 800;
+      color: #00158f;
+    }
+
+    /* 埋め込みリンクの装飾 */
+    .guideline-frame-box a {
+      color: var(--primary-dark);
+      text-decoration: underline;
+      font-weight: 700;
+      transition: color 0.15s;
+    }
+    .guideline-frame-box a:hover {
+      color: #00158f;
+    }
+
+    /* フッター */
+    footer {
+      background: #2d3436;
+      color: #dfe6e9;
+      text-align: center;
+      padding: 40px 20px;
+      font-size: 0.85rem;
+      margin-top: auto;
+    }
+    .footer-links {
+      margin-bottom: 16px;
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .footer-links a {
+      color: #b2bec3;
+      text-decoration: none;
+    }
+    .footer-links a:hover { color: #fff; }
+
+    @media (max-width: 600px) {
+      .guideline-frame-box {
+        padding: 26px 20px;
+      }
+      .guideline-main-title {
+        font-size: 1.5rem;
+      }
+      .guideline-heading {
+        font-size: 1.15rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Loading Screen -->
+  <div id="loading">
+    <div class="spinner"></div>
+    <p style="margin-top: 15px; font-weight: bold; color: var(--text-muted);">読み込み中...</p>
+  </div>
+
+  <!-- Header -->
+  <header>
+    <a href="index.html" class="logo" id="site-logo">PORTFOLIO</a>
+    <a href="index.html" class="back-to-home"><i class="fa-solid fa-arrow-left"></i> TOPに戻る</a>
+  </header>
+
+  <!-- Main Content -->
+  <main>
+    <div class="guideline-frame-box">
+      <div id="guideline-content-box"></div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-links" id="footer-links"></div>
+    <p id="footer-copy">&copy; Official Website. All rights reserved.</p>
+  </footer>
+
+  <!-- Script -->
+  <script>
+    const GAS_API_URL = "https://script.google.com/macros/s/AKfycbxsfZFysfM6B-kf2cnE6xSBzsbQ8JJRKCU4yQZbrqxsPSsKTY63VP-wkHAItKoafvTc/exec";
+
+    function hideLoader() {
+      const loader = document.getElementById('loading');
+      if (loader) {
+        loader.style.opacity = '0';
+        setTimeout(() => { loader.style.visibility = 'hidden'; }, 400);
+      }
+    }
+
+    function escapeHtml(str) {
+      if (!str) return '';
+      return String(str).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+    }
+
+    /**
+     * <表示名(URL)> 形式のリンク置換 ＆ 太字装飾
+     */
+    function formatTextItem(textStr, isBold) {
+      if (!textStr) return '';
+      let escaped = escapeHtml(String(textStr));
+      let linked = escaped.replace(/&lt;([^()&<>]+?)\((https?:\/\/[^\s()<>]+?)\)&gt;/g, function(match, text, url) {
+        return `<a href="${url}" target="_blank" rel="noopener noreferrer">${text}</a>`;
+      });
+      return isBold ? `<strong class="is-bold-text">${linked}</strong>` : linked;
+    }
+
+    async function initGuidelinePage() {
+      try {
+        const res = await fetch(GAS_API_URL);
+        const data = await res.json();
+
+        // サイトタイトルと背景の同期
+        applyGlobalSettings(data.global_regulations);
+        
+        // フッターリンクの描画
+        applyFooter(data.footer, data.global_regulations);
+
+        // ガイドラインデータの描画
+        renderGuidelineContent(data.guideline || []);
+
+      } catch (err) {
+        console.error("データ取得エラー:", err);
+        document.getElementById('guideline-content-box').innerHTML = '<p style="text-align:center; color:#d63031; padding:30px;">データの取得に失敗しました。</p>';
+      } finally {
+        hideLoader();
+      }
+    }
+
+    function renderGuidelineContent(rows) {
+      const container = document.getElementById('guideline-content-box');
+      container.innerHTML = '';
+
+      if (!rows || !Array.isArray(rows) || rows.length === 0) {
+        container.innerHTML = '<p style="text-align:center; color:var(--text-muted); padding:30px;">表示できるガイドラインがありません。</p>';
+        return;
+      }
+
+      // priority 順にソート
+      const sortedRows = [...rows].sort((a, b) => {
+        const pA = Number(a.priority) || 0;
+        const pB = Number(b.priority) || 0;
+        return pA - pB;
+      });
+
+      const renderBlocks = [];
+      let currentParagraphGroup = null;
+      let currentParagraphItems = [];
+
+      const flushParagraph = () => {
+        if (currentParagraphItems.length > 0) {
+          renderBlocks.push({
+            type: '段落テキスト',
+            items: [...currentParagraphItems]
+          });
+          currentParagraphItems = [];
+          currentParagraphGroup = null;
+        }
+      };
+
+      // 段落グループの集約ロジック
+      sortedRows.forEach(row => {
+        const type = String(row.text_type || row.type || '').trim();
+        const text = String(row.text || row.content || '').trim();
+        const isBold = (row.bold_text === true || String(row.bold_text).trim().toLowerCase() === 'true' || row.bold_text === 1 || String(row.bold_text).trim() === '1');
+        const pGroup = (row.paragraph_group !== undefined && row.paragraph_group !== null && String(row.paragraph_group).trim() !== '') 
+                       ? String(row.paragraph_group).trim() 
+                       : null;
+
+        if (type === '段落テキスト') {
+          if (pGroup !== null) {
+            if (currentParagraphGroup === pGroup) {
+              currentParagraphItems.push({ text: text, isBold: isBold });
+            } else {
+              flushParagraph();
+              currentParagraphGroup = pGroup;
+              currentParagraphItems = [{ text: text, isBold: isBold }];
+            }
+          } else {
+            flushParagraph();
+            renderBlocks.push({
+              type: '段落テキスト',
+              items: [{ text: text, isBold: isBold }]
+            });
+          }
+        } else {
+          flushParagraph();
+          renderBlocks.push({
+            type: type,
+            text: text,
+            isBold: isBold
+          });
+        }
+      });
+      flushParagraph();
+
+      // 各要素のDOM生成
+      renderBlocks.forEach(block => {
+        if (block.type === 'タイトル') {
+          const el = document.createElement('h1');
+          el.className = 'guideline-main-title';
+          el.innerHTML = formatTextItem(block.text, block.isBold);
+          container.appendChild(el);
+        } else if (block.type === '項目') {
+          const el = document.createElement('h2');
+          el.className = 'guideline-heading';
+          el.innerHTML = formatTextItem(block.text, block.isBold);
+          container.appendChild(el);
+        } else if (block.type === '注釈') {
+          const el = document.createElement('div');
+          el.className = 'guideline-annotation';
+          el.innerHTML = formatTextItem(block.text, block.isBold);
+          container.appendChild(el);
+        } else if (block.type === '段落テキスト') {
+          const blockElem = document.createElement('div');
+          blockElem.className = 'guideline-paragraph-block';
+
+          const bullet = document.createElement('span');
+          bullet.className = 'guideline-bullet';
+          bullet.textContent = '○';
+
+          const body = document.createElement('div');
+          body.className = 'guideline-paragraph-body';
+
+          block.items.forEach(item => {
+            const line = document.createElement('div');
+            line.className = 'guideline-paragraph-line';
+            line.innerHTML = formatTextItem(item.text, item.isBold);
+            body.appendChild(line);
+          });
+
+          blockElem.appendChild(bullet);
+          blockElem.appendChild(body);
+          container.appendChild(blockElem);
+        } else {
+          const el = document.createElement('p');
+          el.className = 'guideline-text';
+          el.innerHTML = formatTextItem(block.text, block.isBold);
+          container.appendChild(el);
+        }
+      });
+    }
+
+    function applyGlobalSettings(globalData) {
+      if (!globalData || globalData.length === 0) return;
+
+      const siteTitleItem = globalData.find(row => {
+        const k = row.item || row['項目'] || row.key;
+        return k === 'site_title';
+      });
+      const titleVal = siteTitleItem ? (siteTitleItem.value || siteTitleItem['設定値']) : (globalData[0].site_title || '');
+      if (titleVal) {
+        document.title = `ガイドライン | ${titleVal}`;
+        document.getElementById('site-logo').textContent = titleVal;
+      }
+
+      const bgItem = globalData.find(row => {
+        const k = row.item || row['項目'] || row.key;
+        return k === 'page_background' || k === 'background';
+      });
+      const bgVal = bgItem ? (bgItem.value || bgItem['設定値']) : (globalData[0].page_background || globalData[0].background || '');
+      if (bgVal) {
+        document.body.style.backgroundImage = `url('${bgVal}')`;
+      }
+    }
+
+    function applyFooter(footerData, globalData) {
+      if (footerData && footerData.length > 0) {
+        const container = document.getElementById('footer-links');
+        container.innerHTML = '';
+        footerData.forEach(f => {
+          const a = document.createElement('a');
+          a.href = f.url || '#';
+          a.textContent = f.title || '';
+          if (f.url && f.url.startsWith('http')) a.target = "_blank";
+          container.appendChild(a);
+        });
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      initGuidelinePage();
+      setTimeout(hideLoader, 4000);
+    });
+  </script>
+</body>
+</html>
