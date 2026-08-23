@@ -390,6 +390,164 @@
       background-repeat: no-repeat;
       background-attachment: fixed;
     }
+
+    /* --- New Profile Layout --- */
+    .profile-section {
+      max-width: 1050px;
+      margin: 20px auto 50px;
+      padding: 0 20px;
+    }
+
+    .profile-card {
+      background: #ffffff;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      display: flex;
+      position: relative;
+      overflow: hidden;
+      padding: 40px;
+     gap: 30px;
+    }
+
+    .profile-info {
+      flex: 1 1 55%;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* 名前・サブタイトル */
+    .prof-title {
+      font-size: 3rem;
+      font-weight: 900;
+      color: #00158f; /* 画像に合わせた深いブルー */
+      line-height: 1.1;
+      letter-spacing: -1px;
+    }
+    .prof-sub-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #00158f;
+      margin-top: 6px;
+      margin-bottom: 28px;
+    }
+
+    /* コメント・メッセージ */
+    .profile-comment-block {
+      margin-bottom: 25px;
+    }
+    .prof-comment-title {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: #00158f;
+      font-style: italic;
+      margin-bottom: 8px;
+    }
+    .prof-message-text {
+      font-size: 0.95rem;
+      color: #00158f;
+      font-style: italic;
+      line-height: 1.5;
+      white-space: pre-line;
+    }
+
+    /* スペックリスト（誕生日・身長など） */
+    .profile-specs {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      margin-bottom: 30px;
+    }
+    .spec-row {
+      display: flex;
+      align-items: center;
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #00158f;
+    }
+    .spec-row.space-top {
+      margin-top: 10px;
+    }
+    .spec-label {
+      width: 95px;
+      letter-spacing: 0.5px;
+    }
+    .spec-colon {
+      width: 25px;
+      text-align: center;
+    }
+    .spec-value {
+      font-family: 'Outfit', 'M PLUS Rounded 1c', sans-serif;
+      letter-spacing: 0.5px;
+    }
+
+    /* クレジット & ミニアイコン */
+    .profile-bottom-group {
+      margin-top: auto;
+      display: flex;
+      align-items: flex-end;
+      gap: 20px;
+    }
+    .profile-credits {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: #00158f;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .profile-avatar-box {
+      width: 80px;
+      height: 80px;
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid #dcdde1;
+      background: #f1f2f6;
+      flex-shrink: 0;
+    }
+    .profile-avatar-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* 立ち絵エリア */
+    .profile-visual-box {
+      flex: 1 1 45%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      min-height: 450px;
+    }
+    .profile-visual-box img {
+      max-width: 100%;
+      max-height: 550px;
+      object-fit: contain;
+      filter: drop-shadow(0 15px 25px rgba(0, 0, 0, 0.15));
+    }
+
+    /* スマホ表示対応 */
+    @media (max-width: 860px) {
+      .profile-card {
+        flex-direction: column-reverse;
+        padding: 24px;
+        gap: 20px;
+      }
+      .prof-title {
+        font-size: 2.2rem;
+      }
+      .profile-visual-box {
+        min-height: 300px;
+      }
+      .profile-visual-box img {
+        max-height: 380px;
+      }
+      .profile-bottom-group {
+        flex-direction: column-reverse;
+        align-items: flex-start;
+      }
+    }
   </style>
 </head>
 <body>
@@ -414,15 +572,74 @@
     </nav>
   </header>
 
-  <!-- Hero / Profile -->
-  <div class="hero" id="profile">
-    <div class="hero-img-box">
-      <img id="profile-avatar" src="" alt="Avatar">
+  <!-- Profile Section (Image Layout) -->
+  <section id="profile" class="profile-section">
+    <div class="profile-card">
+    
+      <!-- 左側：テキスト・ステータス詳細 -->
+      <div class="profile-info">
+        <!-- 名前 & ふりがな/ローマ字 -->
+        <div class="profile-header-group">
+          <h1 id="prof-name" class="prof-title">-</h1>
+          <div id="prof-sub" class="prof-sub-title">-</div>
+        </div>
+
+        <!-- コメント (サンプル見出し) & メッセージ -->
+        <div class="profile-comment-block">
+          <h2 id="prof-comment" class="prof-comment-title"></h2>
+          <p id="prof-message" class="prof-message-text"></p>
+        </div>
+
+        <!-- 詳細ステータスリスト -->
+        <div class="profile-specs">
+          <div class="spec-row">
+            <span class="spec-label">誕生日</span>
+            <span class="spec-colon">:</span>
+            <span id="prof-birthday" class="spec-value">-</span>
+          </div>
+          <div class="spec-row">
+            <span class="spec-label">年齢</span>
+            <span class="spec-colon">:</span>
+            <span id="prof-age" class="spec-value">-</span>
+          </div>
+          <div class="spec-row">
+            <span class="spec-label">身長</span>
+            <span class="spec-colon">:</span>
+            <span id="prof-height" class="spec-value">-</span>
+          </div>
+          <div class="spec-row space-top">
+            <span class="spec-label">ﾌｧﾝﾈｰﾑ</span>
+            <span class="spec-colon">:</span>
+            <span id="prof-fan-name" class="spec-value">-</span>
+          </div>
+          <div class="spec-row">
+            <span class="spec-label">配信開始日</span>
+            <span class="spec-colon">:</span>
+            <span id="prof-streaming" class="spec-value">-</span>
+          </div>
+        </div>
+
+        <!-- 下部クレジット & ミニアイコン -->
+        <div class="profile-bottom-group">
+          <div class="profile-credits" id="prof-credits">
+            <!-- クレジット情報がある場合に表示 -->
+          </div>
+          <div class="profile-avatar-box">
+            <img id="prof-avatar-img" src="" alt="Icon" style="display:none;">
+          </div>
+        </div>
+
+        <!-- SNSリンク -->
+        <div class="social-links" id="profile-links" style="margin-top: 25px;"></div>
+      </div>
+
+      <!-- 右側：メイン立ち絵 -->
+      <div class="profile-visual-box">
+        <img id="prof-standing-img" src="" alt="Standing Character" style="display:none;">
+      </div>
+
     </div>
-    <h1 id="profile-name">Loading...</h1>
-    <p id="profile-bio"></p>
-    <div class="social-links" id="profile-links"></div>
-  </div>
+  </section>
 
   <!-- Notice Section -->
   <section id="notice">
@@ -501,14 +718,87 @@
     // 1. プロフィール描画
     function renderProfile(profileData) {
       if (!profileData || profileData.length === 0) return;
-      const p = profileData[0]; // 1行目をメインプロフィールとする
-      
-      if (p.name) document.getElementById('profile-name').textContent = p.name;
-      if (p.avatar_url) document.getElementById('profile-avatar').src = p.avatar_url;
-      if (p.bio) document.getElementById('profile-bio').textContent = p.bio;
 
-      // 各種SNSリンクの生成
+      // 縦持ち（item/value）か横持ち（通常のヘッダー）かを正規化
+      let p = {};
+      if (profileData[0].item !== undefined && profileData[0].value !== undefined) {
+        profileData.forEach(row => {
+          if (row.item) p[row.item] = row.value;
+        });
+      } else {
+        p = profileData[0];
+      }
+
+      // 値が存在しない場合はハイフン「-」を返すヘルパー
+      const val = (key) => (p[key] && String(p[key]).trim() !== '') ? p[key] : '-';
+
+      // 1. 名前
+      document.getElementById('prof-name').textContent = val('name');
+
+      // 2. pronunciation & romanization
+      const pron = p.pronunciation || '';
+      const roma = p.romanization || '';
+      let subText = '-';
+      if (pron && roma) subText = `${pron} / ${roma}`;
+      else if (pron || roma) subText = pron || roma;
+      document.getElementById('prof-sub').textContent = subText;
+
+      // 3. comment & message
+      const commentEl = document.getElementById('prof-comment');
+      const messageEl = document.getElementById('prof-message');
+      if (p.comment) {
+        commentEl.textContent = p.comment;
+        commentEl.style.display = 'block';
+      } else {
+        commentEl.style.display = 'none';
+      }
+      if (p.message) {
+        messageEl.textContent = p.message;
+        messageEl.style.display = 'block';
+      } else {
+        messageEl.style.display = 'none';
+      }
+
+      // 4. 詳細ステータス
+      document.getElementById('prof-birthday').textContent = val('birthday');
+      document.getElementById('prof-age').textContent = val('age');
+      document.getElementById('prof-height').textContent = val('height');
+      document.getElementById('prof-fan-name').textContent = val('fan_name');
+      document.getElementById('prof-streaming').textContent = val('streaming');
+
+      // 5. 立ち絵 & アイコン画像
+      if (p.standing_url || p.avatar_url) {
+        const standingImg = document.getElementById('prof-standing-img');
+        standingImg.src = p.standing_url || p.avatar_url;
+        standingImg.style.display = 'block';
+      }
+      if (p.icon_url || p.avatar_url) {
+        const avatarImg = document.getElementById('prof-avatar-img');
+        avatarImg.src = p.icon_url || p.avatar_url;
+        avatarImg.style.display = 'block';
+      }
+
+      // 6. クレジット表示（イラストレーター等があれば表示）
+      const creditsContainer = document.getElementById('prof-credits');
+      const creditKeys = [
+        { key: 'character_design', label: 'キャラクター案' },
+        { key: 'illustrator', label: 'イラストレータ' },
+        { key: 'designer_2d', label: '2Dデザイナー' },
+        { key: 'modeler_3d', label: '3Dモデリング' }
+      ];
+      creditsContainer.innerHTML = '';
+      creditKeys.forEach(c => {
+        if (p[c.key]) {
+          const row = document.createElement('div');
+          row.className = 'spec-row';
+          row.innerHTML = `<span style="width:105px;">${c.label}</span><span class="spec-colon">:</span><span>${p[c.key]}</span>`;
+          creditsContainer.appendChild(row);
+        }
+      });
+
+      // 7. SNSリンク
       const linksContainer = document.getElementById('profile-links');
+      linksContainer.innerHTML = '';
       const snsList = [
         { key: 'twitter_url', icon: 'fa-brands fa-x-twitter', label: 'X (Twitter)' },
         { key: 'youtube_url', icon: 'fa-brands fa-youtube', label: 'YouTube' },
