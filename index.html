@@ -44,7 +44,7 @@
       background-position: center top;
       background-repeat: no-repeat;
       background-attachment: fixed;
-      overflow-x: hidden; /* はみ出た立ち絵による横スクロールバーの発生を防止 */
+      overflow-x: hidden;
     }
 
     /* --- Loading Spinner --- */
@@ -127,7 +127,7 @@
       color: var(--text-muted);
     }
 
-    /* --- Profile Layout (Full Height Standing & Left Stack) --- */
+    /* --- Profile Layout --- */
     .profile-section {
       max-width: 1050px;
       margin: 20px auto 50px;
@@ -145,7 +145,7 @@
       min-height: 980px;
     }
 
-    /* 立ち絵エリア：右半分（75%地点）を中心に全高配置 */
+    /* 立ち絵エリア：右側75%地点に配置 */
     .profile-visual-box {
       position: absolute;
       top: 20px;
@@ -155,7 +155,7 @@
       height: calc(100% - 40px);
       width: auto;
       pointer-events: none;
-      z-index: 1; /* 背面 */
+      z-index: 1;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -170,7 +170,7 @@
       filter: drop-shadow(0 15px 25px rgba(0, 0, 0, 0.15));
     }
 
-    /* 左側コンテンツ（前面レイヤー・幅約55%） */
+    /* 左側コンテンツ */
     .profile-content-wrap {
       position: relative;
       z-index: 2;
@@ -197,7 +197,7 @@
         3px 4px 8px rgba(0, 21, 143, 0.35);
     }
 
-    /* ふりがな / ローマ字 */
+    /* サブタイトル */
     .prof-sub-title {
       font-family: 'Potta One', cursive;
       font-size: 1.35rem;
@@ -231,7 +231,7 @@
       font-size: 1.1rem;
       color: #00158f;
       line-height: 1.6;
-      min-height: 8em; /* 5行分確保 */
+      min-height: 8em;
       word-break: break-word;
       white-space: pre-line;
       text-shadow: 
@@ -284,7 +284,7 @@
       white-space: nowrap;
     }
 
-    /* クレジット（1列固定） */
+    /* クレジット */
     .profile-credits-list {
       display: flex;
       flex-direction: column;
@@ -299,7 +299,7 @@
         2px 2px 5px rgba(0, 21, 143, 0.25);
     }
 
-    /* 2層アイコンリスト */
+    /* アイコン */
     .visual-thumb-list {
       display: flex;
       gap: 12px;
@@ -348,7 +348,7 @@
       z-index: 2;
     }
 
-    /* --- MV Video Slider（画面半分にフィット） --- */
+    /* --- MV Video Slider --- */
     .profile-mv-container {
       width: 100%;
       background: #2b303c;
@@ -376,7 +376,7 @@
     .mv-slide-item {
       min-width: 100%;
       position: relative;
-      padding-bottom: 56.25%; /* 16:9 */
+      padding-bottom: 56.25%;
       height: 0;
       overflow: hidden;
     }
@@ -438,7 +438,7 @@
     .notice-x-container {
       max-width: 550px;
       margin: 0 auto;
-      min-height: 420px;
+      min-height: 450px;
       display: flex;
       justify-content: center;
       align-items: flex-start;
@@ -636,7 +636,7 @@
       color: var(--primary);
     }
 
-    /* スマホ表示対応 */
+    /* スマホ対応 */
     @media (max-width: 860px) {
       nav { display: none; }
       .profile-card {
@@ -688,12 +688,12 @@
   <section id="profile" class="profile-section">
     <div class="profile-card">
       
-      <!-- メイン立ち絵（最背面レイヤー・右寄せ全高配置） -->
+      <!-- メイン立ち絵 -->
       <div class="profile-visual-box">
         <img id="prof-standing-img" src="" alt="Character Visual" style="display:none;">
       </div>
 
-      <!-- 左側コンテンツエリア（前面レイヤー・幅約55%） -->
+      <!-- 左側コンテンツエリア -->
       <div class="profile-content-wrap">
         <!-- 名前 & ふりがな/ローマ字 -->
         <div class="profile-header-group">
@@ -701,7 +701,7 @@
           <div id="prof-sub" class="prof-sub-title">-</div>
         </div>
 
-        <!-- コメント & メッセージ（5行分の高さを確保 & 折り返し） -->
+        <!-- コメント & メッセージ -->
         <div class="profile-comment-block">
           <h2 id="prof-comment" class="prof-comment-title"></h2>
           <p id="prof-message" class="prof-message-text"></p>
@@ -736,7 +736,7 @@
           </div>
         </div>
 
-        <!-- クレジット（1列固定・スペース保持） -->
+        <!-- クレジット -->
         <div class="profile-credits-list" id="prof-credits"></div>
 
         <!-- アイコン一覧 -->
@@ -745,7 +745,7 @@
         <!-- SNSリンク -->
         <div class="social-links" id="profile-links"></div>
 
-        <!-- MVスライダー（左側半分に配置） -->
+        <!-- MVスライダー -->
         <div class="profile-mv-container" id="profile-mv-container" style="display:none;">
           <div class="mv-slider-wrapper">
             <button class="mv-btn mv-btn-prev" onclick="prevMvSlide()"><i class="fa-solid fa-chevron-left"></i></button>
@@ -811,29 +811,35 @@
 
   <!-- Script -->
   <script>
-    // ★★★ GASのWeb API URL ★★★
     const GAS_API_URL = "https://script.google.com/macros/s/AKfycbxsfZFysfM6B-kf2cnE6xSBzsbQ8JJRKCU4yQZbrqxsPSsKTY63VP-wkHAItKoafvTc/exec";
 
-    // グローバルで初期化処理
+    // ローディング画面を非表示にするヘルパー
+    function hideLoader() {
+      const loader = document.getElementById('loading');
+      if (loader) {
+        loader.style.opacity = '0';
+        setTimeout(() => { loader.style.visibility = 'hidden'; }, 400);
+      }
+    }
+
+    // グローバル初期化
     async function init() {
       try {
         const res = await fetch(GAS_API_URL);
         const data = await res.json();
         
-        renderProfile(data.profile, data.visual);
-        renderMvSlider(data.profile_mv);
-        renderNotice(data.profile); // Xタイムライン用
-        renderVisual(data.visual);
-        renderShop(data.shop);
-        renderGuideline(data.guideline);
-        renderFooter(data.footer, data.global_regulations);
+        try { renderProfile(data.profile, data.visual); } catch (e) { console.error('Profile Error:', e); }
+        try { renderMvSlider(data.profile_mv); } catch (e) { console.error('MV Error:', e); }
+        try { renderNotice(data.profile); } catch (e) { console.error('Notice Error:', e); }
+        try { renderVisual(data.visual); } catch (e) { console.error('Visual Error:', e); }
+        try { renderShop(data.shop); } catch (e) { console.error('Shop Error:', e); }
+        try { renderGuideline(data.guideline); } catch (e) { console.error('Guideline Error:', e); }
+        try { renderFooter(data.footer, data.global_regulations); } catch (e) { console.error('Footer Error:', e); }
 
       } catch (err) {
         console.error("データ取得エラー:", err);
       } finally {
-        const loader = document.getElementById('loading');
-        loader.style.opacity = '0';
-        setTimeout(() => loader.style.visibility = 'hidden', 400);
+        hideLoader();
       }
     }
 
@@ -902,7 +908,7 @@
       document.getElementById('prof-fan-name').textContent = getVal('fan_name');
       document.getElementById('prof-streaming').textContent = formatDate(p['streaming'], true);
 
-      // 立ち絵とクレジット更新（1列固定 & 空枠キープ）
+      // 立ち絵とクレジット更新
       const updateVisualDisplay = (item) => {
         const standingImg = document.getElementById('prof-standing-img');
         const visualSrc = item.visual_url || item.standing_url || p['standing_url'];
@@ -933,7 +939,7 @@
         });
       };
 
-      // visualシートのアイコン一覧生成
+      // visualシートのアイコン一覧
       const thumbListContainer = document.getElementById('visual-thumb-list');
       thumbListContainer.innerHTML = '';
 
@@ -1100,11 +1106,9 @@
         return;
       }
 
-      // XのURLを正規化（末尾のスラッシュや余計な空白を除去）
       const cleanUrl = xUrl.trim().replace(/\/$/, '');
       const screenName = cleanUrl.split('/').pop();
 
-      // 埋め込みリンクの配置
       container.innerHTML = `
         <a class="twitter-timeline" 
            data-height="500" 
@@ -1115,36 +1119,19 @@
         </a>
       `;
 
-      // 公式スクリプトの実行関数
-      const processWidget = () => {
-        if (window.twttr && window.twttr.widgets) {
-          window.twttr.widgets.load(container);
-        }
-      };
-
-      // すでにスクリプトがロードされているか確認
-      if (window.twttr && window.twttr.widgets) {
-        processWidget();
-      } else {
-        // スクリプトタグを新規追加
-        const script = document.createElement('script');
-        script.src = 'https://platform.twitter.com/widgets.js';
-        script.charset = 'utf-8';
-        script.async = true;
-        script.onload = processWidget;
-        document.head.appendChild(script);
-      }
-    }
-
-      // X公式スクリプトの実行 / ロード
+      // スクリプトの安全な読み込み
       if (window.twttr && window.twttr.widgets) {
         window.twttr.widgets.load(container);
       } else {
-        const script = document.createElement('script');
-        script.src = 'https://platform.twitter.com/widgets.js';
-        script.charset = 'utf-8';
-        script.async = true;
-        document.body.appendChild(script);
+        const existingScript = document.getElementById('twitter-wjs');
+        if (!existingScript) {
+          const script = document.createElement('script');
+          script.id = 'twitter-wjs';
+          script.src = 'https://platform.twitter.com/widgets.js';
+          script.charset = 'utf-8';
+          script.async = true;
+          document.body.appendChild(script);
+        }
       }
     }
 
@@ -1220,7 +1207,6 @@
     // 6. フッター & グローバル設定
     function renderFooter(footerData, globalData) {
       if (globalData && globalData.length > 0) {
-        // サイトタイトルの設定
         const siteTitleItem = globalData.find(row => {
           const k = row.item || row['項目'] || row.key;
           return k === 'site_title';
@@ -1231,7 +1217,6 @@
           document.getElementById('site-logo').textContent = titleVal;
         }
 
-        // 背景画像の設定（page_background または background に対応）
         const bgItem = globalData.find(row => {
           const k = row.item || row['項目'] || row.key;
           return k === 'page_background' || k === 'background';
@@ -1242,7 +1227,6 @@
         }
       }
 
-      // フッターリンク
       if (footerData && footerData.length > 0) {
         const container = document.getElementById('footer-links');
         footerData.forEach(f => {
@@ -1264,7 +1248,11 @@
       document.getElementById('modal').classList.remove('show');
     }
 
-    document.addEventListener('DOMContentLoaded', init);
+    // 読み込み実行 & セーフティタイマー（最大4秒で強制解除）
+    document.addEventListener('DOMContentLoaded', () => {
+      init();
+      setTimeout(hideLoader, 4000);
+    });
   </script>
 </body>
 </html>
