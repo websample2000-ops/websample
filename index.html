@@ -1100,16 +1100,41 @@
         return;
       }
 
-      // XタイムラインHTMLを挿入
+      // XのURLを正規化（末尾のスラッシュや余計な空白を除去）
+      const cleanUrl = xUrl.trim().replace(/\/$/, '');
+      const screenName = cleanUrl.split('/').pop();
+
+      // 埋め込みリンクの配置
       container.innerHTML = `
         <a class="twitter-timeline" 
            data-height="500" 
            data-theme="light" 
            data-chrome="nofooter noborders transparent"
-           href="${xUrl}">
-          Tweets by ${xUrl.split('/').pop()}
+           href="${cleanUrl}">
+          Tweets by ${screenName}
         </a>
       `;
+
+      // 公式スクリプトの実行関数
+      const processWidget = () => {
+        if (window.twttr && window.twttr.widgets) {
+          window.twttr.widgets.load(container);
+        }
+      };
+
+      // すでにスクリプトがロードされているか確認
+      if (window.twttr && window.twttr.widgets) {
+        processWidget();
+      } else {
+        // スクリプトタグを新規追加
+        const script = document.createElement('script');
+        script.src = 'https://platform.twitter.com/widgets.js';
+        script.charset = 'utf-8';
+        script.async = true;
+        script.onload = processWidget;
+        document.head.appendChild(script);
+      }
+    }
 
       // X公式スクリプトの実行 / ロード
       if (window.twttr && window.twttr.widgets) {
