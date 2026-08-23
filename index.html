@@ -125,7 +125,7 @@
       color: var(--text-muted);
     }
 
-    /* --- Profile Layout (Dynamic Standing & MV Slider) --- */
+    /* --- Profile Layout (Full Height Standing & Left Stack) --- */
     .profile-section {
       max-width: 1050px;
       margin: 20px auto 50px;
@@ -136,22 +136,20 @@
       background: #ffffff;
       border-radius: var(--radius);
       box-shadow: var(--shadow);
-      padding: 45px;
+      padding: 50px 40px;
       position: relative;
       overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      gap: 35px;
+      display: block;
+      min-height: 920px;
     }
 
-    /* 立ち絵エリア：右側に大きく配置してテキストに重ねる */
+    /* 立ち絵エリア：最背面レイヤーとして右端に全高配置 */
     .profile-visual-box {
       position: absolute;
-      top: -20px;
-      right: -30px;
-      width: 62%;
-      height: calc(100% - 280px);
-      min-height: 480px;
+      top: 0;
+      right: 0;
+      width: 70%;
+      height: 100%;
       display: flex;
       justify-content: flex-end;
       align-items: center;
@@ -163,15 +161,19 @@
       width: 100%;
       height: 100%;
       object-fit: contain;
-      object-position: right center;
+      object-position: right bottom;
       filter: drop-shadow(0 15px 25px rgba(0, 0, 0, 0.15));
     }
 
-    /* テキストコンテンツ（立ち絵より手前） */
+    /* 左側コンテンツ（前面レイヤー・幅約52%） */
     .profile-content-wrap {
       position: relative;
       z-index: 2;
-      max-width: 60%;
+      width: 52%;
+      max-width: 520px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
     }
 
     /* 名前・サブタイトル */
@@ -187,25 +189,28 @@
       font-weight: 700;
       color: #00158f;
       margin-top: 6px;
-      margin-bottom: 26px;
+      margin-bottom: 12px;
     }
 
-    /* コメント・メッセージ */
+    /* コメント・メッセージ（5行分の高さを確保 & 折り返し） */
     .profile-comment-block {
-      margin-bottom: 25px;
+      width: 100%;
+      margin-bottom: 10px;
     }
     .prof-comment-title {
       font-size: 1.55rem;
       font-weight: 800;
       color: #00158f;
       font-style: italic;
-      margin-bottom: 8px;
+      margin-bottom: 6px;
     }
     .prof-message-text {
       font-size: 0.95rem;
       color: #00158f;
       font-style: italic;
       line-height: 1.5;
+      min-height: 7.5em; /* 5行分の高さを確保 */
+      word-break: break-word;
       white-space: pre-line;
     }
 
@@ -214,7 +219,7 @@
       display: flex;
       flex-direction: column;
       gap: 4px;
-      margin-bottom: 25px;
+      margin-bottom: 10px;
     }
     .spec-row {
       display: flex;
@@ -223,12 +228,13 @@
       font-weight: 700;
       color: #00158f;
       white-space: nowrap;
+      min-height: 1.5em;
     }
     .spec-row.space-top {
       margin-top: 10px;
     }
     .spec-label {
-      width: 100px;
+      width: 110px;
       letter-spacing: 0.5px;
       white-space: nowrap;
     }
@@ -243,21 +249,15 @@
       white-space: nowrap;
     }
 
-    /* クレジット（上）とアイコン一覧（下）の配置 */
-    .profile-bottom-group {
+    /* クレジット（1列固定・スペース保持） */
+    .profile-credits-list {
       display: flex;
       flex-direction: column;
-      gap: 14px;
-      margin-top: 15px;
-    }
-
-    .profile-credits-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 4px 20px;
+      gap: 4px;
       font-size: 0.85rem;
       font-weight: 700;
       color: #00158f;
+      min-height: 6.5em;
     }
 
     /* 2層アイコンリスト */
@@ -266,6 +266,7 @@
       gap: 12px;
       align-items: center;
       flex-wrap: wrap;
+      margin: 8px 0;
     }
 
     .visual-thumb-item {
@@ -308,14 +309,14 @@
       z-index: 2;
     }
 
-    /* --- MV Video Slider --- */
+    /* --- MV Video Slider（画面半分にフィット） --- */
     .profile-mv-container {
-      position: relative;
-      z-index: 2;
+      width: 100%;
       background: #2b303c;
       border-radius: 12px;
-      padding: 24px 20px 16px;
+      padding: 16px 14px 12px;
       margin-top: 10px;
+      box-shadow: var(--shadow);
     }
 
     .mv-slider-wrapper {
@@ -336,7 +337,7 @@
     .mv-slide-item {
       min-width: 100%;
       position: relative;
-      padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+      padding-bottom: 56.25%; /* 16:9 */
       height: 0;
       overflow: hidden;
     }
@@ -357,33 +358,33 @@
       background: rgba(0, 0, 0, 0.65);
       color: #ffffff;
       border: none;
-      width: 40px;
-      height: 40px;
+      width: 32px;
+      height: 32px;
       border-radius: 50%;
       cursor: pointer;
       z-index: 10;
       display: flex;
       justify-content: center;
       align-items: center;
-      font-size: 1.1rem;
+      font-size: 0.9rem;
       transition: background 0.2s;
     }
     .mv-btn:hover {
       background: rgba(0, 0, 0, 0.9);
     }
-    .mv-btn-prev { left: 12px; }
-    .mv-btn-next { right: 12px; }
+    .mv-btn-prev { left: 8px; }
+    .mv-btn-next { right: 8px; }
 
     .mv-dots {
       display: flex;
       justify-content: center;
-      gap: 8px;
-      margin-top: 14px;
+      gap: 6px;
+      margin-top: 10px;
     }
 
     .mv-dot {
-      width: 10px;
-      height: 10px;
+      width: 8px;
+      height: 8px;
       border-radius: 50%;
       background: rgba(255, 255, 255, 0.35);
       cursor: pointer;
@@ -619,27 +620,23 @@
       nav { display: none; }
       .profile-card {
         padding: 24px;
+        min-height: auto;
       }
       .profile-visual-box {
         position: relative;
-        top: 0;
-        right: 0;
         width: 100%;
-        height: 320px;
-        min-height: auto;
+        height: 360px;
         justify-content: center;
       }
       .profile-visual-box img {
         object-position: center;
       }
       .profile-content-wrap {
+        width: 100%;
         max-width: 100%;
       }
       .prof-title {
         font-size: 2.3rem;
-      }
-      .profile-credits-grid {
-        grid-template-columns: 1fr;
       }
       .notice-item { flex-direction: column; align-items: flex-start; gap: 6px; }
     }
@@ -671,12 +668,12 @@
   <section id="profile" class="profile-section">
     <div class="profile-card">
       
-      <!-- メイン立ち絵（絶対配置で大きく重ねる） -->
+      <!-- メイン立ち絵（最背面レイヤー・右寄せ全高配置） -->
       <div class="profile-visual-box">
         <img id="prof-standing-img" src="" alt="Character Visual" style="display:none;">
       </div>
 
-      <!-- コンテンツエリア -->
+      <!-- 左側コンテンツエリア（前面レイヤー・幅約52%） -->
       <div class="profile-content-wrap">
         <!-- 名前 & ふりがな/ローマ字 -->
         <div class="profile-header-group">
@@ -684,7 +681,7 @@
           <div id="prof-sub" class="prof-sub-title">-</div>
         </div>
 
-        <!-- コメント & メッセージ -->
+        <!-- コメント & メッセージ（5行分の高さを確保 & 折り返し） -->
         <div class="profile-comment-block">
           <h2 id="prof-comment" class="prof-comment-title"></h2>
           <p id="prof-message" class="prof-message-text"></p>
@@ -719,24 +716,25 @@
           </div>
         </div>
 
-        <!-- 下部：クレジット（上）とアイコン一覧（下） -->
-        <div class="profile-bottom-group">
-          <div class="profile-credits-grid" id="prof-credits"></div>
-          <div class="visual-thumb-list" id="visual-thumb-list"></div>
-        </div>
+        <!-- クレジット（1列固定・スペース保持） -->
+        <div class="profile-credits-list" id="prof-credits"></div>
+
+        <!-- アイコン一覧 -->
+        <div class="visual-thumb-list" id="visual-thumb-list"></div>
 
         <!-- SNSリンク -->
-        <div class="social-links" id="profile-links" style="margin-top: 20px;"></div>
-      </div>
+        <div class="social-links" id="profile-links"></div>
 
-      <!-- MVスライダーセクション（カード下部） -->
-      <div class="profile-mv-container" id="profile-mv-container" style="display:none;">
-        <div class="mv-slider-wrapper">
-          <button class="mv-btn mv-btn-prev" onclick="prevMvSlide()"><i class="fa-solid fa-chevron-left"></i></button>
-          <div class="mv-slides" id="mv-slides"></div>
-          <button class="mv-btn mv-btn-next" onclick="nextMvSlide()"><i class="fa-solid fa-chevron-right"></i></button>
+        <!-- MVスライダー（左側半分に配置） -->
+        <div class="profile-mv-container" id="profile-mv-container" style="display:none;">
+          <div class="mv-slider-wrapper">
+            <button class="mv-btn mv-btn-prev" onclick="prevMvSlide()"><i class="fa-solid fa-chevron-left"></i></button>
+            <div class="mv-slides" id="mv-slides"></div>
+            <button class="mv-btn mv-btn-next" onclick="nextMvSlide()"><i class="fa-solid fa-chevron-right"></i></button>
+          </div>
+          <div class="mv-dots" id="mv-dots"></div>
         </div>
-        <div class="mv-dots" id="mv-dots"></div>
+
       </div>
 
     </div>
@@ -882,7 +880,7 @@
       document.getElementById('prof-fan-name').textContent = getVal('fan_name');
       document.getElementById('prof-streaming').textContent = formatDate(p['streaming'], true);
 
-      // 立ち絵とクレジット更新
+      // 立ち絵とクレジット更新（1列固定 & 空枠キープ）
       const updateVisualDisplay = (item) => {
         const standingImg = document.getElementById('prof-standing-img');
         const visualSrc = item.visual_url || item.standing_url || p['standing_url'];
@@ -901,13 +899,16 @@
         ];
 
         creditConfigs.forEach(c => {
-          const val = item[c.key] || p[c.key];
+          const val = item[c.key] || p[c.key] || '';
+          const row = document.createElement('div');
+          row.className = 'spec-row';
           if (val && String(val).trim() !== '') {
-            const row = document.createElement('div');
-            row.className = 'spec-row';
             row.innerHTML = `<span class="spec-label">${c.label}</span><span class="spec-colon">:</span><span class="spec-value">${val}</span>`;
-            creditsContainer.appendChild(row);
+          } else {
+            // 表示がなくても高さを確保
+            row.innerHTML = `<span class="spec-label" style="opacity:0;">${c.label}</span><span class="spec-colon" style="opacity:0;">:</span><span class="spec-value"></span>`;
           }
+          creditsContainer.appendChild(row);
         });
       };
 
