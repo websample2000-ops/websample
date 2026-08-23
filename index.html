@@ -434,20 +434,94 @@
       transform: scale(1.2);
     }
 
-    /* --- News / Notice (X Timeline Embed) --- */
-    .notice-x-container {
-      max-width: 550px;
-      margin: 0 auto;
-      min-height: 450px;
+    /* --- News / Notice (Dark Scroll Box) --- */
+    .notice-list {
       display: flex;
-      justify-content: center;
-      align-items: flex-start;
-      background: rgba(255, 255, 255, 0.7);
+      flex-direction: column;
+      gap: 16px;
+      max-height: 350px;
+      overflow-y: auto;
+      background: rgba(30, 42, 56, 0.75);
       backdrop-filter: blur(8px);
       -webkit-backdrop-filter: blur(8px);
-      border-radius: var(--radius);
-      padding: 16px;
-      box-shadow: var(--shadow);
+      border-radius: 12px;
+      padding: 18px 20px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.3);
+    }
+
+    .notice-list::-webkit-scrollbar {
+      width: 8px;
+    }
+    .notice-list::-webkit-scrollbar-track {
+      background: rgba(0, 0, 0, 0.2);
+      border-radius: 4px;
+    }
+    .notice-list::-webkit-scrollbar-thumb {
+      background: #748ba0;
+      border-radius: 4px;
+    }
+
+    .notice-item {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      background: transparent;
+      box-shadow: none;
+      padding: 0 0 14px 0;
+      border-bottom: 1px dashed rgba(255, 255, 255, 0.15);
+      border-radius: 0;
+    }
+    .notice-item:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+    .notice-date {
+      font-size: 0.95rem;
+      font-weight: 800;
+      color: #64b5f6;
+      font-family: 'Fredoka', 'Outfit', sans-serif;
+      letter-spacing: 0.5px;
+    }
+
+    .notice-message {
+      font-size: 0.95rem;
+      font-weight: 500;
+      color: #f1f2f6;
+      line-height: 1.6;
+      white-space: pre-line;
+      word-break: break-word;
+    }
+
+    .notice-media {
+      margin-top: 8px;
+      max-width: 100%;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .notice-media img {
+      max-width: 100%;
+      max-height: 300px;
+      object-fit: cover;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    .notice-media .notice-video-wrap {
+      position: relative;
+      padding-bottom: 56.25%;
+      height: 0;
+      overflow: hidden;
+      border-radius: 8px;
+      max-width: 480px;
+    }
+    .notice-media .notice-video-wrap iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
     }
 
     /* --- Visual / Gallery --- */
@@ -760,15 +834,13 @@
     </div>
   </section>
 
-  <!-- Notice Section (X Timeline) -->
+  <!-- Notice Section -->
   <section id="notice">
     <div class="section-title">
       <h2>News</h2>
-      <span>最新の投稿</span>
+      <span>お知らせ</span>
     </div>
-    <div class="notice-x-container" id="notice-x-container">
-      <p style="text-align:center; color:var(--text-muted);">読み込み中...</p>
-    </div>
+    <div class="notice-list" id="notice-list"></div>
   </section>
 
   <!-- Visual / Gallery Section -->
@@ -813,7 +885,6 @@
   <script>
     const GAS_API_URL = "https://script.google.com/macros/s/AKfycbxsfZFysfM6B-kf2cnE6xSBzsbQ8JJRKCU4yQZbrqxsPSsKTY63VP-wkHAItKoafvTc/exec";
 
-    // ローディング画面を非表示にするヘルパー
     function hideLoader() {
       const loader = document.getElementById('loading');
       if (loader) {
@@ -830,7 +901,7 @@
         
         try { renderProfile(data.profile, data.visual); } catch (e) { console.error('Profile Error:', e); }
         try { renderMvSlider(data.profile_mv); } catch (e) { console.error('MV Error:', e); }
-        try { renderNotice(data.profile); } catch (e) { console.error('Notice Error:', e); }
+        try { renderNotice(data.notice); } catch (e) { console.error('Notice Error:', e); }
         try { renderVisual(data.visual); } catch (e) { console.error('Visual Error:', e); }
         try { renderShop(data.shop); } catch (e) { console.error('Shop Error:', e); }
         try { renderGuideline(data.guideline); } catch (e) { console.error('Guideline Error:', e); }
@@ -1085,54 +1156,87 @@
       updateMvSlidePosition();
     }
 
-    // 2. お知らせ描画（Xタイムライン埋め込み）
-    function renderNotice(profileData) {
-      const container = document.getElementById('notice-x-container');
-      if (!container) return;
+    // 2. お知らせ描画（スプレッドシート notice シート対応）
+    function renderNotice(noticeData) {
+      const container = document.getElementById('notice-list');
+      container.innerHTML = '';
 
-      let xUrl = '';
-      if (profileData && profileData.length > 0) {
-        const xRow = profileData.find(row => {
-          const key = row['項目'] || row['item'] || row['key'];
-          return key && String(key).trim() === 'x_url';
-        });
-        if (xRow) {
-          xUrl = xRow['設定値'] || xRow['value'] || xRow['val'] || '';
-        }
-      }
-
-      if (!xUrl) {
-        container.innerHTML = '<p style="text-align:center; color:var(--text-muted); padding:20px;">Xのアカウントが設定されていません</p>';
+      if (!noticeData || noticeData.length === 0) {
+        container.innerHTML = '<p style="text-align:center; color:#dfe6e9; padding:20px;">お知らせはありません</p>';
         return;
       }
 
-      const cleanUrl = xUrl.trim().replace(/\/$/, '');
-      const screenName = cleanUrl.split('/').pop();
-
-      container.innerHTML = `
-        <a class="twitter-timeline" 
-           data-height="500" 
-           data-theme="light" 
-           data-chrome="nofooter noborders transparent"
-           href="${cleanUrl}">
-          Tweets by ${screenName}
-        </a>
-      `;
-
-      // スクリプトの安全な読み込み
-      if (window.twttr && window.twttr.widgets) {
-        window.twttr.widgets.load(container);
-      } else {
-        const existingScript = document.getElementById('twitter-wjs');
-        if (!existingScript) {
-          const script = document.createElement('script');
-          script.id = 'twitter-wjs';
-          script.src = 'https://platform.twitter.com/widgets.js';
-          script.charset = 'utf-8';
-          script.async = true;
-          document.body.appendChild(script);
+      const formatYmd = (valStr) => {
+        if (!valStr) return '';
+        if (typeof valStr === 'string' && valStr.includes('T')) {
+          const d = new Date(valStr);
+          if (!isNaN(d.getTime())) {
+            const y = d.getFullYear();
+            const m = String(d.getMonth() + 1).padStart(2, '0');
+            const day = String(d.getDate()).padStart(2, '0');
+            return `${y}-${m}-${day}`;
+          }
         }
+        const d = new Date(valStr);
+        if (!isNaN(d.getTime()) && String(valStr).length >= 8) {
+          const y = d.getFullYear();
+          const m = String(d.getMonth() + 1).padStart(2, '0');
+          const day = String(d.getDate()).padStart(2, '0');
+          return `${y}-${m}-${day}`;
+        }
+        return String(valStr).trim();
+      };
+
+      const getEmbedUrl = (url) => {
+        const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+        const match = url.match(regExp);
+        return (match && match[2].length === 11) ? `https://www.youtube.com/embed/${match[2]}` : null;
+      };
+
+      // time_stamp が空欄のものを除外
+      const validNotices = noticeData.filter(item => {
+        const ts = item.time_stamp || item.timestamp;
+        return ts !== undefined && ts !== null && String(ts).trim() !== '';
+      });
+
+      if (validNotices.length === 0) {
+        container.innerHTML = '<p style="text-align:center; color:#dfe6e9; padding:20px;">お知らせはありません</p>';
+        return;
       }
+
+      validNotices.forEach(item => {
+        const dateStr = formatYmd(item.time_stamp || item.timestamp);
+        const msgStr = item.message || '';
+        const picUrl = item.picture ? String(item.picture).trim() : '';
+
+        const div = document.createElement('div');
+        div.className = 'notice-item';
+
+        let mediaHtml = '';
+        if (picUrl) {
+          const embedUrl = getEmbedUrl(picUrl);
+          if (embedUrl) {
+            mediaHtml = `
+              <div class="notice-media">
+                <div class="notice-video-wrap">
+                  <iframe src="${embedUrl}" allowfullscreen loading="lazy"></iframe>
+                </div>
+              </div>`;
+          } else {
+            mediaHtml = `
+              <div class="notice-media">
+                <img src="${picUrl}" alt="Notice Image" onclick="openModal('${picUrl}')" loading="lazy">
+              </div>`;
+          }
+        }
+
+        div.innerHTML = `
+          <span class="notice-date">${dateStr}</span>
+          <div class="notice-message">${msgStr}</div>
+          ${mediaHtml}
+        `;
+        container.appendChild(div);
+      });
     }
 
     // 3. ギャラリー描画
@@ -1248,7 +1352,6 @@
       document.getElementById('modal').classList.remove('show');
     }
 
-    // 読み込み実行 & セーフティタイマー（最大4秒で強制解除）
     document.addEventListener('DOMContentLoaded', () => {
       init();
       setTimeout(hideLoader, 4000);
