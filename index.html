@@ -486,7 +486,8 @@
       margin-top: auto;
       display: flex;
       align-items: flex-end;
-      gap: 20px;
+      gap: 24px;
+      flex-wrap: wrap;
     }
     .profile-credits {
       font-size: 0.85rem;
@@ -494,21 +495,61 @@
       color: #00158f;
       display: flex;
       flex-direction: column;
-      gap: 2px;
+      gap: 3px;
+      min-width: 200px;
     }
-    .profile-avatar-box {
-      width: 80px;
-      height: 80px;
+
+    /* 2層アイコンリスト */
+    .visual-thumb-list {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    /* 下地 + サムネイルの重なりコンテナ */
+    .visual-thumb-item {
+      width: 70px;
+      height: 70px;
       border-radius: 8px;
       overflow: hidden;
-      border: 1px solid #dcdde1;
-      background: #f1f2f6;
-      flex-shrink: 0;
+      position: relative;
+      cursor: pointer;
+      border: 2px solid transparent;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      transition: transform 0.2s, border-color 0.2s;
+      background-color: #f1f2f6;
     }
-    .profile-avatar-box img {
+
+    .visual-thumb-item:hover {
+      transform: translateY(-2px);
+    }
+
+    .visual-thumb-item.active {
+      border-color: #00158f;
+      box-shadow: 0 0 0 2px rgba(0, 21, 143, 0.3);
+    }
+
+    /* 下地画像 */
+    .thumb-bg {
+      position: absolute;
+      top: 0;
+      left: 0;
       width: 100%;
       height: 100%;
       object-fit: cover;
+      z-index: 1;
+    }
+
+    /* 前面サムネイル */
+    .thumb-fg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      z-index: 2;
     }
 
     /* 立ち絵エリア */
@@ -619,14 +660,10 @@
           </div>
         </div>
 
-        <!-- 下部クレジット & ミニアイコン -->
+        <!-- 下部クレジット & アイコンセレクター -->
         <div class="profile-bottom-group">
-          <div class="profile-credits" id="prof-credits">
-            <!-- クレジット情報がある場合に表示 -->
-          </div>
-          <div class="profile-avatar-box">
-            <img id="prof-avatar-img" src="" alt="Icon" style="display:none;">
-          </div>
+          <div class="profile-credits" id="prof-credits"></div>
+          <div class="visual-thumb-list" id="visual-thumb-list"></div>
         </div>
 
         <!-- SNSリンク -->
@@ -693,14 +730,15 @@
     // ★★★ ここにデプロイしたGASのWeb API URLを貼り付けてください ★★★
     const GAS_API_URL = "https://script.google.com/macros/s/AKfycbxsfZFysfM6B-kf2cnE6xSBzsbQ8JJRKCU4yQZbrqxsPSsKTY63VP-wkHAItKoafvTc/exec";
 
+    // グローバルで初期化処理
     async function init() {
       try {
         const res = await fetch(GAS_API_URL);
         const data = await res.json();
         
-        renderProfile(data.profile);
+        // profileとvisualのデータを渡して描画
+        renderProfile(data.profile, data.visual);
         renderNotice(data.notice);
-        renderVisual(data.visual);
         renderShop(data.shop);
         renderGuideline(data.guideline);
         renderFooter(data.footer, data.global_regulations);
@@ -708,21 +746,19 @@
       } catch (err) {
         console.error("データ取得エラー:", err);
       } finally {
-        // ローディング解除
         const loader = document.getElementById('loading');
         loader.style.opacity = '0';
         setTimeout(() => loader.style.visibility = 'hidden', 400);
       }
     }
 
-    // 1. プロフィール描画（項目・設定値 縦持ち完全対応版）
-    function renderProfile(profileData) {
+    // 1. プロフィール & ビジュアルセレクター描画
+    function renderProfile(profileData, visualData) {
       if (!profileData || profileData.length === 0) return;
 
       // A列(項目)をキー、B列(設定値)を値とするオブジェクトに変換
       const p = {};
       profileData.forEach(row => {
-        // ヘッダー名（項目 / 設定値、または item / value）を安全に取得
         const key = row['項目'] || row['item'] || row['key'];
         const val = row['設定値'] || row['value'] || row['val'];
         if (key) {
@@ -730,7 +766,18 @@
         }
       });
 
-      // 値を取得するヘルパー（未入力・空文字の場合は「-」を返す）
+      // 日付フォーマットヘルパー（ISO文字列を YYYY年M月D日 に変換）
+      const formatDate = (valStr) => {
+        if (!valStr) return '-';
+        if (typeof valStr === 'string' && valStr.includes('T')) {
+          const d = new Date(valStr);
+          if (!isNaN(d.getTime())) {
+            return `${d.getFullYear()}年${d.getMonth() + 1}月${d.getDate()}日`;
+          }
+        }
+        return valStr;
+      };
+
       const getVal = (key, unit = '') => {
         if (p[key] && p[key] !== '') {
           return unit ? `${p[key]}${unit}` : p[key];
@@ -738,10 +785,8 @@
         return '-';
       };
 
-      // 1. 名前
+      // 名前・サブタイトル
       document.getElementById('prof-name').textContent = getVal('name');
-
-      // 2. pronunciation & romanization
       const pron = p['pronunciation'] || '';
       const roma = p['romanization'] || '';
       let subText = '-';
@@ -749,17 +794,15 @@
       else if (pron || roma) subText = pron || roma;
       document.getElementById('prof-sub').textContent = subText;
 
-      // 3. comment & message
+      // コメント・メッセージ
       const commentEl = document.getElementById('prof-comment');
       const messageEl = document.getElementById('prof-message');
-      
       if (p['comment']) {
         commentEl.textContent = p['comment'];
         commentEl.style.display = 'block';
       } else {
         commentEl.style.display = 'none';
       }
-      
       if (p['message']) {
         messageEl.textContent = p['message'];
         messageEl.style.display = 'block';
@@ -767,49 +810,89 @@
         messageEl.style.display = 'none';
       }
 
-      // 4. 詳細ステータス
+      // 詳細ステータス
       document.getElementById('prof-birthday').textContent = getVal('birthday');
       document.getElementById('prof-age').textContent = getVal('age', typeof p['age'] === 'number' || (p['age'] && !p['age'].includes('歳')) ? '歳' : '');
       document.getElementById('prof-height').textContent = getVal('height', typeof p['height'] === 'number' || (p['height'] && !p['height'].includes('cm')) ? 'cm' : '');
       document.getElementById('prof-fan-name').textContent = getVal('fan_name');
-      document.getElementById('prof-streaming').textContent = getVal('streaming');
+      document.getElementById('prof-streaming').textContent = formatDate(p['streaming']);
 
-      // 5. 立ち絵画像 & アイコン画像
-      if (p['standing_url']) {
+      // 立ち絵とクレジットを更新する内部関数
+      const updateVisualDisplay = (item) => {
+        // メイン立ち絵の更新
         const standingImg = document.getElementById('prof-standing-img');
-        standingImg.src = p['standing_url'];
-        standingImg.style.display = 'block';
-      }
-      if (p['icon_url']) {
-        const avatarImg = document.getElementById('prof-avatar-img');
-        avatarImg.src = p['icon_url'];
-        avatarImg.style.display = 'block';
-      }
-
-      // 6. クレジット
-      const creditsContainer = document.getElementById('prof-credits');
-      creditsContainer.innerHTML = '';
-      const creditKeys = [
-        { key: 'character_design', label: 'キャラクター案' },
-        { key: 'illustrator', label: 'イラストレータ' },
-        { key: 'designer_2d', label: '2Dデザイナー' },
-        { key: 'modeler_3d', label: '3Dモデリング' }
-      ];
-
-      creditKeys.forEach(c => {
-        if (p[c.key]) {
-          const row = document.createElement('div');
-          row.className = 'spec-row';
-          row.innerHTML = `<span style="width:105px;">${c.label}</span><span class="spec-colon">:</span><span>${p[c.key]}</span>`;
-          creditsContainer.appendChild(row);
+        const visualSrc = item.visual_url || item.standing_url || p['standing_url'];
+        if (visualSrc) {
+          standingImg.src = visualSrc;
+          standingImg.style.display = 'block';
         }
-      });
 
-      // 7. SNSリンク（X, YouTube, 各種予備枠）
+        // クレジットの更新（空欄の場合は非表示）
+        const creditsContainer = document.getElementById('prof-credits');
+        creditsContainer.innerHTML = '';
+        const creditConfigs = [
+          { key: 'character_design', label: 'キャラクター案' },
+          { key: 'illustrator', label: 'イラストレータ' },
+          { key: '2d_animation', label: '2Dデザイナー' },
+          { key: '3d_modeling', label: '3Dモデリング' }
+        ];
+
+        creditConfigs.forEach(c => {
+          const val = item[c.key] || p[c.key];
+          if (val && String(val).trim() !== '') {
+            const row = document.createElement('div');
+            row.className = 'spec-row';
+            row.innerHTML = `<span style="width:105px;">${c.label}</span><span class="spec-colon">:</span><span>${val}</span>`;
+            creditsContainer.appendChild(row);
+          }
+        });
+      };
+
+      // visualシートのアイコン一覧生成
+      const thumbListContainer = document.getElementById('visual-thumb-list');
+      thumbListContainer.innerHTML = '';
+
+      if (visualData && visualData.length > 0) {
+        visualData.forEach((vItem, index) => {
+          const thumbBox = document.createElement('div');
+          thumbBox.className = `visual-thumb-item ${index === 0 ? 'active' : ''}`;
+
+          // 下地画像（thumb_background）
+          if (vItem.thumb_background) {
+            const bgImg = document.createElement('img');
+            bgImg.className = 'thumb-bg';
+            bgImg.src = vItem.thumb_background;
+            thumbBox.appendChild(bgImg);
+          }
+
+          // 前面サムネイル（thumb_url）
+          if (vItem.thumb_url) {
+            const fgImg = document.createElement('img');
+            fgImg.className = 'thumb-fg';
+            fgImg.src = vItem.thumb_url;
+            thumbBox.appendChild(fgImg);
+          }
+
+          // クリック時の切り替え
+          thumbBox.addEventListener('click', () => {
+            document.querySelectorAll('.visual-thumb-item').forEach(el => el.classList.remove('active'));
+            thumbBox.classList.add('active');
+            updateVisualDisplay(vItem);
+          });
+
+          thumbListContainer.appendChild(thumbBox);
+        });
+
+        // 初期表示（1件目のビジュアルとクレジットを表示）
+        updateVisualDisplay(visualData[0]);
+      } else {
+        // visualデータがない場合はprofile側の情報でフォールバック
+        updateVisualDisplay(p);
+      }
+
+      // SNSリンク生成
       const linksContainer = document.getElementById('profile-links');
       linksContainer.innerHTML = '';
-
-      // 登録されているSNSリンクの判定
       const snsConfigs = [
         { key: 'x_url', icon: 'fa-brands fa-x-twitter', label: 'X (Twitter)' },
         { key: 'youtube_url', icon: 'fa-brands fa-youtube', label: 'YouTube' },
