@@ -434,43 +434,47 @@
       transform: scale(1.2);
     }
 
-    /* --- News / Notice (Rich Frosted Glass & Compact Media) --- */
+    /* --- News / Notice (Clear Frosted Glass Style) --- */
     .notice-list {
       display: flex;
       flex-direction: column;
       gap: 16px;
-      max-height: 600px; /* ★高さを約2倍に拡張 */
+      max-height: 520px; /* 十分な高さを確保 */
       overflow-y: auto;
       
-      /* リッチなフロストガラス調グラデーション */
-      background: linear-gradient(145deg, rgba(35, 45, 60, 0.88), rgba(20, 26, 36, 0.94));
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border-radius: 16px;
+      /* 背景に溶け込む半透明ホワイトのすりガラス質感 */
+      background: linear-gradient(
+        135deg, 
+        rgba(255, 255, 255, 0.75) 0%, 
+        rgba(250, 245, 248, 0.55) 100%
+      );
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-radius: 20px;
       padding: 24px 28px;
       
-      /* 高級感のある二重フチ・立体シャドウ */
-      border: 1px solid rgba(255, 255, 255, 0.18);
+      /* 繊細な白光沢ボーダーとソフトなドロップシャドウ */
+      border: 1.5px solid rgba(255, 255, 255, 0.9);
       box-shadow: 
-        0 15px 35px rgba(0, 0, 0, 0.3),
-        inset 0 1px 0 rgba(255, 255, 255, 0.2),
-        inset 0 0 20px rgba(0, 0, 0, 0.2);
+        0 15px 35px rgba(255, 117, 140, 0.08),
+        0 4px 12px rgba(0, 0, 0, 0.03),
+        inset 0 1px 2px rgba(255, 255, 255, 0.8);
     }
 
-    /* スクロールバー */
+    /* スクロールバー（淡いピンクグレー調） */
     .notice-list::-webkit-scrollbar {
       width: 6px;
     }
     .notice-list::-webkit-scrollbar-track {
-      background: rgba(0, 0, 0, 0.15);
+      background: rgba(0, 0, 0, 0.03);
       border-radius: 4px;
     }
     .notice-list::-webkit-scrollbar-thumb {
-      background: rgba(255, 255, 255, 0.25);
+      background: rgba(255, 117, 140, 0.3);
       border-radius: 4px;
     }
     .notice-list::-webkit-scrollbar-thumb:hover {
-      background: rgba(255, 255, 255, 0.4);
+      background: rgba(255, 117, 140, 0.5);
     }
 
     .notice-item {
@@ -480,7 +484,7 @@
       background: transparent;
       box-shadow: none;
       padding: 0 0 16px 0;
-      border-bottom: 1px dashed rgba(255, 255, 255, 0.15);
+      border-bottom: 1px dashed rgba(255, 117, 140, 0.25);
       border-radius: 0;
     }
     .notice-item:last-child {
@@ -488,57 +492,59 @@
       padding-bottom: 0;
     }
 
+    /* 日付：視認性の高いディープブルー / アクセントカラー */
     .notice-date {
       font-size: 0.95rem;
       font-weight: 800;
-      color: #64b5f6;
+      color: #00158f;
       font-family: 'Fredoka', 'Outfit', sans-serif;
       letter-spacing: 0.5px;
-      text-shadow: 0 0 10px rgba(100, 181, 246, 0.4);
     }
 
+    /* メッセージ本文：自然な濃いグレー */
     .notice-message {
       font-size: 0.95rem;
-      font-weight: 500;
-      color: #f1f2f6;
-      line-height: 1.6;
+      font-weight: 600;
+      color: #2d3436;
+      line-height: 1.65;
       white-space: pre-line;
       word-break: break-word;
     }
 
-    /* メディア表示（画像をコンパクトに制御） */
+    /* メディア表示領域 */
     .notice-media {
       margin-top: 10px;
       max-width: 100%;
     }
     
-    /* ★添付画像のサイズを適度に小さく制限 */
+    /* 添付画像：浮かない自然な角丸と薄いシャドウ */
     .notice-media img {
-      max-width: 320px;          /* 横幅上限 */
-      max-height: 180px;         /* 高さ上限 */
+      max-width: 280px;
+      max-height: 160px;
       width: auto;
       height: auto;
       object-fit: cover;
       border-radius: 10px;
-      border: 1.5px solid rgba(255, 255, 255, 0.25);
-      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.35);
+      border: 1px solid rgba(255, 255, 255, 0.8);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
       cursor: pointer;
-      transition: transform 0.2s, box-shadow 0.2s;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      display: block;
     }
     .notice-media img:hover {
-      transform: scale(1.02);
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.45);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 18px rgba(0, 0, 0, 0.12);
     }
 
+    /* YouTube動画埋め込み */
     .notice-media .notice-video-wrap {
       position: relative;
       padding-bottom: 56.25%;
       height: 0;
       overflow: hidden;
-      border-radius: 10px;
+      border-radius: 12px;
       max-width: 420px;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.35);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
     }
     .notice-media .notice-video-wrap iframe {
       position: absolute;
