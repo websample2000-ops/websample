@@ -69,40 +69,62 @@
     }
     @keyframes spin { to { transform: rotate(360deg); } }
 
-    /* --- Header / Navigation --- */
+    /* --- Header / Navigation (Centered & Larger Text) --- */
     header {
       position: sticky;
       top: 0;
-      background: rgba(255, 255, 255, 0.85);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
+      background: rgba(255, 255, 255, 0.88);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
       border-bottom: 1px solid var(--border-color);
       z-index: 1000;
-      padding: 12px 24px;
-      display: flex;
-      justify-content: space-between;
+      padding: 14px 32px;
+      display: grid;
+      grid-template-columns: auto 1fr auto;
       align-items: center;
     }
+
     .logo {
       font-family: 'Outfit', sans-serif;
       font-weight: 800;
-      font-size: 1.25rem;
+      font-size: 1.45rem;
       color: var(--primary-dark);
       text-decoration: none;
+      letter-spacing: 0.5px;
+      grid-column: 1;
     }
+
+    /* ナビゲーションを中央に配置 */
+    nav {
+      grid-column: 2;
+      display: flex;
+      justify-content: center;
+    }
+
     nav ul {
       display: flex;
-      gap: 16px;
+      gap: 28px; /* 項目間の間隔を拡大 */
       list-style: none;
+      align-items: center;
     }
+
     nav a {
       text-decoration: none;
-      color: var(--text-main);
+      color: #00158f;
+      font-family: 'Fredoka', 'Outfit', sans-serif;
       font-weight: 700;
-      font-size: 0.9rem;
-      transition: color 0.2s;
+      font-size: 1.15rem; /* テキストサイズを拡大 */
+      letter-spacing: 0.5px;
+      padding: 6px 10px;
+      border-radius: 8px;
+      transition: color 0.2s, transform 0.2s, background-color 0.2s;
     }
-    nav a:hover { color: var(--primary); }
+
+    nav a:hover {
+      color: var(--primary);
+      background-color: rgba(255, 117, 140, 0.08);
+      transform: translateY(-1px);
+    }
 
     /* --- Common Section Styles --- */
     section {
