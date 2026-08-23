@@ -1099,9 +1099,8 @@
       <ul>
         <li><a href="#notice">NEWS</a></li>
         <li><a href="#profile">PROFILE</a></li>
-        <li><a href="#visual">GALLERY</a></li>
+        <li><a href="#movies">MOVIES</a></li>
         <li><a href="#shop">GOODS</a></li>
-        <li><a href="#guideline">GUIDELINE</a></li>
       </ul>
     </nav>
   </header>
@@ -1194,8 +1193,8 @@
   <!-- Visual / Gallery Section -->
   <section id="visual">
     <div class="section-title">
-      <h2>Gallery</h2>
-      <span>ギャラリー・衣装</span>
+      <h2>Movies</h2>
+      <span>動画一覧</span>
     </div>
     <div class="visual-grid" id="visual-grid"></div>
   </section>
@@ -1207,15 +1206,6 @@
       <span>グッズ・作品一覧</span>
     </div>
     <div class="shop-grid" id="shop-grid"></div>
-  </section>
-
-  <!-- Guideline Section -->
-  <section id="guideline">
-    <div class="section-title">
-      <h2>Guideline</h2>
-      <span>二次創作・活動規約</span>
-    </div>
-    <div class="guideline-list" id="guideline-list"></div>
   </section>
 
   <!-- Modal for Image Preview -->
@@ -1252,7 +1242,6 @@
         try { renderNotice(data.notice); } catch (e) { console.error('Notice Error:', e); }
         try { renderVisual(data.movies, data.movies_priority); } catch (e) { console.error('Visual Error:', e); }
         try { renderShop(data.shop); } catch (e) { console.error('Shop Error:', e); }
-        try { renderGuideline(data.guideline); } catch (e) { console.error('Guideline Error:', e); }
         try { renderFooter(data.footer, data.global_regulations); } catch (e) { console.error('Footer Error:', e); }
 
       } catch (err) {
