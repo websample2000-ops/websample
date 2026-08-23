@@ -1410,26 +1410,25 @@
       });
     }
 
-    // 3. ギャラリー描画（movies / movies_priority 参照・タイプ別横スクロール）
+    // 3. ギャラリー描画（はみ出し時のみ◀▶ボタン表示・スクロール連動）
     function renderVisual(moviesData, priorityData) {
       const container = document.getElementById('visual-grid');
       if (!container) return;
       container.innerHTML = '';
-      container.className = 'gallery-wrapper'; // グリッド解除
+      container.className = 'gallery-wrapper';
 
       if (!moviesData || moviesData.length === 0) {
         container.innerHTML = '<p style="text-align:center; color:var(--text-muted); padding:30px;">動画がありません</p>';
         return;
       }
 
-      // YouTube ID抽出ヘルパー
       const extractVideoId = (url) => {
         if (!url) return '';
         const match = String(url).match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=|shorts\/))([\w-]{11})/);
         return match ? match[1] : '';
       };
 
-      // 1. 有効な動画データのみを抽出 (is_active !== FALSE かつ video_url が存在)
+      // 1. 有効な動画のみ抽出
       const validMovies = moviesData.filter(item => {
         const active = item.is_active !== undefined ? item.is_active : item.active;
         const isActive = active === true || String(active).toUpperCase() === 'TRUE' || active === 1 || active === '1' || active === '' || active === undefined;
@@ -1450,7 +1449,7 @@
         grouped[type].push(item);
       });
 
-      // 3. movies_priority に従って type の表示順を決定
+      // 3. movies_priority に従ってソート
       let sortedTypes = Object.keys(grouped);
       if (priorityData && priorityData.length > 0) {
         const orderMap = {};
@@ -1467,7 +1466,7 @@
         });
       }
 
-      // 4. カテゴリごとにUIを生成
+      // 4. カテゴリごとにUI構築
       sortedTypes.forEach(type => {
         const list = grouped[type];
         if (!list || list.length === 0) return;
@@ -1475,13 +1474,11 @@
         const groupDiv = document.createElement('div');
         groupDiv.className = 'gallery-category-group';
 
-        // カテゴリ見出し
         const titleEl = document.createElement('div');
         titleEl.className = 'gallery-category-title';
         titleEl.textContent = `【${type}】`;
         groupDiv.appendChild(titleEl);
 
-        // カルーセル枠
         const carouselContainer = document.createElement('div');
         carouselContainer.className = 'carousel-container';
 
@@ -1489,21 +1486,24 @@
         const prevBtn = document.createElement('button');
         prevBtn.className = 'carousel-nav-btn carousel-nav-prev';
         prevBtn.innerHTML = '<i class="fa-solid fa-chevron-left"></i>';
-        prevBtn.onclick = () => {
-          track.scrollBy({ left: -260, behavior: 'smooth' });
-        };
+        prevBtn.style.display = 'none'; // 初期は非表示
 
         // ▶ ボタン
         const nextBtn = document.createElement('button');
         nextBtn.className = 'carousel-nav-btn carousel-nav-next';
         nextBtn.innerHTML = '<i class="fa-solid fa-chevron-right"></i>';
+        nextBtn.style.display = 'none'; // 初期は非表示
+
+        const track = document.createElement('div');
+        track.className = 'carousel-track';
+
+        prevBtn.onclick = () => {
+          track.scrollBy({ left: -260, behavior: 'smooth' });
+        };
+
         nextBtn.onclick = () => {
           track.scrollBy({ left: 260, behavior: 'smooth' });
         };
-
-        // 横スクロールトラック
-        const track = document.createElement('div');
-        track.className = 'carousel-track';
 
         list.forEach(item => {
           const videoId = extractVideoId(item.video_url);
@@ -1527,12 +1527,40 @@
           track.appendChild(card);
         });
 
+        // ボタンの表示/非表示・制御関数
+        const updateNavButtons = () => {
+          const maxScrollLeft = track.scrollWidth - track.clientWidth;
+          // 横スクロールが必要ない（収まっている）場合は両方非表示
+          if (maxScrollLeft <= 2) {
+            prevBtn.style.display = 'none';
+            nextBtn.style.display = 'none';
+            return;
+          }
+
+          // スクロールが必要な場合
+          prevBtn.style.display = 'flex';
+          nextBtn.style.display = 'flex';
+
+          // 左端・右端の透過度制御
+          prevBtn.style.opacity = track.scrollLeft <= 5 ? '0.3' : '1';
+          prevBtn.style.pointerEvents = track.scrollLeft <= 5 ? 'none' : 'auto';
+          
+          nextBtn.style.opacity = track.scrollLeft >= maxScrollLeft - 5 ? '0.3' : '1';
+          nextBtn.style.pointerEvents = track.scrollLeft >= maxScrollLeft - 5 ? 'none' : 'auto';
+        };
+
+        track.addEventListener('scroll', updateNavButtons);
+
         carouselContainer.appendChild(prevBtn);
         carouselContainer.appendChild(track);
         carouselContainer.appendChild(nextBtn);
 
         groupDiv.appendChild(carouselContainer);
         container.appendChild(groupDiv);
+
+        // レンダリング直後 & 画面リサイズ時に判定
+        setTimeout(updateNavButtons, 50);
+        window.addEventListener('resize', updateNavButtons);
       });
     }
 
