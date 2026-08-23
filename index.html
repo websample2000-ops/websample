@@ -1298,7 +1298,7 @@
       });
     }
 
-    // 3. ギャラリー描画（YouTubeサムネイル対応）
+    // 3. ギャラリー描画（YouTube動画サムネイル・クリックで再生）
     function renderVisual(visualData) {
       const container = document.getElementById('visual-grid');
       if (!container) return;
@@ -1310,26 +1310,43 @@
       }
 
       visualData.forEach(item => {
+        // videoId の抽出（item.id または URLから判定）
+        let videoId = item.id || '';
+        let targetUrl = item.video_url || item.url || '';
+        
+        if (!videoId && targetUrl) {
+          const m = targetUrl.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))([\w-]{11})/);
+          if (m) videoId = m[1];
+        }
+
+        // サムネイル画像URLの決定（hqdefault / mqdefault）
+        let thumbImg = item.image_url || '';
+        if (videoId) {
+          thumbImg = `https://img.youtube.com/vi/${videoId}/mqdefault.jpg`;
+          if (!targetUrl) targetUrl = `https://www.youtube.com/watch?v=${videoId}`;
+        }
+
         const div = document.createElement('div');
         div.className = 'visual-card';
         
+        // クリックイベント
         div.onclick = () => {
-          if (item.video_url || item.url) {
-            window.open(item.video_url || item.url, '_blank', 'noopener,noreferrer');
-          } else if (item.image_url) {
-            openModal(item.image_url);
+          if (targetUrl) {
+            window.open(targetUrl, '_blank', 'noopener,noreferrer');
+          } else if (thumbImg) {
+            openModal(thumbImg);
           }
         };
 
         div.innerHTML = `
-          <div style="position:relative; width:100%; aspect-ratio: 16/9; overflow:hidden; background:#1e272e;">
-            <img src="${item.image_url}" alt="${item.title || 'YouTube Video'}" style="width:100%; height:100%; object-fit:cover; display:block;" loading="lazy">
-            <div style="position:absolute; inset:0; display:flex; justify-content:center; align-items:center; background:rgba(0,0,0,0.3); opacity:0; transition:opacity 0.2s;" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0">
-              <i class="fa-brands fa-youtube" style="color:#ff0000; font-size:2.6rem; filter:drop-shadow(0 2px 8px rgba(0,0,0,0.6));"></i>
+          <div style="position:relative; width:100%; aspect-ratio: 16/9; overflow:hidden; background:#1e272e; border-radius:12px 12px 0 0;">
+            <img src="${thumbImg}" alt="${item.title || 'YouTube Video'}" style="width:100%; height:100%; object-fit:cover; display:block;" loading="lazy" onerror="this.onerror=null; this.src='https://via.placeholder.com/320x180?text=No+Image';">
+            <div style="position:absolute; inset:0; display:flex; justify-content:center; align-items:center; background:rgba(0,0,0,0.25); opacity:0; transition:opacity 0.2s;" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0">
+              <i class="fa-brands fa-youtube" style="color:#ff0000; font-size:2.8rem; filter:drop-shadow(0 2px 8px rgba(0,0,0,0.6));"></i>
             </div>
           </div>
-          <div class="visual-info" style="padding:10px 12px; font-size:0.88rem; font-weight:700; color:#2d3436; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; text-overflow:ellipsis; min-height:2.8em; line-height:1.4;">
-            ${item.title || ''}
+          <div class="visual-info" style="padding:10px 14px; font-size:0.88rem; font-weight:700; color:#2d3436; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; text-overflow:ellipsis; min-height:2.8em; line-height:1.4; text-align:left;">
+            ${item.title || '動画'}
           </div>
         `;
         container.appendChild(div);
