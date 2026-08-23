@@ -453,38 +453,98 @@
       transform: scale(1.2);
     }
 
-    /* --- News / Notice --- */
+    /* --- News / Notice (Dark Scroll Box) --- */
     .notice-list {
       display: flex;
       flex-direction: column;
-      gap: 12px;
-    }
-    .notice-item {
-      background: var(--card-bg);
-      padding: 16px 20px;
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      display: flex;
       gap: 16px;
-      align-items: center;
+      max-height: 280px; /* スクロール可能な高さ */
+      overflow-y: auto;
+      background: rgba(30, 42, 56, 0.75); /* 画像のような半透明ダーク背景 */
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border-radius: 12px;
+      padding: 18px 20px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.3);
     }
+
+    /* スクロールバーのカスタマイズ */
+    .notice-list::-webkit-scrollbar {
+      width: 8px;
+    }
+    .notice-list::-webkit-scrollbar-track {
+      background: rgba(0, 0, 0, 0.2);
+      border-radius: 4px;
+    }
+    .notice-list::-webkit-scrollbar-thumb {
+      background: #748ba0;
+      border-radius: 4px;
+    }
+
+    .notice-item {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      background: transparent;
+      box-shadow: none;
+      padding: 0 0 12px 0;
+      border-bottom: 1px dashed rgba(255, 255, 255, 0.15);
+      border-radius: 0;
+    }
+    .notice-item:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+    /* 日付：水色の太字 */
     .notice-date {
-      font-size: 0.85rem;
-      color: var(--text-muted);
-      font-family: 'Outfit', sans-serif;
-      white-space: nowrap;
+      font-size: 0.95rem;
+      font-weight: 800;
+      color: #64b5f6;
+      font-family: 'Fredoka', 'Outfit', sans-serif;
+      letter-spacing: 0.5px;
     }
-    .notice-tag {
-      background: #ffe3e8;
-      color: var(--primary-dark);
-      padding: 2px 10px;
-      border-radius: 20px;
-      font-size: 0.75rem;
-      font-weight: bold;
-      white-space: nowrap;
+
+    /* メッセージ本文：白文字 */
+    .notice-message {
+      font-size: 0.95rem;
+      font-weight: 500;
+      color: #f1f2f6;
+      line-height: 1.6;
+      white-space: pre-line;
+      word-break: break-word;
     }
-    .notice-title {
-      font-weight: 700;
+
+    /* picture メディア表示領域 */
+    .notice-media {
+      margin-top: 8px;
+      max-width: 100%;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .notice-media img {
+      max-width: 100%;
+      max-height: 300px;
+      object-fit: cover;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    .notice-media .notice-video-wrap {
+      position: relative;
+      padding-bottom: 56.25%;
+      height: 0;
+      overflow: hidden;
+      border-radius: 8px;
+      max-width: 480px;
+    }
+    .notice-media .notice-video-wrap iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
     }
 
     /* --- Visual / Gallery --- */
@@ -1119,17 +1179,84 @@
     // 2. お知らせ描画
     function renderNotice(noticeData) {
       const container = document.getElementById('notice-list');
+      container.innerHTML = '';
+
       if (!noticeData || noticeData.length === 0) {
-        container.innerHTML = '<p style="text-align:center; color:var(--text-muted);">お知らせはありません</p>';
+        container.innerHTML = '<p style="text-align:center; color:#dfe6e9; padding:20px;">お知らせはありません</p>';
         return;
       }
-      noticeData.forEach(item => {
+
+      // yyyy-mm-dd 形式にフォーマットする関数
+      const formatYmd = (valStr) => {
+        if (!valStr) return '';
+        if (typeof valStr === 'string' && valStr.includes('T')) {
+          const d = new Date(valStr);
+          if (!isNaN(d.getTime())) {
+            const y = d.getFullYear();
+            const m = String(d.getMonth() + 1).padStart(2, '0');
+            const day = String(d.getDate()).padStart(2, '0');
+            return `${y}-${m}-${day}`;
+          }
+        }
+        // すでに文字列で yyyy/mm/dd 等になっている場合の正規化
+        const d = new Date(valStr);
+        if (!isNaN(d.getTime()) && String(valStr).length >= 8) {
+          const y = d.getFullYear();
+          const m = String(d.getMonth() + 1).padStart(2, '0');
+          const day = String(d.getDate()).padStart(2, '0');
+          return `${y}-${m}-${day}`;
+        }
+        return String(valStr).trim();
+      };
+
+      // YouTube埋め込みURLへの変換判定
+      const getEmbedUrl = (url) => {
+        const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+        const match = url.match(regExp);
+        return (match && match[2].length === 11) ? `https://www.youtube.com/embed/${match[2]}` : null;
+      };
+
+      // time_stamp が空欄のものを除外
+      const validNotices = noticeData.filter(item => {
+        const ts = item.time_stamp || item.timestamp;
+        return ts !== undefined && ts !== null && String(ts).trim() !== '';
+      });
+
+      if (validNotices.length === 0) {
+        container.innerHTML = '<p style="text-align:center; color:#dfe6e9; padding:20px;">お知らせはありません</p>';
+        return;
+      }
+
+      validNotices.forEach(item => {
+        const dateStr = formatYmd(item.time_stamp || item.timestamp);
+        const msgStr = item.message || '';
+        const picUrl = item.picture ? String(item.picture).trim() : '';
+
         const div = document.createElement('div');
         div.className = 'notice-item';
+
+        let mediaHtml = '';
+        if (picUrl) {
+          const embedUrl = getEmbedUrl(picUrl);
+          if (embedUrl) {
+            mediaHtml = `
+              <div class="notice-media">
+                <div class="notice-video-wrap">
+                  <iframe src="${embedUrl}" allowfullscreen loading="lazy"></iframe>
+                </div>
+              </div>`;
+          } else {
+            mediaHtml = `
+              <div class="notice-media">
+                <img src="${picUrl}" alt="Notice Image" onclick="openModal('${picUrl}')" loading="lazy">
+              </div>`;
+          }
+        }
+
         div.innerHTML = `
-          <span class="notice-date">${item.date || ''}</span>
-          ${item.category ? `<span class="notice-tag">${item.category}</span>` : ''}
-          <span class="notice-title">${item.title || ''}</span>
+          <span class="notice-date">${dateStr}</span>
+          <div class="notice-message">${msgStr}</div>
+          ${mediaHtml}
         `;
         container.appendChild(div);
       });
