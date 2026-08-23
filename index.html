@@ -196,81 +196,106 @@
       filter: drop-shadow(0 15px 25px rgba(0, 0, 0, 0.15));
     }
 
-    /* 左側コンテンツ（前面レイヤー・幅約52%） */
+    /* テキスト共通：立体感・視認性向上のテキストシャドウ（白フチ＋立体影） */
     .profile-content-wrap {
       position: relative;
       z-index: 2;
-      width: 52%;
-      max-width: 520px;
+      width: 55%;
+      max-width: 550px;
       display: flex;
       flex-direction: column;
-      gap: 16px;
+      gap: 18px;
     }
 
-    /* 名前・サブタイトル */
+    /* 名前 */
     .prof-title {
-      font-size: 3.2rem;
+      font-size: 3.8rem;
       font-weight: 900;
       color: #00158f;
-      line-height: 1.1;
+      line-height: 1.05;
       letter-spacing: -1px;
-    }
-    .prof-sub-title {
-      font-size: 1.15rem;
-      font-weight: 700;
-      color: #00158f;
-      margin-top: 6px;
-      margin-bottom: 12px;
+      text-shadow: 
+        0 0 8px #ffffff,
+        0 0 15px #ffffff,
+        2px 2px 0px #ffffff,
+        3px 4px 8px rgba(0, 21, 143, 0.35);
     }
 
-    /* コメント・メッセージ（5行分の高さを確保 & 折り返し） */
-    .profile-comment-block {
-      width: 100%;
-      margin-bottom: 10px;
-    }
-    .prof-comment-title {
-      font-size: 1.55rem;
+    /* ふりがな / ローマ字 */
+    .prof-sub-title {
+      font-size: 1.35rem;
       font-weight: 800;
       color: #00158f;
-      font-style: italic;
-      margin-bottom: 6px;
+      margin-top: 8px;
+      margin-bottom: 16px;
+      letter-spacing: 0.5px;
+      text-shadow: 
+        0 0 6px #ffffff,
+        1px 1px 0px #ffffff,
+        2px 2px 5px rgba(0, 21, 143, 0.3);
     }
-    .prof-message-text {
-      font-size: 0.95rem;
+
+    /* コメント・メッセージ */
+    .profile-comment-block {
+      width: 100%;
+      margin-bottom: 12px;
+    }
+    .prof-comment-title {
+      font-size: 1.85rem;
+      font-weight: 900;
       color: #00158f;
       font-style: italic;
-      line-height: 1.5;
-      min-height: 7.5em; /* 5行分の高さを確保 */
+      margin-bottom: 8px;
+      text-shadow: 
+        0 0 6px #ffffff,
+        1px 1px 0px #ffffff,
+        2px 2px 6px rgba(0, 21, 143, 0.3);
+    }
+    .prof-message-text {
+      font-size: 1.1rem;
+      color: #00158f;
+      font-style: italic;
+      font-weight: 700;
+      line-height: 1.6;
+      min-height: 8em; /* 5行分の高さを確保 */
       word-break: break-word;
       white-space: pre-line;
+      text-shadow: 
+        0 0 6px #ffffff,
+        1px 1px 0px #ffffff,
+        2px 2px 4px rgba(0, 21, 143, 0.25);
     }
 
     /* ステータス行 */
     .profile-specs {
       display: flex;
       flex-direction: column;
-      gap: 4px;
-      margin-bottom: 10px;
+      gap: 6px;
+      margin-bottom: 12px;
     }
     .spec-row {
       display: flex;
       align-items: center;
-      font-size: 0.95rem;
-      font-weight: 700;
+      font-size: 1.15rem;
+      font-weight: 800;
       color: #00158f;
       white-space: nowrap;
-      min-height: 1.5em;
+      min-height: 1.6em;
+      text-shadow: 
+        0 0 6px #ffffff,
+        1px 1px 0px #ffffff,
+        2px 2px 5px rgba(0, 21, 143, 0.25);
     }
     .spec-row.space-top {
-      margin-top: 10px;
+      margin-top: 12px;
     }
     .spec-label {
-      width: 110px;
+      width: 125px;
       letter-spacing: 0.5px;
       white-space: nowrap;
     }
     .spec-colon {
-      width: 25px;
+      width: 28px;
       text-align: center;
       white-space: nowrap;
     }
@@ -280,15 +305,19 @@
       white-space: nowrap;
     }
 
-    /* クレジット（1列固定・スペース保持） */
+    /* クレジット（1列固定） */
     .profile-credits-list {
       display: flex;
       flex-direction: column;
-      gap: 4px;
-      font-size: 0.85rem;
-      font-weight: 700;
+      gap: 6px;
+      font-size: 1.05rem;
+      font-weight: 800;
       color: #00158f;
-      min-height: 6.5em;
+      min-height: 7em;
+      text-shadow: 
+        0 0 6px #ffffff,
+        1px 1px 0px #ffffff,
+        2px 2px 5px rgba(0, 21, 143, 0.25);
     }
 
     /* 2層アイコンリスト */
