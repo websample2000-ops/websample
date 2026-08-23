@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Official Website</title>
   
-  <!-- Google Fonts (Potta One & Fredoka を追加) -->
+  <!-- Google Fonts (Potta One & Fredoka) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600;700&family=M+PLUS+Rounded+1c:wght@400;700;800&family=Outfit:wght@400;600;800&family=Potta+One&display=swap" rel="stylesheet">
@@ -41,9 +41,10 @@
       color: var(--text-main);
       line-height: 1.6;
       background-size: cover;
-      background-position: center;
+      background-position: center top;
       background-repeat: no-repeat;
       background-attachment: fixed;
+      overflow-x: hidden; /* はみ出た立ち絵による横スクロールバーの発生を防止 */
     }
 
     /* --- Loading Spinner --- */
@@ -72,8 +73,9 @@
     header {
       position: sticky;
       top: 0;
-      background: rgba(255, 255, 255, 0.9);
+      background: rgba(255, 255, 255, 0.85);
       backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
       border-bottom: 1px solid var(--border-color);
       z-index: 1000;
       padding: 12px 24px;
@@ -132,71 +134,43 @@
       padding: 0 20px;
     }
 
-    body {
-      font-family: 'M PLUS Rounded 1c', sans-serif;
-      background-color: var(--bg-color);
-      color: var(--text-main);
-      line-height: 1.6;
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-      background-attachment: fixed;
-      overflow-x: hidden; /* はみ出た立ち絵による横スクロールバーの発生を防止 */
-    }
-
     .profile-card {
-      background: transparent; /* 白背景を透明化 */
+      background: transparent;
       border-radius: 0;
-      box-shadow: none;        /* 外枠の影を削除 */
+      box-shadow: none;
       padding: 20px 0;
       position: relative;
-      overflow: visible;       /* 枠外へのはみ出しを維持 */
+      overflow: visible;
       display: block;
       min-height: 980px;
     }
 
-    /* 立ち絵エリア：カードの右上から全高100%で配置 */
+    /* 立ち絵エリア：右半分（75%地点）を中心に全高配置 */
     .profile-visual-box {
       position: absolute;
       top: 20px;
       bottom: 20px;
-      left: 75%; /* カードの右半分の中央線（緑線の位置） */
-      transform: translateX(-50%); /* 画像の中心を緑線に合わせる */
+      left: 75%;
+      transform: translateX(-50%);
       height: calc(100% - 40px);
       width: auto;
       pointer-events: none;
-      z-index: 1; /* 背面レイヤー */
+      z-index: 1; /* 背面 */
       display: flex;
       justify-content: center;
       align-items: center;
     }
 
     .profile-visual-box img {
-      height: 100% !important; /* カードの全高（名前〜MV下部）いっぱいに拡大 */
-      width: auto !important;   /* 比率維持 */
-      max-width: none !important; /* 幅の制限を解除して横にはみ出させる */
-      min-width: 600px; /* 小さく縮むのを防ぐ最小幅 */
+      height: 100% !important;
+      width: auto !important;
+      max-width: none !important;
+      min-width: 600px;
       object-fit: contain;
       filter: drop-shadow(0 15px 25px rgba(0, 0, 0, 0.15));
     }
 
-    .profile-visual-box img {
-      height: 100%; /* 高さをコンテンツ全体にフィット */
-      width: auto;  /* アスペクト比を維持して横幅は自然にはみ出させる */
-      max-width: none; /* 幅の制限を解除 */
-      object-fit: contain;
-      filter: drop-shadow(0 15px 25px rgba(0, 0, 0, 0.15));
-    }
-
-    .profile-visual-box img {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-      object-position: right bottom;
-      filter: drop-shadow(0 15px 25px rgba(0, 0, 0, 0.15));
-    }
-
-    /* テキストコンテンツ（背景なし・直接描画） */
+    /* 左側コンテンツ（前面レイヤー・幅約55%） */
     .profile-content-wrap {
       position: relative;
       z-index: 2;
@@ -212,7 +186,7 @@
     .prof-title {
       font-family: 'Potta One', cursive;
       font-size: 3.8rem;
-      font-weight: 400; /* Potta Oneは標準で極太 */
+      font-weight: 400;
       color: #00158f;
       line-height: 1.1;
       letter-spacing: 1px;
@@ -257,7 +231,7 @@
       font-size: 1.1rem;
       color: #00158f;
       line-height: 1.6;
-      min-height: 8em; /* 5行分の高さをキープ */
+      min-height: 8em; /* 5行分確保 */
       word-break: break-word;
       white-space: pre-line;
       text-shadow: 
@@ -266,7 +240,7 @@
         2px 2px 4px rgba(0, 21, 143, 0.25);
     }
 
-    /* ステータス行（背景完全削除） */
+    /* ステータス行 */
     .profile-specs {
       display: flex;
       flex-direction: column;
@@ -276,8 +250,6 @@
       background: none;
       border: none;
       box-shadow: none;
-      backdrop-filter: none;
-      -webkit-backdrop-filter: none;
     }
 
     .spec-row {
@@ -325,6 +297,15 @@
         0 0 6px #ffffff,
         1px 1px 0px #ffffff,
         2px 2px 5px rgba(0, 21, 143, 0.25);
+    }
+
+    /* 2層アイコンリスト */
+    .visual-thumb-list {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      flex-wrap: wrap;
+      margin: 8px 0;
     }
 
     .visual-thumb-item {
@@ -457,11 +438,11 @@
     .notice-x-container {
       max-width: 550px;
       margin: 0 auto;
-      min-height: 400px;
+      min-height: 420px;
       display: flex;
       justify-content: center;
       align-items: flex-start;
-      background: rgba(255, 255, 255, 0.6);
+      background: rgba(255, 255, 255, 0.7);
       backdrop-filter: blur(8px);
       -webkit-backdrop-filter: blur(8px);
       border-radius: var(--radius);
@@ -678,7 +659,6 @@
       .prof-title {
         font-size: 2.3rem;
       }
-      .notice-item { flex-direction: column; align-items: flex-start; gap: 6px; }
     }
   </style>
 </head>
@@ -713,7 +693,7 @@
         <img id="prof-standing-img" src="" alt="Character Visual" style="display:none;">
       </div>
 
-      <!-- 左側コンテンツエリア（前面レイヤー・幅約52%） -->
+      <!-- 左側コンテンツエリア（前面レイヤー・幅約55%） -->
       <div class="profile-content-wrap">
         <!-- 名前 & ふりがな/ローマ字 -->
         <div class="profile-header-group">
@@ -842,7 +822,7 @@
         
         renderProfile(data.profile, data.visual);
         renderMvSlider(data.profile_mv);
-        renderNotice(data.notice);
+        renderNotice(data.profile); // Xタイムライン用
         renderVisual(data.visual);
         renderShop(data.shop);
         renderGuideline(data.guideline);
@@ -947,14 +927,13 @@
           if (val && String(val).trim() !== '') {
             row.innerHTML = `<span class="spec-label">${c.label}</span><span class="spec-colon">:</span><span class="spec-value">${val}</span>`;
           } else {
-            // 表示がなくても高さを確保
             row.innerHTML = `<span class="spec-label" style="opacity:0;">${c.label}</span><span class="spec-colon" style="opacity:0;">:</span><span class="spec-value"></span>`;
           }
           creditsContainer.appendChild(row);
         });
       };
 
-      // visualシートのアイコン一覧生成（id空欄除外）
+      // visualシートのアイコン一覧生成
       const thumbListContainer = document.getElementById('visual-thumb-list');
       thumbListContainer.innerHTML = '';
 
@@ -1099,91 +1078,49 @@
       currentMvIndex = index;
       updateMvSlidePosition();
     }
-    
-    // 2. お知らせ描画
-    function renderNotice(noticeData) {
-      const container = document.getElementById('notice-list');
-      container.innerHTML = '';
 
-      if (!noticeData || noticeData.length === 0) {
-        container.innerHTML = '<p style="text-align:center; color:#dfe6e9; padding:20px;">お知らせはありません</p>';
+    // 2. お知らせ描画（Xタイムライン埋め込み）
+    function renderNotice(profileData) {
+      const container = document.getElementById('notice-x-container');
+      if (!container) return;
+
+      let xUrl = '';
+      if (profileData && profileData.length > 0) {
+        const xRow = profileData.find(row => {
+          const key = row['項目'] || row['item'] || row['key'];
+          return key && String(key).trim() === 'x_url';
+        });
+        if (xRow) {
+          xUrl = xRow['設定値'] || xRow['value'] || xRow['val'] || '';
+        }
+      }
+
+      if (!xUrl) {
+        container.innerHTML = '<p style="text-align:center; color:var(--text-muted); padding:20px;">Xのアカウントが設定されていません</p>';
         return;
       }
 
-      // yyyy-mm-dd 形式にフォーマットする関数
-      const formatYmd = (valStr) => {
-        if (!valStr) return '';
-        if (typeof valStr === 'string' && valStr.includes('T')) {
-          const d = new Date(valStr);
-          if (!isNaN(d.getTime())) {
-            const y = d.getFullYear();
-            const m = String(d.getMonth() + 1).padStart(2, '0');
-            const day = String(d.getDate()).padStart(2, '0');
-            return `${y}-${m}-${day}`;
-          }
-        }
-        // すでに文字列で yyyy/mm/dd 等になっている場合の正規化
-        const d = new Date(valStr);
-        if (!isNaN(d.getTime()) && String(valStr).length >= 8) {
-          const y = d.getFullYear();
-          const m = String(d.getMonth() + 1).padStart(2, '0');
-          const day = String(d.getDate()).padStart(2, '0');
-          return `${y}-${m}-${day}`;
-        }
-        return String(valStr).trim();
-      };
+      // XタイムラインHTMLを挿入
+      container.innerHTML = `
+        <a class="twitter-timeline" 
+           data-height="500" 
+           data-theme="light" 
+           data-chrome="nofooter noborders transparent"
+           href="${xUrl}">
+          Tweets by ${xUrl.split('/').pop()}
+        </a>
+      `;
 
-      // YouTube埋め込みURLへの変換判定
-      const getEmbedUrl = (url) => {
-        const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
-        const match = url.match(regExp);
-        return (match && match[2].length === 11) ? `https://www.youtube.com/embed/${match[2]}` : null;
-      };
-
-      // time_stamp が空欄のものを除外
-      const validNotices = noticeData.filter(item => {
-        const ts = item.time_stamp || item.timestamp;
-        return ts !== undefined && ts !== null && String(ts).trim() !== '';
-      });
-
-      if (validNotices.length === 0) {
-        container.innerHTML = '<p style="text-align:center; color:#dfe6e9; padding:20px;">お知らせはありません</p>';
-        return;
+      // X公式スクリプトの実行 / ロード
+      if (window.twttr && window.twttr.widgets) {
+        window.twttr.widgets.load(container);
+      } else {
+        const script = document.createElement('script');
+        script.src = 'https://platform.twitter.com/widgets.js';
+        script.charset = 'utf-8';
+        script.async = true;
+        document.body.appendChild(script);
       }
-
-      validNotices.forEach(item => {
-        const dateStr = formatYmd(item.time_stamp || item.timestamp);
-        const msgStr = item.message || '';
-        const picUrl = item.picture ? String(item.picture).trim() : '';
-
-        const div = document.createElement('div');
-        div.className = 'notice-item';
-
-        let mediaHtml = '';
-        if (picUrl) {
-          const embedUrl = getEmbedUrl(picUrl);
-          if (embedUrl) {
-            mediaHtml = `
-              <div class="notice-media">
-                <div class="notice-video-wrap">
-                  <iframe src="${embedUrl}" allowfullscreen loading="lazy"></iframe>
-                </div>
-              </div>`;
-          } else {
-            mediaHtml = `
-              <div class="notice-media">
-                <img src="${picUrl}" alt="Notice Image" onclick="openModal('${picUrl}')" loading="lazy">
-              </div>`;
-          }
-        }
-
-        div.innerHTML = `
-          <span class="notice-date">${dateStr}</span>
-          <div class="notice-message">${msgStr}</div>
-          ${mediaHtml}
-        `;
-        container.appendChild(div);
-      });
     }
 
     // 3. ギャラリー描画
@@ -1258,21 +1195,29 @@
     // 6. フッター & グローバル設定
     function renderFooter(footerData, globalData) {
       if (globalData && globalData.length > 0) {
-        const siteTitleItem = globalData.find(row => row.item === 'site_title');
-        if (siteTitleItem && siteTitleItem.value) {
-          document.title = siteTitleItem.value;
-          document.getElementById('site-logo').textContent = siteTitleItem.value;
-        } else if (globalData[0].site_title) {
-          document.title = globalData[0].site_title;
-          document.getElementById('site-logo').textContent = globalData[0].site_title;
+        // サイトタイトルの設定
+        const siteTitleItem = globalData.find(row => {
+          const k = row.item || row['項目'] || row.key;
+          return k === 'site_title';
+        });
+        const titleVal = siteTitleItem ? (siteTitleItem.value || siteTitleItem['設定値']) : (globalData[0].site_title || '');
+        if (titleVal) {
+          document.title = titleVal;
+          document.getElementById('site-logo').textContent = titleVal;
         }
 
-        const bgItem = globalData.find(row => row.item === 'page_background');
-        if (bgItem && bgItem.value) {
-          document.body.style.backgroundImage = `url('${bgItem.value}')`;
+        // 背景画像の設定（page_background または background に対応）
+        const bgItem = globalData.find(row => {
+          const k = row.item || row['項目'] || row.key;
+          return k === 'page_background' || k === 'background';
+        });
+        const bgVal = bgItem ? (bgItem.value || bgItem['設定値']) : (globalData[0].page_background || globalData[0].background || '');
+        if (bgVal) {
+          document.body.style.backgroundImage = `url('${bgVal}')`;
         }
       }
 
+      // フッターリンク
       if (footerData && footerData.length > 0) {
         const container = document.getElementById('footer-links');
         footerData.forEach(f => {
