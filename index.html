@@ -614,10 +614,18 @@
       scroll-behavior: smooth;
       padding: 10px 4px 16px 4px;
       width: 100%;
-      scrollbar-width: none; /* Firefox */
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
+      touch-action: pan-x; /* スマホ操作時に横スクロールのみを許可し、縦スクロールの暴発を防止 */
+      cursor: grab;
+      user-select: none;
+    }
+    .carousel-track.is-dragging {
+      cursor: grabbing;
+      scroll-behavior: auto; /* ドラッグ中はスムーズスクロールを切ってダイレクトに追従 */
     }
     .carousel-track::-webkit-scrollbar {
-      display: none; /* Chrome, Safari */
+      display: none;
     }
 
     /* 動画カード */
@@ -1410,7 +1418,7 @@
       });
     }
 
-    // 3. ギャラリー描画（はみ出し時のみ◀▶ボタン表示・スクロール連動）
+    // 3. ギャラリー描画（マウスドラッグ・スワイプ・ホイール横スクロール対応）
     function renderVisual(moviesData, priorityData) {
       const container = document.getElementById('visual-grid');
       if (!container) return;
@@ -1486,13 +1494,13 @@
         const prevBtn = document.createElement('button');
         prevBtn.className = 'carousel-nav-btn carousel-nav-prev';
         prevBtn.innerHTML = '<i class="fa-solid fa-chevron-left"></i>';
-        prevBtn.style.display = 'none'; // 初期は非表示
+        prevBtn.style.display = 'none';
 
         // ▶ ボタン
         const nextBtn = document.createElement('button');
         nextBtn.className = 'carousel-nav-btn carousel-nav-next';
         nextBtn.innerHTML = '<i class="fa-solid fa-chevron-right"></i>';
-        nextBtn.style.display = 'none'; // 初期は非表示
+        nextBtn.style.display = 'none';
 
         const track = document.createElement('div');
         track.className = 'carousel-track';
@@ -1505,6 +1513,46 @@
           track.scrollBy({ left: 260, behavior: 'smooth' });
         };
 
+        // --- マウスドラッグ & ホイール操作の実装 ---
+        let isDown = false;
+        let startX = 0;
+        let scrollLeftPos = 0;
+        let isDraggingMoved = false;
+
+        track.addEventListener('mousedown', (e) => {
+          isDown = true;
+          isDraggingMoved = false;
+          track.classList.add('is-dragging');
+          startX = e.pageX - track.offsetLeft;
+          scrollLeftPos = track.scrollLeft;
+        });
+
+        window.addEventListener('mouseup', () => {
+          if (isDown) {
+            isDown = false;
+            track.classList.remove('is-dragging');
+          }
+        });
+
+        track.addEventListener('mousemove', (e) => {
+          if (!isDown) return;
+          e.preventDefault();
+          const x = e.pageX - track.offsetLeft;
+          const walk = (x - startX) * 1.5; // 移動倍率
+          if (Math.abs(walk) > 5) {
+            isDraggingMoved = true;
+          }
+          track.scrollLeft = scrollLeftPos - walk;
+        });
+
+        // マウスホイール操作を横スクロールに変換（縦スクロール防止）
+        track.addEventListener('wheel', (e) => {
+          if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
+            e.preventDefault();
+            track.scrollLeft += e.deltaY;
+          }
+        }, { passive: false });
+
         list.forEach(item => {
           const videoId = extractVideoId(item.video_url);
           const thumbImg = item.image_url || (videoId ? `https://img.youtube.com/vi/${videoId}/hqdefault.jpg` : 'https://via.placeholder.com/320x180?text=No+Image');
@@ -1513,11 +1561,19 @@
 
           const card = document.createElement('div');
           card.className = 'carousel-card';
-          card.onclick = () => window.open(targetUrl, '_blank', 'noopener,noreferrer');
+
+          // ドラッグ終了時のクリック誤動作を防止
+          card.onclick = (e) => {
+            if (isDraggingMoved) {
+              e.preventDefault();
+              return;
+            }
+            window.open(targetUrl, '_blank', 'noopener,noreferrer');
+          };
 
           card.innerHTML = `
             <div class="carousel-card-thumb">
-              <img src="${thumbImg}" alt="${title}" loading="lazy" onerror="this.src='https://via.placeholder.com/320x180?text=No+Image'">
+              <img src="${thumbImg}" alt="${title}" loading="lazy" draggable="false" onerror="this.src='https://via.placeholder.com/320x180?text=No+Image'">
               <div class="play-icon">
                 <i class="fa-brands fa-youtube"></i>
               </div>
@@ -1527,21 +1583,18 @@
           track.appendChild(card);
         });
 
-        // ボタンの表示/非表示・制御関数
+        // ボタンの表示/非表示・透過度制御
         const updateNavButtons = () => {
           const maxScrollLeft = track.scrollWidth - track.clientWidth;
-          // 横スクロールが必要ない（収まっている）場合は両方非表示
           if (maxScrollLeft <= 2) {
             prevBtn.style.display = 'none';
             nextBtn.style.display = 'none';
             return;
           }
 
-          // スクロールが必要な場合
           prevBtn.style.display = 'flex';
           nextBtn.style.display = 'flex';
 
-          // 左端・右端の透過度制御
           prevBtn.style.opacity = track.scrollLeft <= 5 ? '0.3' : '1';
           prevBtn.style.pointerEvents = track.scrollLeft <= 5 ? 'none' : 'auto';
           
@@ -1558,12 +1611,11 @@
         groupDiv.appendChild(carouselContainer);
         container.appendChild(groupDiv);
 
-        // レンダリング直後 & 画面リサイズ時に判定
         setTimeout(updateNavButtons, 50);
         window.addEventListener('resize', updateNavButtons);
       });
     }
-
+    
     // 4. ショップ・グッズ描画
     function renderShop(shopData) {
       const container = document.getElementById('shop-grid');
