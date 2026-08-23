@@ -5,10 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Official Website</title>
   
-  <!-- Google Fonts & Font Awesome Icons -->
+  <!-- Google Fonts (Potta One & Fredoka を追加) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;700;800&family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600;700&family=M+PLUS+Rounded+1c:wght@400;700;800&family=Outfit:wght@400;600;800&family=Potta+One&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
   <style>
@@ -196,7 +196,7 @@
       filter: drop-shadow(0 15px 25px rgba(0, 0, 0, 0.15));
     }
 
-    /* テキスト共通：立体感・視認性向上のテキストシャドウ（白フチ＋立体影） */
+    /* テキストコンテンツ（背景なし・直接描画） */
     .profile-content-wrap {
       position: relative;
       z-index: 2;
@@ -204,16 +204,18 @@
       max-width: 550px;
       display: flex;
       flex-direction: column;
-      gap: 18px;
+      gap: 16px;
+      font-family: 'Potta One', 'M PLUS Rounded 1c', cursive;
     }
 
     /* 名前 */
     .prof-title {
+      font-family: 'Potta One', cursive;
       font-size: 3.8rem;
-      font-weight: 900;
+      font-weight: 400; /* Potta Oneは標準で極太 */
       color: #00158f;
-      line-height: 1.05;
-      letter-spacing: -1px;
+      line-height: 1.1;
+      letter-spacing: 1px;
       text-shadow: 
         0 0 8px #ffffff,
         0 0 15px #ffffff,
@@ -223,12 +225,12 @@
 
     /* ふりがな / ローマ字 */
     .prof-sub-title {
+      font-family: 'Potta One', cursive;
       font-size: 1.35rem;
-      font-weight: 800;
       color: #00158f;
-      margin-top: 8px;
-      margin-bottom: 16px;
-      letter-spacing: 0.5px;
+      margin-top: 4px;
+      margin-bottom: 12px;
+      letter-spacing: 1px;
       text-shadow: 
         0 0 6px #ffffff,
         1px 1px 0px #ffffff,
@@ -238,26 +240,24 @@
     /* コメント・メッセージ */
     .profile-comment-block {
       width: 100%;
-      margin-bottom: 12px;
+      margin-bottom: 8px;
     }
     .prof-comment-title {
+      font-family: 'Potta One', cursive;
       font-size: 1.85rem;
-      font-weight: 900;
       color: #00158f;
-      font-style: italic;
-      margin-bottom: 8px;
+      margin-bottom: 6px;
       text-shadow: 
         0 0 6px #ffffff,
         1px 1px 0px #ffffff,
         2px 2px 6px rgba(0, 21, 143, 0.3);
     }
     .prof-message-text {
+      font-family: 'Potta One', cursive;
       font-size: 1.1rem;
       color: #00158f;
-      font-style: italic;
-      font-weight: 700;
       line-height: 1.6;
-      min-height: 8em; /* 5行分の高さを確保 */
+      min-height: 8em; /* 5行分の高さをキープ */
       word-break: break-word;
       white-space: pre-line;
       text-shadow: 
@@ -266,45 +266,39 @@
         2px 2px 4px rgba(0, 21, 143, 0.25);
     }
 
-    /* ステータス行：水色グラデーション＋白フチ（内側白パネルなし） */
+    /* ステータス行（背景完全削除） */
     .profile-specs {
-      display: inline-flex;
+      display: flex;
       flex-direction: column;
       gap: 6px;
-      margin-bottom: 16px;
-      padding: 18px 24px;
-      width: fit-content;
-      min-width: 320px;
-      
-      /* スカイブルーの全面グラデーション */
-      background: linear-gradient(180deg, #dcf4fc 0%, #bdeaf8 100%);
-      
-      /* 丸みのある角 & 外側の白いフチ取り */
-      border-radius: 20px;
-      border: 3.5px solid #ffffff;
-      
-      /* 浮き出すドロップシャドウ & 上部のハイライト */
-      box-shadow: 
-        0 8px 22px rgba(0, 140, 200, 0.2),
-        inset 0 2px 4px rgba(255, 255, 255, 0.9);
+      margin-bottom: 12px;
+      padding: 0;
+      background: none;
+      border: none;
+      box-shadow: none;
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
     }
 
     .spec-row {
       display: flex;
       align-items: center;
-      font-size: 1.1rem;
-      font-weight: 800;
+      font-family: 'Potta One', cursive;
+      font-size: 1.15rem;
       color: #00158f;
       white-space: nowrap;
-      min-height: 1.55em;
-      text-shadow: 0 1px 2px rgba(255, 255, 255, 0.6);
+      min-height: 1.6em;
+      text-shadow: 
+        0 0 6px #ffffff,
+        1px 1px 0px #ffffff,
+        2px 2px 5px rgba(0, 21, 143, 0.25);
     }
     .spec-row.space-top {
       margin-top: 8px;
     }
     .spec-label {
-      width: 120px;
-      letter-spacing: 0.5px;
+      width: 135px;
+      letter-spacing: 1px;
       white-space: nowrap;
     }
     .spec-colon {
@@ -313,7 +307,7 @@
       white-space: nowrap;
     }
     .spec-value {
-      font-family: 'Outfit', 'M PLUS Rounded 1c', sans-serif;
+      font-family: 'Fredoka', 'Potta One', cursive;
       letter-spacing: 0.5px;
       white-space: nowrap;
     }
@@ -323,23 +317,14 @@
       display: flex;
       flex-direction: column;
       gap: 6px;
+      font-family: 'Potta One', cursive;
       font-size: 1.05rem;
-      font-weight: 800;
       color: #00158f;
       min-height: 7em;
       text-shadow: 
         0 0 6px #ffffff,
         1px 1px 0px #ffffff,
         2px 2px 5px rgba(0, 21, 143, 0.25);
-    }
-
-    /* 2層アイコンリスト */
-    .visual-thumb-list {
-      display: flex;
-      gap: 12px;
-      align-items: center;
-      flex-wrap: wrap;
-      margin: 8px 0;
     }
 
     .visual-thumb-item {
