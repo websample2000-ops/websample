@@ -434,31 +434,28 @@
       transform: scale(1.2);
     }
 
-    /* --- News / Notice (Clear Frosted Glass Style) --- */
+    /* --- News / Notice (Game UI Style Frame) --- */
     .notice-list {
       display: flex;
       flex-direction: column;
       gap: 16px;
-      max-height: 520px; /* 十分な高さを確保 */
+      max-height: 520px;
       overflow-y: auto;
       
-      /* 背景に溶け込む半透明ホワイトのすりガラス質感 */
-      background: linear-gradient(
-        135deg, 
-        rgba(255, 255, 255, 0.75) 0%, 
-        rgba(250, 245, 248, 0.55) 100%
-      );
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      border-radius: 20px;
+      /* 半透明ホワイトベース */
+      background: rgba(255, 255, 255, 0.88);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-radius: 24px;
       padding: 24px 28px;
       
-      /* 繊細な白光沢ボーダーとソフトなドロップシャドウ */
-      border: 1.5px solid rgba(255, 255, 255, 0.9);
+      /* はっきり視認できるアクセントカラーの二重フレーム */
+      border: 3.5px solid #ffccd5; /* メインカラーに合わせたピンクフレーム */
       box-shadow: 
-        0 15px 35px rgba(255, 117, 140, 0.08),
-        0 4px 12px rgba(0, 0, 0, 0.03),
-        inset 0 1px 2px rgba(255, 255, 255, 0.8);
+        0 10px 30px rgba(255, 117, 140, 0.18), /* 外側のソフトな広がり影 */
+        0 4px 10px rgba(0, 0, 0, 0.05),
+        inset 0 0 0 2px #ffffff, /* 内側の白いハイライト線（二重枠効果） */
+        inset 0 3px 6px rgba(255, 204, 213, 0.3); /* 内側の立体感 */
     }
 
     /* スクロールバー（淡いピンクグレー調） */
