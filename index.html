@@ -715,29 +715,35 @@
       }
     }
 
-    // 1. プロフィール描画
+    // 1. プロフィール描画（項目・設定値 縦持ち完全対応版）
     function renderProfile(profileData) {
       if (!profileData || profileData.length === 0) return;
 
-      // 縦持ち（item/value）か横持ち（通常のヘッダー）かを正規化
-      let p = {};
-      if (profileData[0].item !== undefined && profileData[0].value !== undefined) {
-        profileData.forEach(row => {
-          if (row.item) p[row.item] = row.value;
-        });
-      } else {
-        p = profileData[0];
-      }
+      // A列(項目)をキー、B列(設定値)を値とするオブジェクトに変換
+      const p = {};
+      profileData.forEach(row => {
+        // ヘッダー名（項目 / 設定値、または item / value）を安全に取得
+        const key = row['項目'] || row['item'] || row['key'];
+        const val = row['設定値'] || row['value'] || row['val'];
+        if (key) {
+          p[String(key).trim()] = (val !== undefined && val !== null) ? String(val).trim() : '';
+        }
+      });
 
-      // 値が存在しない場合はハイフン「-」を返すヘルパー
-      const val = (key) => (p[key] && String(p[key]).trim() !== '') ? p[key] : '-';
+      // 値を取得するヘルパー（未入力・空文字の場合は「-」を返す）
+      const getVal = (key, unit = '') => {
+        if (p[key] && p[key] !== '') {
+          return unit ? `${p[key]}${unit}` : p[key];
+        }
+        return '-';
+      };
 
       // 1. 名前
-      document.getElementById('prof-name').textContent = val('name');
+      document.getElementById('prof-name').textContent = getVal('name');
 
       // 2. pronunciation & romanization
-      const pron = p.pronunciation || '';
-      const roma = p.romanization || '';
+      const pron = p['pronunciation'] || '';
+      const roma = p['romanization'] || '';
       let subText = '-';
       if (pron && roma) subText = `${pron} / ${roma}`;
       else if (pron || roma) subText = pron || roma;
@@ -746,47 +752,50 @@
       // 3. comment & message
       const commentEl = document.getElementById('prof-comment');
       const messageEl = document.getElementById('prof-message');
-      if (p.comment) {
-        commentEl.textContent = p.comment;
+      
+      if (p['comment']) {
+        commentEl.textContent = p['comment'];
         commentEl.style.display = 'block';
       } else {
         commentEl.style.display = 'none';
       }
-      if (p.message) {
-        messageEl.textContent = p.message;
+      
+      if (p['message']) {
+        messageEl.textContent = p['message'];
         messageEl.style.display = 'block';
       } else {
         messageEl.style.display = 'none';
       }
 
       // 4. 詳細ステータス
-      document.getElementById('prof-birthday').textContent = val('birthday');
-      document.getElementById('prof-age').textContent = val('age');
-      document.getElementById('prof-height').textContent = val('height');
-      document.getElementById('prof-fan-name').textContent = val('fan_name');
-      document.getElementById('prof-streaming').textContent = val('streaming');
+      document.getElementById('prof-birthday').textContent = getVal('birthday');
+      document.getElementById('prof-age').textContent = getVal('age', typeof p['age'] === 'number' || (p['age'] && !p['age'].includes('歳')) ? '歳' : '');
+      document.getElementById('prof-height').textContent = getVal('height', typeof p['height'] === 'number' || (p['height'] && !p['height'].includes('cm')) ? 'cm' : '');
+      document.getElementById('prof-fan-name').textContent = getVal('fan_name');
+      document.getElementById('prof-streaming').textContent = getVal('streaming');
 
-      // 5. 立ち絵 & アイコン画像
-      if (p.standing_url || p.avatar_url) {
+      // 5. 立ち絵画像 & アイコン画像
+      if (p['standing_url']) {
         const standingImg = document.getElementById('prof-standing-img');
-        standingImg.src = p.standing_url || p.avatar_url;
+        standingImg.src = p['standing_url'];
         standingImg.style.display = 'block';
       }
-      if (p.icon_url || p.avatar_url) {
+      if (p['icon_url']) {
         const avatarImg = document.getElementById('prof-avatar-img');
-        avatarImg.src = p.icon_url || p.avatar_url;
+        avatarImg.src = p['icon_url'];
         avatarImg.style.display = 'block';
       }
 
-      // 6. クレジット表示（イラストレーター等があれば表示）
+      // 6. クレジット
       const creditsContainer = document.getElementById('prof-credits');
+      creditsContainer.innerHTML = '';
       const creditKeys = [
         { key: 'character_design', label: 'キャラクター案' },
         { key: 'illustrator', label: 'イラストレータ' },
         { key: 'designer_2d', label: '2Dデザイナー' },
         { key: 'modeler_3d', label: '3Dモデリング' }
       ];
-      creditsContainer.innerHTML = '';
+
       creditKeys.forEach(c => {
         if (p[c.key]) {
           const row = document.createElement('div');
@@ -796,18 +805,20 @@
         }
       });
 
-      // 7. SNSリンク
+      // 7. SNSリンク（X, YouTube, 各種予備枠）
       const linksContainer = document.getElementById('profile-links');
       linksContainer.innerHTML = '';
-      const snsList = [
-        { key: 'twitter_url', icon: 'fa-brands fa-x-twitter', label: 'X (Twitter)' },
+
+      // 登録されているSNSリンクの判定
+      const snsConfigs = [
+        { key: 'x_url', icon: 'fa-brands fa-x-twitter', label: 'X (Twitter)' },
         { key: 'youtube_url', icon: 'fa-brands fa-youtube', label: 'YouTube' },
-        { key: 'twitch_url', icon: 'fa-brands fa-twitch', label: 'Twitch' },
-        { key: 'booth_url', icon: 'fa-solid fa-store', label: 'BOOTH' },
-        { key: 'marshmallow_url', icon: 'fa-solid fa-comment-dots', label: 'マシュマロ' }
+        { key: 'sns_url-1', icon: 'fa-solid fa-link', label: 'SNS 1' },
+        { key: 'sns_url-2', icon: 'fa-solid fa-link', label: 'SNS 2' },
+        { key: 'sns_url-3', icon: 'fa-solid fa-link', label: 'SNS 3' }
       ];
 
-      snsList.forEach(sns => {
+      snsConfigs.forEach(sns => {
         if (p[sns.key]) {
           const a = document.createElement('a');
           a.href = p[sns.key];
@@ -819,7 +830,7 @@
         }
       });
     }
-
+    
     // 2. お知らせ描画
     function renderNotice(noticeData) {
       const container = document.getElementById('notice-list');
