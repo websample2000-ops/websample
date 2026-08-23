@@ -434,54 +434,58 @@
       transform: scale(1.2);
     }
 
-    /* --- News / Notice (Game UI Style Frame) --- */
+    /* --- News / Notice (Game UI Frame & Split Layout) --- */
     .notice-list {
       display: flex;
       flex-direction: column;
       gap: 16px;
-      max-height: 520px;
+      max-height: 540px;
       overflow-y: auto;
+      overflow-x: hidden;
       
-      /* 半透明ホワイトベース */
+      /* スクロールバーが枠内に収まるようにパディングとボックスモデルを調整 */
+      box-sizing: border-box;
       background: rgba(255, 255, 255, 0.88);
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
       border-radius: 24px;
-      padding: 24px 28px;
+      padding: 24px 20px 24px 28px;
       
-      /* はっきり視認できるアクセントカラーの二重フレーム */
-      border: 3.5px solid #ffccd5; /* メインカラーに合わせたピンクフレーム */
+      border: 3.5px solid #ffccd5;
       box-shadow: 
-        0 10px 30px rgba(255, 117, 140, 0.18), /* 外側のソフトな広がり影 */
+        0 10px 30px rgba(255, 117, 140, 0.18),
         0 4px 10px rgba(0, 0, 0, 0.05),
-        inset 0 0 0 2px #ffffff, /* 内側の白いハイライト線（二重枠効果） */
-        inset 0 3px 6px rgba(255, 204, 213, 0.3); /* 内側の立体感 */
+        inset 0 0 0 2px #ffffff,
+        inset 0 3px 6px rgba(255, 204, 213, 0.3);
     }
 
-    /* スクロールバー（淡いピンクグレー調） */
+    /* 枠内に自然に収まるスリムなスクロールバー */
     .notice-list::-webkit-scrollbar {
       width: 6px;
     }
     .notice-list::-webkit-scrollbar-track {
-      background: rgba(0, 0, 0, 0.03);
+      background: rgba(0, 0, 0, 0.04);
       border-radius: 4px;
+      margin: 12px 0; /* 上下の角丸枠からはみ出ないようマージン確保 */
     }
     .notice-list::-webkit-scrollbar-thumb {
-      background: rgba(255, 117, 140, 0.3);
+      background: rgba(255, 117, 140, 0.4);
       border-radius: 4px;
     }
     .notice-list::-webkit-scrollbar-thumb:hover {
-      background: rgba(255, 117, 140, 0.5);
+      background: rgba(255, 117, 140, 0.65);
     }
 
+    /* ニュース行：左にテキスト、右にメディアを横並び配置 */
     .notice-item {
       display: flex;
-      flex-direction: column;
-      gap: 6px;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 20px;
       background: transparent;
       box-shadow: none;
       padding: 0 0 16px 0;
-      border-bottom: 1px dashed rgba(255, 117, 140, 0.25);
+      border-bottom: 1px dashed rgba(255, 117, 140, 0.3);
       border-radius: 0;
     }
     .notice-item:last-child {
@@ -489,7 +493,15 @@
       padding-bottom: 0;
     }
 
-    /* 日付：視認性の高いディープブルー / アクセントカラー */
+    /* 左側：テキストエリア */
+    .notice-text-wrap {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
     .notice-date {
       font-size: 0.95rem;
       font-weight: 800;
@@ -498,7 +510,6 @@
       letter-spacing: 0.5px;
     }
 
-    /* メッセージ本文：自然な濃いグレー */
     .notice-message {
       font-size: 0.95rem;
       font-weight: 600;
@@ -508,40 +519,41 @@
       word-break: break-word;
     }
 
-    /* メディア表示領域 */
+    /* 右側：メディアエリア */
     .notice-media {
-      margin-top: 10px;
-      max-width: 100%;
+      flex-shrink: 0;
+      width: 240px; /* 右側メディアの横幅固定 */
+      max-width: 40%;
+      margin-top: 2px;
     }
     
-    /* 添付画像：浮かない自然な角丸と薄いシャドウ */
+    /* 添付画像 */
     .notice-media img {
-      max-width: 280px;
-      max-height: 160px;
-      width: auto;
-      height: auto;
+      width: 100%;
+      height: 135px; /* 16:9比率 */
       object-fit: cover;
       border-radius: 10px;
-      border: 1px solid rgba(255, 255, 255, 0.8);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.9);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
       cursor: pointer;
       transition: transform 0.2s ease, box-shadow 0.2s ease;
       display: block;
     }
     .notice-media img:hover {
       transform: translateY(-2px);
-      box-shadow: 0 8px 18px rgba(0, 0, 0, 0.12);
+      box-shadow: 0 6px 14px rgba(0, 0, 0, 0.12);
     }
 
-    /* YouTube動画埋め込み */
+    /* YouTube動画（16:9の横長比率を厳密に固定） */
     .notice-media .notice-video-wrap {
       position: relative;
-      padding-bottom: 56.25%;
-      height: 0;
+      width: 100%;
+      aspect-ratio: 16 / 9; /* アスペクト比16:9固定 */
+      border-radius: 10px;
       overflow: hidden;
-      border-radius: 12px;
-      max-width: 420px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.8);
+      background: #000000;
     }
     .notice-media .notice-video-wrap iframe {
       position: absolute;
@@ -550,6 +562,22 @@
       width: 100%;
       height: 100%;
       border: none;
+    }
+
+    /* スマホ画面時は縦並びに自動切り替え */
+    @media (max-width: 600px) {
+      .notice-item {
+        flex-direction: column;
+        gap: 10px;
+      }
+      .notice-media {
+        width: 100%;
+        max-width: 100%;
+      }
+      .notice-media img {
+        height: auto;
+        max-height: 180px;
+      }
     }
 
     /* --- Visual / Gallery --- */
