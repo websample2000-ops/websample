@@ -1212,13 +1212,13 @@
       updateMvSlidePosition();
     }
 
-    // 2. お知らせ描画（スプレッドシート notice シート対応）
+    // 2. お知らせ描画（左右2カラム分割）
     function renderNotice(noticeData) {
       const container = document.getElementById('notice-list');
       container.innerHTML = '';
 
       if (!noticeData || noticeData.length === 0) {
-        container.innerHTML = '<p style="text-align:center; color:#dfe6e9; padding:20px;">お知らせはありません</p>';
+        container.innerHTML = '<p style="text-align:center; color:var(--text-muted); padding:20px;">お知らせはありません</p>';
         return;
       }
 
@@ -1256,7 +1256,7 @@
       });
 
       if (validNotices.length === 0) {
-        container.innerHTML = '<p style="text-align:center; color:#dfe6e9; padding:20px;">お知らせはありません</p>';
+        container.innerHTML = '<p style="text-align:center; color:var(--text-muted); padding:20px;">お知らせはありません</p>';
         return;
       }
 
@@ -1286,9 +1286,12 @@
           }
         }
 
+        // 左（テキスト）と右（メディア）の横並び構造
         div.innerHTML = `
-          <span class="notice-date">${dateStr}</span>
-          <div class="notice-message">${msgStr}</div>
+          <div class="notice-text-wrap">
+            <span class="notice-date">${dateStr}</span>
+            <div class="notice-message">${msgStr}</div>
+          </div>
           ${mediaHtml}
         `;
         container.appendChild(div);
