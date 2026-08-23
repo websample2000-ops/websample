@@ -266,13 +266,39 @@
         2px 2px 4px rgba(0, 21, 143, 0.25);
     }
 
-    /* ステータス行 */
+    /* ステータス行：リキッド状のカード背景 */
     .profile-specs {
-      display: flex;
+      display: inline-flex;
       flex-direction: column;
       gap: 6px;
-      margin-bottom: 12px;
+      margin-bottom: 16px;
+      padding: 24px 30px;
+      width: fit-content;
+      min-width: 320px;
+      
+      /* 半透明の液体感・すりガラス質感 */
+      background: rgba(255, 255, 255, 0.45);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      
+      /* 有機的なリキッド（ブロブ）形状 */
+      border-radius: 42% 58% 65% 35% / 45% 40% 60% 55%;
+      
+      /* 立体的な液体の光沢・反射境界線・ドロップシャドウ */
+      border: 1.5px solid rgba(255, 255, 255, 0.85);
+      box-shadow: 
+        0 15px 35px rgba(0, 21, 143, 0.08),
+        inset 0 0 15px rgba(255, 255, 255, 0.6),
+        inset 0 4px 6px rgba(255, 255, 255, 0.9);
+      
+      transition: border-radius 0.5s ease;
     }
+
+    /* ホバー時に少しリキッドの形状が揺らぐエフェクト（任意） */
+    .profile-specs:hover {
+      border-radius: 50% 50% 40% 60% / 55% 60% 40% 45%;
+    }
+
     .spec-row {
       display: flex;
       align-items: center;
@@ -287,7 +313,7 @@
         2px 2px 5px rgba(0, 21, 143, 0.25);
     }
     .spec-row.space-top {
-      margin-top: 12px;
+      margin-top: 10px;
     }
     .spec-label {
       width: 125px;
