@@ -1298,7 +1298,7 @@
       });
     }
 
-    // 3. ギャラリー描画（YouTube動画サムネイル・クリックで再生）
+    // 3. ギャラリー描画（YouTubeサムネイル対応）
     function renderVisual(visualData) {
       const container = document.getElementById('visual-grid');
       if (!container) return;
@@ -1313,7 +1313,6 @@
         const div = document.createElement('div');
         div.className = 'visual-card';
         
-        // 動画URLがある場合はYouTubeへ遷移、なければ画像モーダルを開く
         div.onclick = () => {
           if (item.video_url || item.url) {
             window.open(item.video_url || item.url, '_blank', 'noopener,noreferrer');
@@ -1323,13 +1322,13 @@
         };
 
         div.innerHTML = `
-          <div style="position:relative; width:100%; height:200px; overflow:hidden; background:#000;">
-            <img src="${item.image_url}" alt="${item.title || 'YouTube Video'}" style="width:100%; height:100%; object-fit:cover;" loading="lazy">
-            <div style="position:absolute; inset:0; display:flex; justify-content:center; align-items:center; background:rgba(0,0,0,0.25); opacity:0; transition:opacity 0.2s;" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0">
-              <i class="fa-brands fa-youtube" style="color:#ff0000; font-size:2.5rem; filter:drop-shadow(0 2px 8px rgba(0,0,0,0.5));"></i>
+          <div style="position:relative; width:100%; aspect-ratio: 16/9; overflow:hidden; background:#1e272e;">
+            <img src="${item.image_url}" alt="${item.title || 'YouTube Video'}" style="width:100%; height:100%; object-fit:cover; display:block;" loading="lazy">
+            <div style="position:absolute; inset:0; display:flex; justify-content:center; align-items:center; background:rgba(0,0,0,0.3); opacity:0; transition:opacity 0.2s;" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0">
+              <i class="fa-brands fa-youtube" style="color:#ff0000; font-size:2.6rem; filter:drop-shadow(0 2px 8px rgba(0,0,0,0.6));"></i>
             </div>
           </div>
-          <div class="visual-info" style="display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; text-overflow:ellipsis; min-height:2.8em;">
+          <div class="visual-info" style="padding:10px 12px; font-size:0.88rem; font-weight:700; color:#2d3436; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; text-overflow:ellipsis; min-height:2.8em; line-height:1.4;">
             ${item.title || ''}
           </div>
         `;
