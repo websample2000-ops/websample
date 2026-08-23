@@ -40,6 +40,10 @@
       background-color: var(--bg-color);
       color: var(--text-main);
       line-height: 1.6;
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
     }
 
     /* --- Loading Spinner --- */
@@ -121,63 +125,273 @@
       color: var(--text-muted);
     }
 
-    /* --- Hero Section --- */
-    .hero {
+    /* --- Profile Layout (Dynamic Standing & MV Slider) --- */
+    .profile-section {
+      max-width: 1050px;
+      margin: 20px auto 50px;
+      padding: 0 20px;
+    }
+
+    .profile-card {
+      background: #ffffff;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 45px;
+      position: relative;
+      overflow: hidden;
       display: flex;
       flex-direction: column;
+      gap: 35px;
+    }
+
+    /* 立ち絵エリア：右側に大きく配置してテキストに重ねる */
+    .profile-visual-box {
+      position: absolute;
+      top: -20px;
+      right: -30px;
+      width: 62%;
+      height: calc(100% - 280px);
+      min-height: 480px;
+      display: flex;
+      justify-content: flex-end;
       align-items: center;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .profile-visual-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      object-position: right center;
+      filter: drop-shadow(0 15px 25px rgba(0, 0, 0, 0.15));
+    }
+
+    /* テキストコンテンツ（立ち絵より手前） */
+    .profile-content-wrap {
+      position: relative;
+      z-index: 2;
+      max-width: 60%;
+    }
+
+    /* 名前・サブタイトル */
+    .prof-title {
+      font-size: 3.2rem;
+      font-weight: 900;
+      color: #00158f;
+      line-height: 1.1;
+      letter-spacing: -1px;
+    }
+    .prof-sub-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: #00158f;
+      margin-top: 6px;
+      margin-bottom: 26px;
+    }
+
+    /* コメント・メッセージ */
+    .profile-comment-block {
+      margin-bottom: 25px;
+    }
+    .prof-comment-title {
+      font-size: 1.55rem;
+      font-weight: 800;
+      color: #00158f;
+      font-style: italic;
+      margin-bottom: 8px;
+    }
+    .prof-message-text {
+      font-size: 0.95rem;
+      color: #00158f;
+      font-style: italic;
+      line-height: 1.5;
+      white-space: pre-line;
+    }
+
+    /* ステータス行 */
+    .profile-specs {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      margin-bottom: 25px;
+    }
+    .spec-row {
+      display: flex;
+      align-items: center;
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #00158f;
+      white-space: nowrap;
+    }
+    .spec-row.space-top {
+      margin-top: 10px;
+    }
+    .spec-label {
+      width: 100px;
+      letter-spacing: 0.5px;
+      white-space: nowrap;
+    }
+    .spec-colon {
+      width: 25px;
       text-align: center;
-      padding: 40px 20px 60px;
-      background: linear-gradient(180deg, #fff 0%, var(--bg-color) 100%);
+      white-space: nowrap;
     }
-    .hero-img-box {
-      width: 200px;
-      height: 200px;
-      border-radius: 50%;
+    .spec-value {
+      font-family: 'Outfit', 'M PLUS Rounded 1c', sans-serif;
+      letter-spacing: 0.5px;
+      white-space: nowrap;
+    }
+
+    /* クレジット（上）とアイコン一覧（下）の配置 */
+    .profile-bottom-group {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      margin-top: 15px;
+    }
+
+    .profile-credits-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 4px 20px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: #00158f;
+    }
+
+    /* 2層アイコンリスト */
+    .visual-thumb-list {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .visual-thumb-item {
+      width: 65px;
+      height: 65px;
+      border-radius: 8px;
       overflow: hidden;
-      margin-bottom: 24px;
-      box-shadow: var(--shadow);
-      border: 4px solid #fff;
+      position: relative;
+      cursor: pointer;
+      border: 2px solid transparent;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+      transition: transform 0.2s, border-color 0.2s;
+      background-color: #f1f2f6;
     }
-    .hero-img-box img {
+    .visual-thumb-item:hover {
+      transform: translateY(-2px);
+    }
+    .visual-thumb-item.active {
+      border-color: #00158f;
+      box-shadow: 0 0 0 2px rgba(0, 21, 143, 0.3);
+    }
+
+    .thumb-bg {
+      position: absolute;
+      top: 0;
+      left: 0;
       width: 100%;
       height: 100%;
       object-fit: cover;
+      z-index: 1;
     }
-    .hero h1 {
-      font-size: 2.2rem;
-      margin-bottom: 10px;
+
+    .thumb-fg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      z-index: 2;
     }
-    .hero p {
-      max-width: 600px;
-      color: var(--text-muted);
-      margin-bottom: 20px;
+
+    /* --- MV Video Slider --- */
+    .profile-mv-container {
+      position: relative;
+      z-index: 2;
+      background: #2b303c;
+      border-radius: 12px;
+      padding: 24px 20px 16px;
+      margin-top: 10px;
     }
-    .social-links {
+
+    .mv-slider-wrapper {
+      position: relative;
       display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
-      justify-content: center;
-    }
-    .social-btn {
-      display: inline-flex;
       align-items: center;
-      gap: 8px;
-      padding: 8px 16px;
-      background: var(--card-bg);
-      border: 1px solid var(--border-color);
-      border-radius: 30px;
-      color: var(--text-main);
-      text-decoration: none;
-      font-size: 0.85rem;
-      font-weight: 700;
-      box-shadow: var(--shadow);
-      transition: all 0.2s;
+      justify-content: center;
+      overflow: hidden;
+      border-radius: 8px;
     }
-    .social-btn:hover {
-      transform: translateY(-2px);
-      border-color: var(--primary);
-      color: var(--primary);
+
+    .mv-slides {
+      display: flex;
+      width: 100%;
+      transition: transform 0.4s ease-in-out;
+    }
+
+    .mv-slide-item {
+      min-width: 100%;
+      position: relative;
+      padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+      height: 0;
+      overflow: hidden;
+    }
+
+    .mv-slide-item iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    .mv-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(0, 0, 0, 0.65);
+      color: #ffffff;
+      border: none;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      cursor: pointer;
+      z-index: 10;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 1.1rem;
+      transition: background 0.2s;
+    }
+    .mv-btn:hover {
+      background: rgba(0, 0, 0, 0.9);
+    }
+    .mv-btn-prev { left: 12px; }
+    .mv-btn-next { right: 12px; }
+
+    .mv-dots {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 14px;
+    }
+
+    .mv-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.35);
+      cursor: pointer;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .mv-dot.active {
+      background: #00d2d3;
+      transform: scale(1.2);
     }
 
     /* --- News / Notice --- */
@@ -373,220 +587,61 @@
     }
     .footer-links a:hover { color: #fff; }
 
-    @media (max-width: 768px) {
-      nav { display: none; } /* 簡易化のためモバイルではヘッダーメニューを省略 */
-      .notice-item { flex-direction: column; align-items: flex-start; gap: 6px; }
-      .hero h1 { font-size: 1.8rem; }
-    }
-
-    body {
-      font-family: 'M PLUS Rounded 1c', sans-serif;
-      background-color: var(--bg-color);
-      color: var(--text-main);
-      line-height: 1.6;
-      /* ↓ ここから追加（背景画像を画面いっぱいに固定して表示） */
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-      background-attachment: fixed;
-    }
-
-    /* --- Profile Layout (2-tier structure) --- */
-    .profile-section {
-      max-width: 1050px;
-      margin: 20px auto 50px;
-      padding: 0 20px;
-    }
-
-    .profile-card {
-      background: #ffffff;
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      padding: 40px;
-      display: flex;
-      flex-direction: column;
-      gap: 30px;
-    }
-
-    /* 上段：テキストと立ち絵を横並び */
-    .profile-main-row {
-      display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-      gap: 30px;
-    }
-
-    .profile-info {
-      flex: 1 1 50%;
-      z-index: 2;
-    }
-
-    /* 名前・サブタイトル */
-    .prof-title {
-      font-size: 3rem;
-      font-weight: 900;
-      color: #00158f;
-      line-height: 1.1;
-      letter-spacing: -1px;
-    }
-    .prof-sub-title {
-      font-size: 1.1rem;
-      font-weight: 700;
-      color: #00158f;
-      margin-top: 6px;
-      margin-bottom: 24px;
-    }
-
-    /* コメント・メッセージ */
-    .profile-comment-block {
-      margin-bottom: 25px;
-    }
-    .prof-comment-title {
-      font-size: 1.5rem;
-      font-weight: 800;
-      color: #00158f;
-      font-style: italic;
-      margin-bottom: 8px;
-    }
-    .prof-message-text {
-      font-size: 0.95rem;
-      color: #00158f;
-      font-style: italic;
-      line-height: 1.5;
-      white-space: pre-line;
-    }
-
-    /* ステータス行 */
-    .profile-specs {
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-    }
-    .spec-row {
-      display: flex;
-      align-items: center;
-      font-size: 0.95rem;
-      font-weight: 700;
-      color: #00158f;
-      white-space: nowrap; /* 折り返し防止 */
-    }
-    .spec-row.space-top {
-      margin-top: 10px;
-    }
-    .spec-label {
-      width: 110px; /* 折り返さない十分な幅 */
-      letter-spacing: 0.5px;
-      white-space: nowrap;
-    }
-    .spec-colon {
-      width: 25px;
-      text-align: center;
-      white-space: nowrap;
-    }
-    .spec-value {
-      font-family: 'Outfit', 'M PLUS Rounded 1c', sans-serif;
-      letter-spacing: 0.5px;
-      white-space: nowrap;
-    }
-
-    /* 立ち絵エリア（名前の横に配置） */
-    .profile-visual-box {
-      flex: 1 1 50%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 420px;
-    }
-    .profile-visual-box img {
-      max-width: 100%;
-      max-height: 480px;
-      object-fit: contain;
-      filter: drop-shadow(0 15px 25px rgba(0, 0, 0, 0.15));
-    }
-
-    /* 下段：クレジットとアイコン一覧 */
-    .profile-bottom-group {
-      display: flex;
-      align-items: flex-start;
-      gap: 30px;
-      padding-top: 15px;
-      border-top: 1px dashed #e2e8f0;
-      flex-wrap: wrap;
-    }
-
-    .profile-credits {
-      font-size: 0.85rem;
-      font-weight: 700;
-      color: #00158f;
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-      white-space: nowrap;
-    }
-
-    /* 2層アイコンリスト */
-    .visual-thumb-list {
+    /* --- Social Buttons --- */
+    .social-links {
       display: flex;
       gap: 12px;
-      align-items: center;
       flex-wrap: wrap;
     }
-
-    .visual-thumb-item {
-      width: 65px;
-      height: 65px;
-      border-radius: 8px;
-      overflow: hidden;
-      position: relative;
-      cursor: pointer;
-      border: 2px solid transparent;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
-      transition: transform 0.2s, border-color 0.2s;
-      background-color: #f1f2f6;
+    .social-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px;
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 30px;
+      color: var(--text-main);
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: 700;
+      box-shadow: var(--shadow);
+      transition: all 0.2s;
     }
-    .visual-thumb-item:hover {
+    .social-btn:hover {
       transform: translateY(-2px);
-    }
-    .visual-thumb-item.active {
-      border-color: #00158f;
-      box-shadow: 0 0 0 2px rgba(0, 21, 143, 0.3);
+      border-color: var(--primary);
+      color: var(--primary);
     }
 
-    .thumb-bg {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      z-index: 1;
-    }
-
-    .thumb-fg {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-      z-index: 2;
-    }
-
-    /* スマホ表示 */
+    /* スマホ表示対応 */
     @media (max-width: 860px) {
-      .profile-main-row {
-        flex-direction: column-reverse;
+      nav { display: none; }
+      .profile-card {
+        padding: 24px;
       }
       .profile-visual-box {
-        min-height: 280px;
+        position: relative;
+        top: 0;
+        right: 0;
         width: 100%;
+        height: 320px;
+        min-height: auto;
+        justify-content: center;
       }
       .profile-visual-box img {
-        max-height: 320px;
+        object-position: center;
       }
-      .profile-bottom-group {
-        flex-direction: column;
+      .profile-content-wrap {
+        max-width: 100%;
       }
+      .prof-title {
+        font-size: 2.3rem;
+      }
+      .profile-credits-grid {
+        grid-template-columns: 1fr;
+      }
+      .notice-item { flex-direction: column; align-items: flex-start; gap: 6px; }
     }
   </style>
 </head>
@@ -613,13 +668,16 @@
   </header>
 
   <!-- Profile Section -->
-<section id="profile" class="profile-section">
-  <div class="profile-card">
-    
-    <!-- 上段：左側にプロフィールテキスト、右側にメイン立ち絵 -->
-    <div class="profile-main-row">
-      <!-- 左側：テキスト・ステータス -->
-      <div class="profile-info">
+  <section id="profile" class="profile-section">
+    <div class="profile-card">
+      
+      <!-- メイン立ち絵（絶対配置で大きく重ねる） -->
+      <div class="profile-visual-box">
+        <img id="prof-standing-img" src="" alt="Character Visual" style="display:none;">
+      </div>
+
+      <!-- コンテンツエリア -->
+      <div class="profile-content-wrap">
         <!-- 名前 & ふりがな/ローマ字 -->
         <div class="profile-header-group">
           <h1 id="prof-name" class="prof-title">-</h1>
@@ -660,24 +718,29 @@
             <span id="prof-streaming" class="spec-value">-</span>
           </div>
         </div>
+
+        <!-- 下部：クレジット（上）とアイコン一覧（下） -->
+        <div class="profile-bottom-group">
+          <div class="profile-credits-grid" id="prof-credits"></div>
+          <div class="visual-thumb-list" id="visual-thumb-list"></div>
+        </div>
+
+        <!-- SNSリンク -->
+        <div class="social-links" id="profile-links" style="margin-top: 20px;"></div>
       </div>
 
-      <!-- 右側：メイン立ち絵 -->
-      <div class="profile-visual-box">
-        <img id="prof-standing-img" src="" alt="Character Visual" style="display:none;">
+      <!-- MVスライダーセクション（カード下部） -->
+      <div class="profile-mv-container" id="profile-mv-container" style="display:none;">
+        <div class="mv-slider-wrapper">
+          <button class="mv-btn mv-btn-prev" onclick="prevMvSlide()"><i class="fa-solid fa-chevron-left"></i></button>
+          <div class="mv-slides" id="mv-slides"></div>
+          <button class="mv-btn mv-btn-next" onclick="nextMvSlide()"><i class="fa-solid fa-chevron-right"></i></button>
+        </div>
+        <div class="mv-dots" id="mv-dots"></div>
       </div>
+
     </div>
-
-    <!-- 下段：クレジット & アイコン一覧 & SNSリンク -->
-    <div class="profile-bottom-group">
-      <div class="profile-credits" id="prof-credits"></div>
-      <div class="visual-thumb-list" id="visual-thumb-list"></div>
-    </div>
-
-    <div class="social-links" id="profile-links" style="margin-top: 20px;"></div>
-
-  </div>
-</section>
+  </section>
 
   <!-- Notice Section -->
   <section id="notice">
@@ -728,7 +791,7 @@
 
   <!-- Script -->
   <script>
-    // ★★★ ここにデプロイしたGASのWeb API URLを貼り付けてください ★★★
+    // ★★★ GASのWeb API URL ★★★
     const GAS_API_URL = "https://script.google.com/macros/s/AKfycbxsfZFysfM6B-kf2cnE6xSBzsbQ8JJRKCU4yQZbrqxsPSsKTY63VP-wkHAItKoafvTc/exec";
 
     // グローバルで初期化処理
@@ -737,9 +800,10 @@
         const res = await fetch(GAS_API_URL);
         const data = await res.json();
         
-        // profileとvisualのデータを渡して描画
         renderProfile(data.profile, data.visual);
+        renderMvSlider(data.profile_mv);
         renderNotice(data.notice);
+        renderVisual(data.visual);
         renderShop(data.shop);
         renderGuideline(data.guideline);
         renderFooter(data.footer, data.global_regulations);
@@ -757,7 +821,6 @@
     function renderProfile(profileData, visualData) {
       if (!profileData || profileData.length === 0) return;
 
-      // A列(項目)をキー、B列(設定値)を値とするオブジェクトに変換
       const p = {};
       profileData.forEach(row => {
         const key = row['項目'] || row['item'] || row['key'];
@@ -767,8 +830,6 @@
         }
       });
 
-      // 日付フォーマット関数（ISO文字列対応）
-      // showYear = false のときは「M月D日」、true のときは「YYYY年M月D日」
       const formatDate = (valStr, showYear = true) => {
         if (!valStr || valStr === '') return '-';
         if (typeof valStr === 'string' && valStr.includes('T')) {
@@ -789,10 +850,8 @@
         return '-';
       };
 
-      // 1. 名前
+      // 名前 & サブタイトル
       document.getElementById('prof-name').textContent = getVal('name');
-
-      // 2. pronunciation & romanization
       const pron = p['pronunciation'] || '';
       const roma = p['romanization'] || '';
       let subText = '-';
@@ -800,7 +859,7 @@
       else if (pron || roma) subText = pron || roma;
       document.getElementById('prof-sub').textContent = subText;
 
-      // 3. comment & message
+      // コメント & メッセージ
       const commentEl = document.getElementById('prof-comment');
       const messageEl = document.getElementById('prof-message');
       if (p['comment']) {
@@ -816,14 +875,14 @@
         messageEl.style.display = 'none';
       }
 
-      // 4. 詳細ステータス（誕生日は月日形式に自動フォーマット）
+      // 詳細ステータス
       document.getElementById('prof-birthday').textContent = formatDate(p['birthday'], false);
       document.getElementById('prof-age').textContent = getVal('age', typeof p['age'] === 'number' || (p['age'] && !p['age'].includes('歳')) ? '歳' : '');
       document.getElementById('prof-height').textContent = getVal('height', typeof p['height'] === 'number' || (p['height'] && !p['height'].includes('cm')) ? 'cm' : '');
       document.getElementById('prof-fan-name').textContent = getVal('fan_name');
       document.getElementById('prof-streaming').textContent = formatDate(p['streaming'], true);
 
-      // 5. 立ち絵とクレジットを更新する関数
+      // 立ち絵とクレジット更新
       const updateVisualDisplay = (item) => {
         const standingImg = document.getElementById('prof-standing-img');
         const visualSrc = item.visual_url || item.standing_url || p['standing_url'];
@@ -832,7 +891,6 @@
           standingImg.style.display = 'block';
         }
 
-        // クレジットの更新（空欄の場合は非表示）
         const creditsContainer = document.getElementById('prof-credits');
         creditsContainer.innerHTML = '';
         const creditConfigs = [
@@ -853,7 +911,7 @@
         });
       };
 
-      // 6. visualシートのデータフィルタリング（idが空欄のものは除外）
+      // visualシートのアイコン一覧生成（id空欄除外）
       const thumbListContainer = document.getElementById('visual-thumb-list');
       thumbListContainer.innerHTML = '';
 
@@ -866,7 +924,6 @@
           const thumbBox = document.createElement('div');
           thumbBox.className = `visual-thumb-item ${index === 0 ? 'active' : ''}`;
 
-          // 下地画像（thumb_background）
           if (vItem.thumb_background) {
             const bgImg = document.createElement('img');
             bgImg.className = 'thumb-bg';
@@ -874,7 +931,6 @@
             thumbBox.appendChild(bgImg);
           }
 
-          // 前面サムネイル（thumb_url）
           if (vItem.thumb_url) {
             const fgImg = document.createElement('img');
             fgImg.className = 'thumb-fg';
@@ -882,7 +938,6 @@
             thumbBox.appendChild(fgImg);
           }
 
-          // クリック時の切り替え
           thumbBox.addEventListener('click', () => {
             document.querySelectorAll('.visual-thumb-item').forEach(el => el.classList.remove('active'));
             thumbBox.classList.add('active');
@@ -892,13 +947,12 @@
           thumbListContainer.appendChild(thumbBox);
         });
 
-        // 初期表示（1件目の立ち絵 & クレジット）
         updateVisualDisplay(validVisualData[0]);
       } else {
         updateVisualDisplay(p);
       }
 
-      // 7. SNSリンク
+      // SNSリンク
       const linksContainer = document.getElementById('profile-links');
       linksContainer.innerHTML = '';
       const snsConfigs = [
@@ -920,6 +974,87 @@
           linksContainer.appendChild(a);
         }
       });
+    }
+
+    // --- MV スライダー描画 & 制御 ---
+    let currentMvIndex = 0;
+    let totalMvSlides = 0;
+
+    function renderMvSlider(mvData) {
+      const container = document.getElementById('profile-mv-container');
+      const slidesContainer = document.getElementById('mv-slides');
+      const dotsContainer = document.getElementById('mv-dots');
+
+      if (!mvData || mvData.length === 0) {
+        container.style.display = 'none';
+        return;
+      }
+
+      const activeMvs = mvData.filter(item => {
+        const active = item.is_active || item.active;
+        return active === true || String(active).toUpperCase() === 'TRUE' || active === 1 || active === '1';
+      });
+
+      if (activeMvs.length === 0) {
+        container.style.display = 'none';
+        return;
+      }
+
+      totalMvSlides = activeMvs.length;
+      slidesContainer.innerHTML = '';
+      dotsContainer.innerHTML = '';
+
+      const convertYoutubeUrl = (url) => {
+        if (!url) return '';
+        const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+        const match = url.match(regExp);
+        if (match && match[2].length === 11) {
+          return `https://www.youtube.com/embed/${match[2]}`;
+        }
+        return url;
+      };
+
+      activeMvs.forEach((mv, index) => {
+        const slide = document.createElement('div');
+        slide.className = 'mv-slide-item';
+        const embedUrl = convertYoutubeUrl(mv.mv_url || mv.url);
+        slide.innerHTML = `<iframe src="${embedUrl}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>`;
+        slidesContainer.appendChild(slide);
+
+        const dot = document.createElement('div');
+        dot.className = `mv-dot ${index === 0 ? 'active' : ''}`;
+        dot.addEventListener('click', () => goToMvSlide(index));
+        dotsContainer.appendChild(dot);
+      });
+
+      container.style.display = 'block';
+      goToMvSlide(0);
+    }
+
+    function updateMvSlidePosition() {
+      const slides = document.getElementById('mv-slides');
+      slides.style.transform = `translateX(-${currentMvIndex * 100}%)`;
+      const dots = document.querySelectorAll('.mv-dot');
+      dots.forEach((dot, idx) => {
+        dot.classList.toggle('active', idx === currentMvIndex);
+      });
+    }
+
+    function prevMvSlide() {
+      if (totalMvSlides <= 1) return;
+      currentMvIndex = (currentMvIndex - 1 + totalMvSlides) % totalMvSlides;
+      updateMvSlidePosition();
+    }
+
+    function nextMvSlide() {
+      if (totalMvSlides <= 1) return;
+      currentMvIndex = (currentMvIndex + 1) % totalMvSlides;
+      updateMvSlidePosition();
+    }
+
+    function goToMvSlide(index) {
+      currentMvIndex = index;
+      updateMvSlidePosition();
     }
     
     // 2. お知らせ描画
@@ -999,7 +1134,6 @@
           </div>
         `;
         
-        // アコーディオン開閉
         const header = div.querySelector('.guideline-header');
         const content = div.querySelector('.guideline-content');
         header.addEventListener('click', () => {
@@ -1014,7 +1148,6 @@
     // 6. フッター & グローバル設定
     function renderFooter(footerData, globalData) {
       if (globalData && globalData.length > 0) {
-        // サイトタイトルの設定（item が site_title の場合、または直接カラム名の場合に対応）
         const siteTitleItem = globalData.find(row => row.item === 'site_title');
         if (siteTitleItem && siteTitleItem.value) {
           document.title = siteTitleItem.value;
@@ -1024,14 +1157,12 @@
           document.getElementById('site-logo').textContent = globalData[0].site_title;
         }
 
-        // ★ page_background の背景画像を設定
         const bgItem = globalData.find(row => row.item === 'page_background');
         if (bgItem && bgItem.value) {
           document.body.style.backgroundImage = `url('${bgItem.value}')`;
         }
       }
 
-      // フッターリンクの描画
       if (footerData && footerData.length > 0) {
         const container = document.getElementById('footer-links');
         footerData.forEach(f => {
