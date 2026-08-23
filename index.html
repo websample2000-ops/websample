@@ -150,25 +150,34 @@
       box-shadow: var(--shadow);
       padding: 50px 40px;
       position: relative;
-      overflow: visible; /* 立ち絵がカード枠からはみ出るのを許可 */
+      overflow: visible; /* 枠外へのはみ出しを許可 */
       display: block;
-      min-height: 920px;
+      min-height: 980px; /* 全体高さをしっかり確保 */
     }
 
-    /* 立ち絵エリア：中心をカードの右半分中央（緑線：left: 50%）に配置 */
+    /* 立ち絵エリア：カードの右上から全高100%で配置 */
     .profile-visual-box {
       position: absolute;
-      top: 30px; /* キャラクター名の高さに合わせる */
-      bottom: 30px; /* MVスライダー下部の高さに合わせる */
-      left: 50%; /* カードの右半分（中心線） */
-      transform: translateX(-50%); /* 画像自体の中心を緑線に合わせる */
-      height: calc(100% - 60px);
+      top: 20px;
+      bottom: 20px;
+      left: 75%; /* カードの右半分の中央線（緑線の位置） */
+      transform: translateX(-50%); /* 画像の中心を緑線に合わせる */
+      height: calc(100% - 40px);
       width: auto;
+      pointer-events: none;
+      z-index: 1; /* 背面レイヤー */
       display: flex;
       justify-content: center;
       align-items: center;
-      pointer-events: none;
-      z-index: 1; /* 背面レイヤー */
+    }
+
+    .profile-visual-box img {
+      height: 100% !important; /* カードの全高（名前〜MV下部）いっぱいに拡大 */
+      width: auto !important;   /* 比率維持 */
+      max-width: none !important; /* 幅の制限を解除して横にはみ出させる */
+      min-width: 600px; /* 小さく縮むのを防ぐ最小幅 */
+      object-fit: contain;
+      filter: drop-shadow(0 15px 25px rgba(0, 0, 0, 0.15));
     }
 
     .profile-visual-box img {
