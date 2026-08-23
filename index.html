@@ -954,40 +954,98 @@
       .shop-grid { grid-template-columns: 1fr; }
     }
 
-    /* --- Guideline (Accordion) --- */
-    .guideline-list {
+    /* --- About Section (Multi-line Dynamic Layout) --- */
+    .about-card {
+      background: rgba(255, 255, 255, 0.88);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-radius: 24px;
+      padding: 32px 36px;
+      border: 3.5px solid #ffccd5;
+      box-shadow: 
+        0 10px 30px rgba(255, 117, 140, 0.18),
+        0 4px 10px rgba(0, 0, 0, 0.05),
+        inset 0 0 0 2px #ffffff;
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 20px;
     }
-    .guideline-item {
-      background: var(--card-bg);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      overflow: hidden;
-    }
-    .guideline-header {
-      padding: 18px 24px;
-      font-weight: bold;
-      cursor: pointer;
+
+    .about-line-row {
       display: flex;
-      justify-content: space-between;
+      flex-wrap: wrap;
       align-items: center;
-      user-select: none;
+      justify-content: center;
+      gap: 12px 16px;
+      width: 100%;
     }
-    .guideline-header i { transition: transform 0.3s; }
-    .guideline-item.active .guideline-header i { transform: rotate(180deg); }
-    .guideline-content {
-      max-height: 0;
-      overflow: hidden;
-      transition: max-height 0.3s ease-out;
-      padding: 0 24px;
-      color: var(--text-muted);
-      font-size: 0.9rem;
+
+    /* 1. テキスト */
+    .about-obj-text {
+      width: 100%;
+      font-size: 1rem;
+      color: var(--text-main);
+      line-height: 1.8;
       white-space: pre-line;
+      text-align: center;
+      font-weight: 500;
     }
-    .guideline-item.active .guideline-content {
-      padding-bottom: 18px;
+
+    /* 2. ボタンスタイル共通 */
+    .about-btn-base {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.95rem;
+      padding: 10px 22px;
+      border-radius: 30px;
+      transition: transform 0.2s, box-shadow 0.2s, filter 0.2s;
+      cursor: pointer;
+      border: none;
+    }
+    .about-btn-base:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+    }
+
+    /* ボタンリンク（サイト通常） */
+    .about-btn-link {
+      background: var(--card-bg);
+      color: #00158f;
+      border: 1.5px solid #ffccd5;
+      box-shadow: 0 3px 8px rgba(0,0,0,0.05);
+    }
+    .about-btn-link:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+
+    /* ストアボタン */
+    .about-btn-store {
+      background: linear-gradient(135deg, #ff758c 0%, #ff477e 100%);
+      color: #ffffff;
+    }
+
+    /* メール起動ボタン */
+    .about-btn-mail {
+      background: linear-gradient(135deg, #6c5ce7 0%, #5344c7 100%);
+      color: #ffffff;
+    }
+
+    @media (max-width: 600px) {
+      .about-card {
+        padding: 24px 20px;
+      }
+      .about-line-row {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .about-btn-base {
+        width: 100%;
+      }
     }
 
     /* --- Modal --- */
@@ -1260,7 +1318,9 @@
         try { renderNotice(data.notice); } catch (e) { console.error('Notice Error:', e); }
         try { renderVisual(data.movies, data.movies_priority); } catch (e) { console.error('Visual Error:', e); }
         try { renderShop(data.shop); } catch (e) { console.error('Shop Error:', e); }
+        try { renderAbout(data.about); } catch (e) { console.error('About Error:', e); } // ★追加
         try { renderFooter(data.footer, data.global_regulations); } catch (e) { console.error('Footer Error:', e); }
+        
 
       } catch (err) {
         console.error("データ取得エラー:", err);
@@ -2023,6 +2083,91 @@
           container.appendChild(a);
         });
       }
+    }
+
+    // 7. ABOUT セクション描画（about シート参照・lineごとグループ化）
+    function renderAbout(aboutData) {
+      const container = document.getElementById('about-content');
+      if (!container) return;
+      container.innerHTML = '';
+
+      if (!aboutData || aboutData.length === 0) {
+        container.innerHTML = '<p style="text-align:center; color:var(--text-muted);">情報がありません</p>';
+        return;
+      }
+
+      // line ごとにグループ化
+      const lineMap = {};
+      aboutData.forEach(item => {
+        const lineNum = Number(item.line) || 1;
+        if (!lineMap[lineNum]) lineMap[lineNum] = [];
+        lineMap[lineNum].push(item);
+      });
+
+      const sortedLines = Object.keys(lineMap).map(Number).sort((a, b) => a - b);
+
+      sortedLines.forEach(lineNum => {
+        const rowItems = lineMap[lineNum];
+        const rowDiv = document.createElement('div');
+        rowDiv.className = 'about-line-row';
+
+        rowItems.forEach(item => {
+          const type = String(item.type || '').trim();
+          const title = item.title || '';
+          const val = item.value || '';
+          const titleVal = item.title_value || '';
+          const textVal = item.text_value || '';
+
+          if (type === 'テキスト') {
+            // テキスト：titleは参照せず value の内容を表示
+            const textEl = document.createElement('div');
+            textEl.className = 'about-obj-text';
+            textEl.innerHTML = formatTextItem ? formatTextItem(val, false) : val;
+            rowDiv.appendChild(textEl);
+
+          } else if (type === 'ボタンリンク') {
+            // ボタンリンク：リンク先は value
+            const btn = document.createElement('a');
+            btn.className = 'about-btn-base about-btn-link';
+            btn.href = val || '#';
+            if (String(val).startsWith('http')) {
+              btn.target = '_blank';
+              btn.rel = 'noopener noreferrer';
+            }
+            btn.innerHTML = `<i class="fa-solid fa-arrow-up-right-from-square" style="font-size:0.85em;"></i><span>${title}</span>`;
+            rowDiv.appendChild(btn);
+
+          } else if (type === 'ストア') {
+            // ストアボタン：リンク先は value
+            const storeBtn = document.createElement('a');
+            storeBtn.className = 'about-btn-base about-btn-store';
+            storeBtn.href = val || '#';
+            if (String(val).startsWith('http')) {
+              storeBtn.target = '_blank';
+              storeBtn.rel = 'noopener noreferrer';
+            }
+            storeBtn.innerHTML = `<i class="fa-solid fa-bag-shopping"></i><span>${title}</span>`;
+            rowDiv.appendChild(storeBtn);
+
+          } else if (type === 'メール') {
+            // メール起動：title_valueが件名、text_valueが本文ひな形
+            const mailBtn = document.createElement('button');
+            mailBtn.type = 'button';
+            mailBtn.className = 'about-btn-base about-btn-mail';
+            mailBtn.innerHTML = `<i class="fa-solid fa-envelope"></i><span>${title}</span>`;
+            
+            mailBtn.onclick = () => {
+              const recipient = String(val).trim();
+              const subject = encodeURIComponent(titleVal);
+              const body = encodeURIComponent(textVal);
+              window.location.href = `mailto:${recipient}?subject=${subject}&body=${body}`;
+            };
+            rowDiv.appendChild(mailBtn);
+          }
+        });
+
+        container.appendChild(rowDiv);
+      });
     }
 
     // モーダル操作
