@@ -1157,28 +1157,110 @@
       color: var(--primary);
     }
 
-    /* スマホ対応 */
+    /* スマホ対応（PC画面は変更せず、スマホ時のみ指定の順番に並び替え） */
     @media (max-width: 860px) {
       nav { display: none; }
+      
+      .profile-section {
+        padding: 0 16px;
+        margin: 10px auto 40px;
+      }
+
       .profile-card {
-        padding: 24px;
+        display: flex;
+        flex-direction: column;
+        padding: 10px 0;
         min-height: auto;
       }
-      .profile-visual-box {
-        position: relative;
-        width: 100%;
-        height: 360px;
-        justify-content: center;
-      }
-      .profile-visual-box img {
-        object-position: center;
-      }
-      .profile-content-wrap {
-        width: 100%;
-        max-width: 100%;
+
+      /* 1. 名前・サブタイトル */
+      .profile-header-group {
+        order: 1;
+        text-align: center;
+        margin-bottom: 12px;
       }
       .prof-title {
-        font-size: 2.3rem;
+        font-size: 2.4rem;
+      }
+      .prof-sub-title {
+        font-size: 1.1rem;
+        margin-bottom: 8px;
+      }
+
+      /* 2. 立ち絵 */
+      .profile-visual-box {
+        order: 2;
+        position: relative;
+        left: 0;
+        transform: none;
+        width: 100%;
+        height: auto;
+        max-height: 400px;
+        margin: 10px 0 16px 0;
+        justify-content: center;
+        pointer-events: auto;
+      }
+      .profile-visual-box img {
+        min-width: 0 !important;
+        max-width: 100% !important;
+        height: auto !important;
+        max-height: 380px !important;
+        object-fit: contain;
+      }
+
+      /* 左側ラッパー自体を中継レイアウト化 */
+      .profile-content-wrap {
+        display: contents; /* 子要素を直接 profile-card の並び順（order）に参加させる */
+      }
+
+      /* 3. アイコン（衣装切り替え） */
+      .visual-thumb-list {
+        order: 3;
+        justify-content: center;
+        margin: 8px 0 16px 0;
+      }
+
+      /* 4. クレジット */
+      .profile-credits-list {
+        order: 4;
+        min-height: auto;
+        background: rgba(255, 255, 255, 0.6);
+        padding: 12px 16px;
+        border-radius: 12px;
+        margin-bottom: 16px;
+      }
+
+      /* 5. コメント & メッセージ */
+      .profile-comment-block {
+        order: 5;
+        text-align: left;
+        margin-bottom: 16px;
+      }
+      .prof-comment-title {
+        font-size: 1.5rem;
+      }
+      .prof-message-text {
+        min-height: auto;
+        font-size: 1rem;
+      }
+
+      /* 6. ステータス（スペック） */
+      .profile-specs {
+        order: 6;
+        margin-bottom: 18px;
+      }
+
+      /* 7. リンクボタン（SNSリンク） */
+      .social-links {
+        order: 7;
+        justify-content: center;
+        margin-bottom: 20px;
+      }
+
+      /* 8. MVスライダー */
+      .profile-mv-container {
+        order: 8;
+        margin-top: 10px;
       }
     }
   </style>
