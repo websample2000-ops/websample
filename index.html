@@ -749,10 +749,10 @@
       .carousel-nav-next { right: -8px; }
     }
 
-    /* --- Shop / Goods (3x3 Grid & Pagination) --- */
+    /* --- Shop / Goods (Responsive Grid & Dynamic Pagination) --- */
     .shop-grid {
       display: grid;
-      grid-template-columns: repeat(3, 1fr); /* 1行3つ */
+      grid-template-columns: repeat(3, 1fr); /* PC: 1行3つ */
       gap: 24px;
       min-height: 400px;
     }
@@ -969,11 +969,30 @@
       box-shadow: 0 4px 12px rgba(0,0,0,0.15);
     }
 
-    @media (max-width: 860px) {
-      .shop-grid { grid-template-columns: repeat(2, 1fr); }
-    }
-    @media (max-width: 540px) {
-      .shop-grid { grid-template-columns: 1fr; }
+    /* スマホ・タブレット（768px以下）は2列表示を維持 */
+    @media (max-width: 768px) {
+      .shop-grid {
+        grid-template-columns: repeat(2, 1fr) !important; /* スマホでも必ず2列 */
+        gap: 12px;
+      }
+      .shop-card {
+        border-radius: 12px;
+      }
+      .shop-body {
+        padding: 12px 10px;
+      }
+      .shop-title {
+        font-size: 0.88rem;
+        min-height: 2.6em;
+      }
+      .shop-price {
+        font-size: 0.95rem;
+        margin-bottom: 8px;
+      }
+      .btn-buy-trigger {
+        padding: 8px 0;
+        font-size: 0.8rem;
+      }
     }
 
     /* --- About Section (Multi-line Dynamic Layout) --- */
@@ -1877,10 +1896,14 @@
       });
     }
     
-    // 4. ショップ・グッズ描画（1行3つ・3行＝9件ページネーション & ショップ遷移モーダル）
+    // 4. ショップ・グッズ描画（PC: 3列×3行=9件 / スマホ: 2列×3行=6件）
     let currentShopPage = 1;
-    const ITEMS_PER_PAGE = 9; // 3列 × 3行
     let activeShopList = [];
+
+    // 画面幅に応じて1ページあたりの件数を返すヘルパー
+    function getItemsPerPage() {
+      return window.innerWidth <= 768 ? 6 : 9;
+    }
 
     function renderShop(shopData) {
       const container = document.getElementById('shop');
@@ -1905,8 +1928,9 @@
       const grid = document.getElementById('shop-grid');
       grid.innerHTML = '';
 
-      const startIndex = (currentShopPage - 1) * ITEMS_PER_PAGE;
-      const pageItems = activeShopList.slice(startIndex, startIndex + ITEMS_PER_PAGE);
+      const itemsPerPage = getItemsPerPage();
+      const startIndex = (currentShopPage - 1) * itemsPerPage;
+      const pageItems = activeShopList.slice(startIndex, startIndex + itemsPerPage);
 
       pageItems.forEach((item, index) => {
         const title = item.name || item.title || '商品名未設定';
@@ -1941,8 +1965,9 @@
       }
       pageContainer.innerHTML = '';
 
-      const totalPages = Math.ceil(activeShopList.length / ITEMS_PER_PAGE);
-      if (totalPages <= 1) return; // 9個以下の場合はページネーション非表示
+      const itemsPerPage = getItemsPerPage();
+      const totalPages = Math.ceil(activeShopList.length / itemsPerPage);
+      if (totalPages <= 1) return; // 1ページに収まる場合はページネーション非表示
 
       // ◀ 前へ
       const prevBtn = document.createElement('button');
@@ -1986,62 +2011,19 @@
       pageContainer.appendChild(nextBtn);
     }
 
-    // --- ショップ遷移ダイアログの表示制御 ---
-    function openShopModal(itemIndex) {
-      const item = activeShopList[itemIndex];
-      if (!item) return;
-
-      const title = item.name || item.title || '';
-      const img = item.merchandise_image || item.image_url || '';
-      const price = item.price ? (typeof item.price === 'number' || !isNaN(item.price) ? `¥${Number(item.price).toLocaleString()}` : item.price) : '';
-
-      document.getElementById('shop-modal-title').textContent = title;
-      document.getElementById('shop-modal-img').src = img;
-      document.getElementById('shop-modal-price').textContent = price;
-
-      const linksContainer = document.getElementById('shop-modal-links');
-      linksContainer.innerHTML = '';
-
-      // ショップURLの定義リスト（スプレッドシートのカラム名に対応）
-      const shopPlatforms = [
-        { key: 'booth', label: 'BOOTHで購入', class: 'shop-btn-booth', icon: 'fa-solid fa-store' },
-        { key: 'suzuri', label: 'SUZURIで購入', class: 'shop-btn-suzuri', icon: 'fa-solid fa-shirt' },
-        { key: 'base', label: 'BASEで購入', class: 'shop-btn-base', icon: 'fa-solid fa-bag-shopping' },
-        { key: 'fanbox', label: 'FANBOXで支援・購入', class: 'shop-btn-fanbox', icon: 'fa-solid fa-heart' },
-        { key: 'url', label: 'ショップを見る', class: 'shop-btn-other', icon: 'fa-solid fa-arrow-up-right-from-square' }
-      ];
-
-      let hasLink = false;
-      shopPlatforms.forEach(p => {
-        const urlVal = item[p.key] || item[p.key.toUpperCase()] || item[`${p.key}_url`];
-        if (urlVal && String(urlVal).trim() !== '' && String(urlVal).startsWith('http')) {
-          hasLink = true;
-          const a = document.createElement('a');
-          a.href = urlVal;
-          a.target = '_blank';
-          a.rel = 'noopener noreferrer';
-          a.className = `shop-link-btn ${p.class}`;
-          a.innerHTML = `<span><i class="${p.icon}"></i> ${p.label}</span><i class="fa-solid fa-chevron-right" style="font-size:0.8rem;"></i>`;
-          linksContainer.appendChild(a);
+    // ウィンドウリサイズ時に件数とページネーションを再計算
+    let resizeTimer;
+    window.addEventListener('resize', () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(() => {
+        if (activeShopList.length > 0) {
+          const itemsPerPage = getItemsPerPage();
+          const maxPages = Math.ceil(activeShopList.length / itemsPerPage);
+          if (currentShopPage > maxPages) currentShopPage = maxPages || 1;
+          displayShopPage();
         }
-      });
-
-      if (!hasLink) {
-        linksContainer.innerHTML = '<p style="text-align:center; color:var(--text-muted); padding:10px 0;">現在リンクできるショップがありません</p>';
-      }
-
-      document.getElementById('shop-modal').classList.add('show');
-    }
-
-    function closeShopModal(e) {
-      if (e.target.id === 'shop-modal') {
-        document.getElementById('shop-modal').classList.remove('show');
-      }
-    }
-
-    function closeShopModalDirect() {
-      document.getElementById('shop-modal').classList.remove('show');
-    }
+      }, 150);
+    });
 
     // 5. ガイドライン描画（アコーディオン）
     function renderGuideline(guidelineData) {
