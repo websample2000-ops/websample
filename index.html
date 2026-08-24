@@ -25,16 +25,8 @@
       --radius: 16px;
     }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
-
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
     body {
       font-family: 'M PLUS Rounded 1c', sans-serif;
       background-color: var(--bg-color);
@@ -57,7 +49,7 @@
       justify-content: center;
       align-items: center;
       z-index: 9999;
-      transition: opacity 0.4s ease, visibility 0.4s;
+      transition: opacity 0.3s ease, visibility 0.3s;
     }
     .spinner {
       width: 50px;
@@ -69,7 +61,7 @@
     }
     @keyframes spin { to { transform: rotate(360deg); } }
 
-    /* --- Header / Navigation (Centered & Larger Text) --- */
+    /* --- Header / Navigation --- */
     header {
       position: sticky;
       top: 0;
@@ -83,7 +75,6 @@
       grid-template-columns: auto 1fr auto;
       align-items: center;
     }
-
     .logo {
       font-family: 'Outfit', sans-serif;
       font-weight: 800;
@@ -93,49 +84,27 @@
       letter-spacing: 0.5px;
       grid-column: 1;
     }
-
-    /* ナビゲーションを中央に配置 */
-    nav {
-      grid-column: 2;
-      display: flex;
-      justify-content: center;
-    }
-
-    nav ul {
-      display: flex;
-      gap: 28px; /* 項目間の間隔を拡大 */
-      list-style: none;
-      align-items: center;
-    }
-
+    nav { grid-column: 2; display: flex; justify-content: center; }
+    nav ul { display: flex; gap: 28px; list-style: none; align-items: center; }
     nav a {
       text-decoration: none;
       color: #00158f;
       font-family: 'Fredoka', 'Outfit', sans-serif;
       font-weight: 700;
-      font-size: 1.15rem; /* テキストサイズを拡大 */
+      font-size: 1.15rem;
       letter-spacing: 0.5px;
       padding: 6px 10px;
       border-radius: 8px;
-      transition: color 0.2s, transform 0.2s, background-color 0.2s;
+      transition: color 0.2s, background-color 0.2s;
     }
-
     nav a:hover {
       color: var(--primary);
       background-color: rgba(255, 117, 140, 0.08);
-      transform: translateY(-1px);
     }
 
-    /* --- Common Section Styles --- */
-    section {
-      max-width: 1000px;
-      margin: 0 auto;
-      padding: 60px 20px;
-    }
-    .section-title {
-      text-align: center;
-      margin-bottom: 40px;
-    }
+    /* --- Common Section --- */
+    section { max-width: 1000px; margin: 0 auto; padding: 60px 20px; }
+    .section-title { text-align: center; margin-bottom: 40px; }
     .section-title h2 {
       font-family: 'Outfit', sans-serif;
       font-size: 2rem;
@@ -144,35 +113,21 @@
       text-transform: uppercase;
       letter-spacing: 1px;
     }
-    .section-title span {
-      font-size: 0.85rem;
-      color: var(--text-muted);
-    }
+    .section-title span { font-size: 0.85rem; color: var(--text-muted); }
 
     /* --- Profile Layout --- */
-    .profile-section {
-      max-width: 1050px;
-      margin: 20px auto 50px;
-      padding: 0 20px;
-    }
-
+    .profile-section { max-width: 1050px; margin: 20px auto 50px; padding: 0 20px; }
     .profile-card {
       background: transparent;
-      border-radius: 0;
-      box-shadow: none;
       padding: 20px 0;
       position: relative;
       overflow: visible;
       display: block;
       min-height: 980px;
     }
-
-    /* 立ち絵エリア：右側75%地点に配置 */
     .profile-visual-box {
       position: absolute;
-      top: 20px;
-      bottom: 20px;
-      left: 75%;
+      top: 20px; bottom: 20px; left: 75%;
       transform: translateX(-50%);
       height: calc(100% - 40px);
       width: auto;
@@ -182,7 +137,6 @@
       justify-content: center;
       align-items: center;
     }
-
     .profile-visual-box img {
       height: 100% !important;
       width: auto !important;
@@ -191,8 +145,6 @@
       object-fit: contain;
       filter: drop-shadow(0 15px 25px rgba(0, 0, 0, 0.15));
     }
-
-    /* 左側コンテンツ */
     .profile-content-wrap {
       position: relative;
       z-index: 2;
@@ -203,50 +155,28 @@
       gap: 16px;
       font-family: 'Potta One', 'M PLUS Rounded 1c', cursive;
     }
-
-    /* 名前 */
     .prof-title {
       font-family: 'Potta One', cursive;
       font-size: 3.8rem;
-      font-weight: 400;
       color: #00158f;
       line-height: 1.1;
-      letter-spacing: 1px;
-      text-shadow: 
-        0 0 8px #ffffff,
-        0 0 15px #ffffff,
-        2px 2px 0px #ffffff,
-        3px 4px 8px rgba(0, 21, 143, 0.35);
+      text-shadow: 0 0 8px #ffffff, 0 0 15px #ffffff, 2px 2px 0px #ffffff, 3px 4px 8px rgba(0, 21, 143, 0.35);
     }
-
-    /* サブタイトル */
     .prof-sub-title {
       font-family: 'Potta One', cursive;
       font-size: 1.35rem;
       color: #00158f;
       margin-top: 4px;
       margin-bottom: 12px;
-      letter-spacing: 1px;
-      text-shadow: 
-        0 0 6px #ffffff,
-        1px 1px 0px #ffffff,
-        2px 2px 5px rgba(0, 21, 143, 0.3);
+      text-shadow: 0 0 6px #ffffff, 1px 1px 0px #ffffff, 2px 2px 5px rgba(0, 21, 143, 0.3);
     }
-
-    /* コメント・メッセージ */
-    .profile-comment-block {
-      width: 100%;
-      margin-bottom: 8px;
-    }
+    .profile-comment-block { width: 100%; margin-bottom: 8px; }
     .prof-comment-title {
       font-family: 'Potta One', cursive;
       font-size: 1.85rem;
       color: #00158f;
       margin-bottom: 6px;
-      text-shadow: 
-        0 0 6px #ffffff,
-        1px 1px 0px #ffffff,
-        2px 2px 6px rgba(0, 21, 143, 0.3);
+      text-shadow: 0 0 6px #ffffff, 1px 1px 0px #ffffff, 2px 2px 6px rgba(0, 21, 143, 0.3);
     }
     .prof-message-text {
       font-family: 'Potta One', cursive;
@@ -256,24 +186,9 @@
       min-height: 8em;
       word-break: break-word;
       white-space: pre-line;
-      text-shadow: 
-        0 0 6px #ffffff,
-        1px 1px 0px #ffffff,
-        2px 2px 4px rgba(0, 21, 143, 0.25);
+      text-shadow: 0 0 6px #ffffff, 1px 1px 0px #ffffff, 2px 2px 4px rgba(0, 21, 143, 0.25);
     }
-
-    /* ステータス行 */
-    .profile-specs {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-      margin-bottom: 12px;
-      padding: 0;
-      background: none;
-      border: none;
-      box-shadow: none;
-    }
-
+    .profile-specs { display: flex; flex-direction: column; gap: 6px; margin-bottom: 12px; }
     .spec-row {
       display: flex;
       align-items: center;
@@ -282,31 +197,13 @@
       color: #00158f;
       white-space: nowrap;
       min-height: 1.6em;
-      text-shadow: 
-        0 0 6px #ffffff,
-        1px 1px 0px #ffffff,
-        2px 2px 5px rgba(0, 21, 143, 0.25);
+      text-shadow: 0 0 6px #ffffff, 1px 1px 0px #ffffff, 2px 2px 5px rgba(0, 21, 143, 0.25);
     }
-    .spec-row.space-top {
-      margin-top: 8px;
-    }
-    .spec-label {
-      width: 135px;
-      letter-spacing: 1px;
-      white-space: nowrap;
-    }
-    .spec-colon {
-      width: 25px;
-      text-align: center;
-      white-space: nowrap;
-    }
-    .spec-value {
-      font-family: 'Fredoka', 'Potta One', cursive;
-      letter-spacing: 0.5px;
-      white-space: nowrap;
-    }
+    .spec-row.space-top { margin-top: 8px; }
+    .spec-label { width: 135px; letter-spacing: 1px; }
+    .spec-colon { width: 25px; text-align: center; }
+    .spec-value { font-family: 'Fredoka', 'Potta One', cursive; letter-spacing: 0.5px; }
 
-    /* クレジット */
     .profile-credits-list {
       display: flex;
       flex-direction: column;
@@ -315,985 +212,242 @@
       font-size: 1.05rem;
       color: #00158f;
       min-height: 7em;
-      text-shadow: 
-        0 0 6px #ffffff,
-        1px 1px 0px #ffffff,
-        2px 2px 5px rgba(0, 21, 143, 0.25);
+      text-shadow: 0 0 6px #ffffff, 1px 1px 0px #ffffff, 2px 2px 5px rgba(0, 21, 143, 0.25);
     }
-
-    /* アイコン */
-    .visual-thumb-list {
-      display: flex;
-      gap: 12px;
-      align-items: center;
-      flex-wrap: wrap;
-      margin: 8px 0;
-    }
-
+    .visual-thumb-list { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; margin: 8px 0; }
     .visual-thumb-item {
-      width: 65px;
-      height: 65px;
-      border-radius: 8px;
-      overflow: hidden;
-      position: relative;
-      cursor: pointer;
-      border: 2px solid transparent;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
-      transition: transform 0.2s, border-color 0.2s;
+      width: 65px; height: 65px; border-radius: 8px; overflow: hidden; position: relative;
+      cursor: pointer; border: 2px solid transparent; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
       background-color: #f1f2f6;
     }
-    .visual-thumb-item:hover {
-      transform: translateY(-2px);
-    }
-    .visual-thumb-item.active {
-      border-color: #00158f;
-      box-shadow: 0 0 0 2px rgba(0, 21, 143, 0.3);
-    }
-
-    .thumb-bg {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      z-index: 1;
-    }
-
-    .thumb-fg {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-      z-index: 2;
-    }
+    .visual-thumb-item.active { border-color: #00158f; box-shadow: 0 0 0 2px rgba(0, 21, 143, 0.3); }
+    .thumb-bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 1; }
+    .thumb-fg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; z-index: 2; }
 
     /* --- MV Video Slider --- */
     .profile-mv-container {
-      width: 100%;
-      background: #2b303c;
-      border-radius: 12px;
-      padding: 16px 14px 12px;
-      margin-top: 10px;
-      box-shadow: var(--shadow);
+      width: 100%; background: #2b303c; border-radius: 12px; padding: 16px 14px 12px; margin-top: 10px; box-shadow: var(--shadow);
     }
-
-    .mv-slider-wrapper {
-      position: relative;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-      border-radius: 8px;
-    }
-
-    .mv-slides {
-      display: flex;
-      width: 100%;
-      transition: transform 0.4s ease-in-out;
-    }
-
-    .mv-slide-item {
-      min-width: 100%;
-      position: relative;
-      padding-bottom: 56.25%;
-      height: 0;
-      overflow: hidden;
-    }
-
-    .mv-slide-item iframe {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      border: none;
-    }
-
+    .mv-slider-wrapper { position: relative; display: flex; align-items: center; justify-content: center; overflow: hidden; border-radius: 8px; }
+    .mv-slides { display: flex; width: 100%; transition: transform 0.4s ease-in-out; }
+    .mv-slide-item { min-width: 100%; position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; }
+    .mv-slide-item iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: none; }
     .mv-btn {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      background: rgba(0, 0, 0, 0.65);
-      color: #ffffff;
-      border: none;
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      cursor: pointer;
-      z-index: 10;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-size: 0.9rem;
-      transition: background 0.2s;
-    }
-    .mv-btn:hover {
-      background: rgba(0, 0, 0, 0.9);
+      position: absolute; top: 50%; transform: translateY(-50%); background: rgba(0, 0, 0, 0.65);
+      color: #ffffff; border: none; width: 32px; height: 32px; border-radius: 50%; cursor: pointer; z-index: 10;
+      display: flex; justify-content: center; align-items: center;
     }
     .mv-btn-prev { left: 8px; }
     .mv-btn-next { right: 8px; }
+    .mv-dots { display: flex; justify-content: center; gap: 6px; margin-top: 10px; }
+    .mv-dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(255, 255, 255, 0.35); cursor: pointer; }
+    .mv-dot.active { background: #00d2d3; transform: scale(1.2); }
 
-    .mv-dots {
-      display: flex;
-      justify-content: center;
-      gap: 6px;
-      margin-top: 10px;
-    }
-
-    .mv-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: rgba(255, 255, 255, 0.35);
-      cursor: pointer;
-      transition: background 0.2s, transform 0.2s;
-    }
-    .mv-dot.active {
-      background: #00d2d3;
-      transform: scale(1.2);
-    }
-
-    /* --- News / Notice (Game UI Frame & Split Layout) --- */
+    /* --- News / Notice --- */
     .notice-list {
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-      max-height: 540px;
-      overflow-y: auto;
-      overflow-x: hidden;
-      
-      /* スクロールバーが枠内に収まるようにパディングとボックスモデルを調整 */
-      box-sizing: border-box;
-      background: rgba(255, 255, 255, 0.88);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border-radius: 24px;
-      padding: 24px 20px 24px 28px;
-      
-      border: 3.5px solid #ffccd5;
-      box-shadow: 
-        0 10px 30px rgba(255, 117, 140, 0.18),
-        0 4px 10px rgba(0, 0, 0, 0.05),
-        inset 0 0 0 2px #ffffff,
-        inset 0 3px 6px rgba(255, 204, 213, 0.3);
+      display: flex; flex-direction: column; gap: 16px; max-height: 540px; overflow-y: auto;
+      background: rgba(255, 255, 255, 0.88); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+      border-radius: 24px; padding: 24px 20px 24px 28px; border: 3.5px solid #ffccd5;
+      box-shadow: 0 10px 30px rgba(255, 117, 140, 0.18), 0 4px 10px rgba(0, 0, 0, 0.05), inset 0 0 0 2px #ffffff;
     }
+    .notice-item { display: flex; justify-content: space-between; align-items: flex-start; gap: 20px; padding-bottom: 16px; border-bottom: 1px dashed rgba(255, 117, 140, 0.3); }
+    .notice-item:last-child { border-bottom: none; padding-bottom: 0; }
+    .notice-text-wrap { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 4px; }
+    .notice-date { font-size: 0.95rem; font-weight: 800; color: #00158f; font-family: 'Fredoka', 'Outfit', sans-serif; }
+    .notice-message { font-size: 0.95rem; font-weight: 600; color: #2d3436; line-height: 1.65; white-space: pre-line; word-break: break-word; }
+    .notice-media { flex-shrink: 0; width: 240px; max-width: 40%; margin-top: 2px; }
+    .notice-media img { width: 100%; height: 135px; object-fit: cover; border-radius: 10px; cursor: pointer; }
+    .notice-media .notice-video-wrap { position: relative; width: 100%; aspect-ratio: 16 / 9; border-radius: 10px; overflow: hidden; background: #000; }
+    .notice-media .notice-video-wrap iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: none; }
 
-    /* 枠内に自然に収まるスリムなスクロールバー */
-    .notice-list::-webkit-scrollbar {
-      width: 6px;
-    }
-    .notice-list::-webkit-scrollbar-track {
-      background: rgba(0, 0, 0, 0.04);
-      border-radius: 4px;
-      margin: 12px 0; /* 上下の角丸枠からはみ出ないようマージン確保 */
-    }
-    .notice-list::-webkit-scrollbar-thumb {
-      background: rgba(255, 117, 140, 0.4);
-      border-radius: 4px;
-    }
-    .notice-list::-webkit-scrollbar-thumb:hover {
-      background: rgba(255, 117, 140, 0.65);
-    }
-
-    /* ニュース行：左にテキスト、右にメディアを横並び配置 */
-    .notice-item {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      gap: 20px;
-      background: transparent;
-      box-shadow: none;
-      padding: 0 0 16px 0;
-      border-bottom: 1px dashed rgba(255, 117, 140, 0.3);
-      border-radius: 0;
-    }
-    .notice-item:last-child {
-      border-bottom: none;
-      padding-bottom: 0;
-    }
-
-    /* 左側：テキストエリア */
-    .notice-text-wrap {
-      flex: 1;
-      min-width: 0;
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-    }
-
-    .notice-date {
-      font-size: 0.95rem;
-      font-weight: 800;
-      color: #00158f;
-      font-family: 'Fredoka', 'Outfit', sans-serif;
-      letter-spacing: 0.5px;
-    }
-
-    .notice-message {
-      font-size: 0.95rem;
-      font-weight: 600;
-      color: #2d3436;
-      line-height: 1.65;
-      white-space: pre-line;
-      word-break: break-word;
-    }
-
-    /* 右側：メディアエリア */
-    .notice-media {
-      flex-shrink: 0;
-      width: 240px; /* 右側メディアの横幅固定 */
-      max-width: 40%;
-      margin-top: 2px;
-    }
-    
-    /* 添付画像 */
-    .notice-media img {
-      width: 100%;
-      height: 135px; /* 16:9比率 */
-      object-fit: cover;
-      border-radius: 10px;
-      border: 1px solid rgba(255, 255, 255, 0.9);
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
-      cursor: pointer;
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
-      display: block;
-    }
-    .notice-media img:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 14px rgba(0, 0, 0, 0.12);
-    }
-
-    /* YouTube動画（16:9の横長比率を厳密に固定） */
-    .notice-media .notice-video-wrap {
-      position: relative;
-      width: 100%;
-      aspect-ratio: 16 / 9; /* アスペクト比16:9固定 */
-      border-radius: 10px;
-      overflow: hidden;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
-      border: 1px solid rgba(255, 255, 255, 0.8);
-      background: #000000;
-    }
-    .notice-media .notice-video-wrap iframe {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      border: none;
-    }
-
-    /* スマホ画面時は縦並びに自動切り替え */
-    @media (max-width: 600px) {
-      .notice-item {
-        flex-direction: column;
-        gap: 10px;
-      }
-      .notice-media {
-        width: 100%;
-        max-width: 100%;
-      }
-      .notice-media img {
-        height: auto;
-        max-height: 180px;
-      }
-    }
-
-    /* --- Gallery Section (Category Carousel Slider) --- */
-    .gallery-category-group {
-      margin-bottom: 40px;
-    }
-    .gallery-category-group:last-child {
-      margin-bottom: 0;
-    }
-
+    /* --- Movies Carousel --- */
+    .gallery-category-group { margin-bottom: 40px; }
+    .gallery-category-group:last-child { margin-bottom: 0; }
     .gallery-category-title {
       font-family: 'Potta One', 'M PLUS Rounded 1c', sans-serif;
-      font-size: 1.25rem;
-      color: #00158f;
-      margin-bottom: 12px;
-      padding-left: 10px;
-      border-left: 5px solid var(--primary);
-      display: flex;
-      align-items: center;
-      gap: 8px;
+      font-size: 1.25rem; color: #00158f; margin-bottom: 12px; padding-left: 10px;
+      border-left: 5px solid var(--primary); display: flex; align-items: center; gap: 8px;
     }
-
-    .carousel-container {
-      position: relative;
-      display: flex;
-      align-items: center;
-      width: 100%;
-    }
-
+    .carousel-container { position: relative; display: flex; align-items: center; width: 100%; }
     .carousel-track {
-      display: flex;
-      gap: 16px;
-      overflow-x: auto;
-      scroll-behavior: smooth;
-      padding: 10px 4px 16px 4px;
-      width: 100%;
-      scrollbar-width: none;
-      -webkit-overflow-scrolling: touch;
-      touch-action: pan-x; /* スマホ操作時に横スクロールのみを許可し、縦スクロールの暴発を防止 */
-      cursor: grab;
-      user-select: none;
+      display: flex; gap: 16px; overflow-x: auto; scroll-behavior: smooth; padding: 10px 4px 16px 4px;
+      width: 100%; scrollbar-width: none; -webkit-overflow-scrolling: touch; touch-action: pan-x; cursor: grab; user-select: none;
     }
-    .carousel-track.is-dragging {
-      cursor: grabbing;
-      scroll-behavior: auto; /* ドラッグ中はスムーズスクロールを切ってダイレクトに追従 */
-    }
-    .carousel-track::-webkit-scrollbar {
-      display: none;
-    }
-
-    /* 動画カード */
+    .carousel-track.is-dragging { cursor: grabbing; scroll-behavior: auto; }
+    .carousel-track::-webkit-scrollbar { display: none; }
     .carousel-card {
-      flex: 0 0 240px; /* カード横幅 */
-      background: var(--card-bg);
-      border-radius: 12px;
-      overflow: hidden;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-      cursor: pointer;
-      transition: transform 0.2s, box-shadow 0.2s;
-      border: 1px solid var(--border-color);
-      display: flex;
-      flex-direction: column;
+      flex: 0 0 240px; background: var(--card-bg); border-radius: 12px; overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); cursor: pointer; transition: transform 0.2s;
+      border: 1px solid var(--border-color); display: flex; flex-direction: column;
     }
-    .carousel-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-    }
-
-    .carousel-card-thumb {
-      position: relative;
-      width: 100%;
-      aspect-ratio: 16 / 9;
-      background: #111;
-      overflow: hidden;
-    }
-    .carousel-card-thumb img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
+    .carousel-card:hover { transform: translateY(-4px); box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15); }
+    .carousel-card-thumb { position: relative; width: 100%; aspect-ratio: 16 / 9; background: #111; overflow: hidden; }
+    .carousel-card-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
     .carousel-card-thumb .play-icon {
-      position: absolute;
-      inset: 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background: rgba(0, 0, 0, 0.25);
-      opacity: 0;
-      transition: opacity 0.2s;
+      position: absolute; inset: 0; display: flex; justify-content: center; align-items: center;
+      background: rgba(0, 0, 0, 0.25); opacity: 0; transition: opacity 0.2s;
     }
-    .carousel-card:hover .play-icon {
-      opacity: 1;
-    }
-    .carousel-card-thumb .play-icon i {
-      color: #ff0000;
-      font-size: 2.5rem;
-      filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.6));
-    }
+    .carousel-card:hover .play-icon { opacity: 1; }
+    .carousel-card-thumb .play-icon i { color: #ff0000; font-size: 2.5rem; filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.6)); }
 
     .carousel-card-info {
-      padding: 8px 12px 10px;
-      font-size: 0.88rem;
-      font-weight: 700;
-      color: var(--text-main);
-      line-height: 1.45;
-      text-align: left;
-      
-      /* 2行固定・下部見切れ防止 */
-      display: -webkit-box;
-      -webkit-box-orient: vertical;
-      -webkit-line-clamp: 2;
-      line-clamp: 2;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      min-height: calc(1.45em * 2);
-      max-height: calc(1.45em * 2);
-      box-sizing: content-box;
-      word-break: break-all;
+      padding: 8px 12px 10px; font-size: 0.88rem; font-weight: 700; color: var(--text-main); line-height: 1.45;
+      text-align: left; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; line-clamp: 2;
+      overflow: hidden; text-overflow: ellipsis; min-height: calc(1.45em * 2); max-height: calc(1.45em * 2);
+      box-sizing: content-box; word-break: break-all;
     }
-
-    /* 左右スクロールボタン（◀ ▶） */
     .carousel-nav-btn {
-      position: absolute;
-      top: calc(50% - 10px);
-      transform: translateY(-50%);
-      width: 36px;
-      height: 36px;
-      background: rgba(255, 255, 255, 0.92);
-      border: 1px solid rgba(0, 0, 0, 0.08);
-      border-radius: 50%;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-      cursor: pointer;
-      z-index: 5;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      color: #00158f;
-      font-size: 1rem;
-      transition: all 0.2s;
-    }
-    .carousel-nav-btn:hover {
-      background: #ffffff;
-      transform: translateY(-50%) scale(1.1);
-      color: var(--primary);
+      position: absolute; top: calc(50% - 10px); transform: translateY(-50%); width: 36px; height: 36px;
+      background: rgba(255, 255, 255, 0.92); border: 1px solid rgba(0, 0, 0, 0.08); border-radius: 50%;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); cursor: pointer; z-index: 5; display: flex; justify-content: center;
+      align-items: center; color: #00158f; font-size: 1rem;
     }
     .carousel-nav-prev { left: -16px; }
     .carousel-nav-next { right: -16px; }
 
-    @media (max-width: 768px) {
-      .carousel-card { flex: 0 0 200px; }
-      .carousel-nav-prev { left: -8px; }
-      .carousel-nav-next { right: -8px; }
-    }
-
-    /* --- Shop / Goods (Responsive Grid & Dynamic Pagination) --- */
-    .shop-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr); /* PC: 1行3つ */
-      gap: 24px;
-      min-height: 400px;
-    }
+    /* --- Shop --- */
+    .shop-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; min-height: 360px; }
     .shop-card {
-      background: var(--card-bg);
-      border-radius: var(--radius);
-      overflow: hidden;
-      box-shadow: var(--shadow);
-      display: flex;
-      flex-direction: column;
-      border: 1px solid var(--border-color);
-      transition: transform 0.2s, box-shadow 0.2s;
+      background: var(--card-bg); border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow);
+      display: flex; flex-direction: column; border: 1px solid var(--border-color); transition: transform 0.2s;
     }
-    .shop-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 12px 24px rgba(0,0,0,0.1);
-    }
-    .shop-img {
-      width: 100%;
-      aspect-ratio: 1 / 1; /* 正方形サムネイル */
-      object-fit: cover;
-      background: #f1f2f6;
-    }
-    .shop-body {
-      padding: 16px;
-      display: flex;
-      flex-direction: column;
-      flex-grow: 1;
-    }
+    .shop-card:hover { transform: translateY(-4px); }
+    .shop-img { width: 100%; aspect-ratio: 1 / 1; object-fit: cover; background: #f1f2f6; }
+    .shop-body { padding: 16px; display: flex; flex-direction: column; flex-grow: 1; }
     .shop-title {
-      font-size: 1.05rem;
-      font-weight: 700;
-      margin-bottom: 6px;
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      min-height: 2.8em;
-      line-height: 1.4;
+      font-size: 1.05rem; font-weight: 700; margin-bottom: 6px; display: -webkit-box; -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical; overflow: hidden; text-overflow: ellipsis; min-height: 2.8em; line-height: 1.4;
     }
-    .shop-price {
-      color: var(--primary-dark);
-      font-weight: 800;
-      font-size: 1.1rem;
-      font-family: 'Fredoka', 'Outfit', sans-serif;
-      margin-bottom: 14px;
-    }
+    .shop-price { color: var(--primary-dark); font-weight: 800; font-size: 1.1rem; font-family: 'Fredoka', 'Outfit', sans-serif; margin-bottom: 14px; }
     .btn-buy-trigger {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 6px;
-      width: 100%;
-      background: var(--primary);
-      color: #fff;
-      padding: 10px 0;
-      border-radius: 8px;
-      border: none;
-      font-size: 0.9rem;
-      font-weight: bold;
-      cursor: pointer;
-      transition: background 0.2s, transform 0.1s;
-      margin-top: auto;
-    }
-    .btn-buy-trigger:hover {
-      background: var(--primary-dark);
+      display: flex; justify-content: center; align-items: center; gap: 6px; width: 100%; background: var(--primary);
+      color: #fff; padding: 10px 0; border-radius: 8px; border: none; font-size: 0.9rem; font-weight: bold; cursor: pointer; margin-top: auto;
     }
 
-    /* ページネーションUI */
-    .shop-pagination {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 8px;
-      margin-top: 36px;
-    }
+    .shop-pagination { display: flex; justify-content: center; align-items: center; gap: 8px; margin-top: 36px; }
     .page-btn {
-      width: 38px;
-      height: 38px;
-      border-radius: 8px;
-      border: 1px solid var(--border-color);
-      background: #fff;
-      color: var(--text-main);
-      font-weight: bold;
-      cursor: pointer;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      transition: all 0.2s;
+      width: 38px; height: 38px; border-radius: 8px; border: 1px solid var(--border-color); background: #fff;
+      color: var(--text-main); font-weight: bold; cursor: pointer; display: flex; justify-content: center; align-items: center;
     }
-    .page-btn:hover {
-      border-color: var(--primary);
-      color: var(--primary);
-    }
-    .page-btn.active {
-      background: var(--primary);
-      color: #fff;
-      border-color: var(--primary);
-    }
-    .page-btn:disabled {
-      opacity: 0.4;
-      cursor: not-allowed;
-    }
+    .page-btn.active { background: var(--primary); color: #fff; border-color: var(--primary); }
+    .page-btn:disabled { opacity: 0.4; cursor: not-allowed; }
 
-    /* ショップ遷移ダイアログ（モーダル） */
+    /* ショップモーダル */
     .shop-modal-overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.65);
-      backdrop-filter: blur(5px);
-      -webkit-backdrop-filter: blur(5px);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      opacity: 0;
-      visibility: hidden;
-      transition: all 0.25s ease;
-      z-index: 100000;
-      padding: 20px;
+      position: fixed; inset: 0; background: rgba(0, 0, 0, 0.65); backdrop-filter: blur(5px);
+      display: flex; justify-content: center; align-items: center; opacity: 0; visibility: hidden; transition: all 0.25s ease; z-index: 100000; padding: 20px;
     }
-    .shop-modal-overlay.show {
-      opacity: 1;
-      visibility: visible;
-    }
-    .shop-modal-box {
-      background: #ffffff;
-      border-radius: 20px;
-      width: 100%;
-      max-width: 440px;
-      padding: 24px;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.25);
-      position: relative;
-      transform: translateY(15px);
-      transition: transform 0.25s ease;
-    }
-    .shop-modal-overlay.show .shop-modal-box {
-      transform: translateY(0);
-    }
-    .shop-modal-close {
-      position: absolute;
-      top: 14px;
-      right: 14px;
-      background: #f1f2f6;
-      border: none;
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      cursor: pointer;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      color: var(--text-muted);
-      font-size: 1rem;
-    }
-    .shop-modal-close:hover {
-      background: #dfe4ea;
-      color: var(--text-main);
-    }
-    .shop-modal-header {
-      display: flex;
-      gap: 16px;
-      align-items: center;
-      margin-bottom: 18px;
-    }
-    .shop-modal-header img {
-      width: 70px;
-      height: 70px;
-      border-radius: 10px;
-      object-fit: cover;
-      border: 1px solid var(--border-color);
-    }
-    .shop-modal-info h3 {
-      font-size: 1rem;
-      line-height: 1.35;
-      margin-bottom: 4px;
-    }
-    .shop-modal-info p {
-      color: var(--primary-dark);
-      font-weight: 800;
-      font-family: 'Fredoka', sans-serif;
-    }
-    .shop-modal-divider {
-      font-size: 0.8rem;
-      color: var(--text-muted);
-      margin-bottom: 12px;
-      text-align: center;
-      position: relative;
-    }
-    .shop-modal-links {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-    .shop-link-btn {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 12px 16px;
-      border-radius: 10px;
-      text-decoration: none;
-      font-weight: 700;
-      font-size: 0.92rem;
-      transition: all 0.2s;
-    }
+    .shop-modal-overlay.show { opacity: 1; visibility: visible; }
+    .shop-modal-box { background: #ffffff; border-radius: 20px; width: 100%; max-width: 440px; padding: 24px; position: relative; }
+    .shop-modal-close { position: absolute; top: 14px; right: 14px; background: #f1f2f6; border: none; width: 32px; height: 32px; border-radius: 50%; cursor: pointer; }
+    .shop-modal-header { display: flex; gap: 16px; align-items: center; margin-bottom: 18px; }
+    .shop-modal-header img { width: 70px; height: 70px; border-radius: 10px; object-fit: cover; }
+    .shop-modal-info h3 { font-size: 1rem; margin-bottom: 4px; }
+    .shop-modal-info p { color: var(--primary-dark); font-weight: 800; font-family: 'Fredoka', sans-serif; }
+    .shop-modal-divider { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 12px; text-align: center; }
+    .shop-modal-links { display: flex; flex-direction: column; gap: 10px; }
+    .shop-link-btn { display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; border-radius: 10px; text-decoration: none; font-weight: 700; font-size: 0.92rem; }
     .shop-btn-booth { background: #ea352d; color: #fff; }
     .shop-btn-suzuri { background: #0080ff; color: #fff; }
     .shop-btn-base { background: #333333; color: #fff; }
     .shop-btn-fanbox { background: #fbbb00; color: #333; }
     .shop-btn-other { background: var(--secondary); color: #fff; }
-    .shop-link-btn:hover {
-      transform: translateY(-2px);
-      filter: brightness(1.08);
-      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-    }
 
-    /* スマホ・タブレット（768px以下）は2列表示を維持 */
-    @media (max-width: 768px) {
-      .shop-grid {
-        grid-template-columns: repeat(2, 1fr) !important; /* スマホでも必ず2列 */
-        gap: 12px;
-      }
-      .shop-card {
-        border-radius: 12px;
-      }
-      .shop-body {
-        padding: 12px 10px;
-      }
-      .shop-title {
-        font-size: 0.88rem;
-        min-height: 2.6em;
-      }
-      .shop-price {
-        font-size: 0.95rem;
-        margin-bottom: 8px;
-      }
-      .btn-buy-trigger {
-        padding: 8px 0;
-        font-size: 0.8rem;
-      }
-    }
-
-    /* --- About Section (Multi-line Dynamic Layout) --- */
+    /* --- About --- */
     .about-card {
-      background: rgba(255, 255, 255, 0.88);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border-radius: 24px;
-      padding: 32px 36px;
-      border: 3.5px solid #ffccd5;
-      box-shadow: 
-        0 10px 30px rgba(255, 117, 140, 0.18),
-        0 4px 10px rgba(0, 0, 0, 0.05),
-        inset 0 0 0 2px #ffffff;
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
+      background: rgba(255, 255, 255, 0.88); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+      border-radius: 24px; padding: 32px 36px; border: 3.5px solid #ffccd5;
+      box-shadow: 0 10px 30px rgba(255, 117, 140, 0.18), inset 0 0 0 2px #ffffff;
+      display: flex; flex-direction: column; gap: 20px;
     }
-
-    .about-line-row {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: center;
-      gap: 12px 16px;
-      width: 100%;
-    }
-
-    /* 1. テキスト */
-    .about-obj-text {
-      width: 100%;
-      font-size: 1rem;
-      color: var(--text-main);
-      line-height: 1.8;
-      white-space: pre-line;
-      text-align: center;
-      font-weight: 500;
-    }
-
-    /* 2. ボタンスタイル共通 */
+    .about-line-row { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 12px 16px; width: 100%; }
+    .about-obj-text { width: 100%; font-size: 1rem; color: var(--text-main); line-height: 1.8; white-space: pre-line; text-align: center; font-weight: 500; }
     .about-btn-base {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      text-decoration: none;
-      font-weight: 700;
-      font-size: 0.95rem;
-      padding: 10px 22px;
-      border-radius: 30px;
-      transition: transform 0.2s, box-shadow 0.2s, filter 0.2s;
-      cursor: pointer;
-      border: none;
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px; text-decoration: none;
+      font-weight: 700; font-size: 0.95rem; padding: 10px 22px; border-radius: 30px; cursor: pointer; border: none;
     }
-    .about-btn-base:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
-    }
+    .about-btn-link { background: var(--card-bg); color: #00158f; border: 1.5px solid #ffccd5; }
+    .about-btn-store { background: linear-gradient(135deg, #ff758c 0%, #ff477e 100%); color: #ffffff; }
+    .about-btn-mail { background: linear-gradient(135deg, #6c5ce7 0%, #5344c7 100%); color: #ffffff; }
 
-    /* ボタンリンク（サイト通常） */
-    .about-btn-link {
-      background: var(--card-bg);
-      color: #00158f;
-      border: 1.5px solid #ffccd5;
-      box-shadow: 0 3px 8px rgba(0,0,0,0.05);
-    }
-    .about-btn-link:hover {
-      border-color: var(--primary);
-      color: var(--primary);
-    }
-
-    /* ストアボタン */
-    .about-btn-store {
-      background: linear-gradient(135deg, #ff758c 0%, #ff477e 100%);
-      color: #ffffff;
-    }
-
-    /* メール起動ボタン */
-    .about-btn-mail {
-      background: linear-gradient(135deg, #6c5ce7 0%, #5344c7 100%);
-      color: #ffffff;
-    }
-
-    @media (max-width: 600px) {
-      .about-card {
-        padding: 24px 20px;
-      }
-      .about-line-row {
-        flex-direction: column;
-        align-items: stretch;
-      }
-      .about-btn-base {
-        width: 100%;
-      }
-    }
-
-    /* --- Modal --- */
+    /* --- Modal & Footer --- */
     #modal {
-      position: fixed;
-      top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(0, 0, 0, 0.8);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      opacity: 0;
-      visibility: hidden;
-      transition: all 0.3s;
-      z-index: 99999;
-      padding: 20px;
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.8);
+      display: flex; justify-content: center; align-items: center; opacity: 0; visibility: hidden; transition: all 0.3s; z-index: 99999; padding: 20px;
     }
     #modal.show { opacity: 1; visibility: visible; }
-    #modal img {
-      max-width: 90%;
-      max-height: 85vh;
-      border-radius: 8px;
-    }
+    #modal img { max-width: 90%; max-height: 85vh; border-radius: 8px; }
 
-    /* --- Footer --- */
-    footer {
-      background: #2d3436;
-      color: #dfe6e9;
-      text-align: center;
-      padding: 40px 20px;
-      font-size: 0.85rem;
-    }
-    .footer-links {
-      margin-bottom: 16px;
-      display: flex;
-      gap: 16px;
-      justify-content: center;
-    }
-    .footer-links a {
-      color: #b2bec3;
-      text-decoration: none;
-    }
+    footer { background: #2d3436; color: #dfe6e9; text-align: center; padding: 40px 20px; font-size: 0.85rem; }
+    .footer-links { margin-bottom: 16px; display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+    .footer-links a { color: #b2bec3; text-decoration: none; }
     .footer-links a:hover { color: #fff; }
 
-    /* --- Social Buttons --- */
-    .social-links {
-      display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
+    .social-links { display: flex; gap: 12px; flex-wrap: wrap; }
     .social-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 8px 16px;
-      background: var(--card-bg);
-      border: 1px solid var(--border-color);
-      border-radius: 30px;
-      color: var(--text-main);
-      text-decoration: none;
-      font-size: 0.85rem;
-      font-weight: 700;
-      box-shadow: var(--shadow);
-      transition: all 0.2s;
-    }
-    .social-btn:hover {
-      transform: translateY(-2px);
-      border-color: var(--primary);
-      color: var(--primary);
+      display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; background: var(--card-bg);
+      border: 1px solid var(--border-color); border-radius: 30px; color: var(--text-main); text-decoration: none; font-size: 0.85rem; font-weight: 700;
     }
 
-    /* スマホ対応（PC画面は一切変更せず、スマホ時のみ立ち絵拡大・余白詰め・背景フィットを適用） */
+    /* --- スマホ対応（860px以下） --- */
     @media (max-width: 860px) {
-      /* 1. スマホ時の背景画像を画面横幅基準（100% auto）にフィット＆追従解除 */
       body {
         background-attachment: scroll !important;
         background-size: 100% auto !important;
         background-position: center top !important;
         background-repeat: repeat-y !important;
       }
-
+      header { padding: 12px 20px; }
       nav { display: none; }
       
-      .profile-section {
-        padding: 0 16px;
-        margin: 5px auto 30px;
-      }
+      .profile-section { padding: 0 16px; margin: 5px auto 30px; }
+      .profile-card { display: flex; flex-direction: column; padding: 0; min-height: auto; }
+      .profile-header-group { order: 1; text-align: center; margin-bottom: 0 !important; }
+      .prof-title { font-size: 2.5rem; line-height: 1.15; }
+      .prof-sub-title { font-size: 1.15rem; margin-top: 2px; margin-bottom: 0 !important; }
 
-      .profile-card {
-        display: flex;
-        flex-direction: column;
-        padding: 0;
-        min-height: auto;
-      }
-
-      /* 1. 名前・サブタイトル（下部マージンを詰めて立ち絵と密着） */
-      .profile-header-group {
-        order: 1;
-        text-align: center;
-        margin-bottom: 0px !important;
-      }
-      .prof-title {
-        font-size: 2.5rem;
-        line-height: 1.15;
-      }
-      .prof-sub-title {
-        font-size: 1.15rem;
-        margin-top: 2px;
-        margin-bottom: 0px !important;
-      }
-
-      /* 2. 立ち絵（余白をゼロにし、横幅いっぱいに拡大） */
       .profile-visual-box {
-        order: 2;
-        position: relative;
-        left: 0;
-        transform: none;
-        width: 100%;
-        height: auto;
-        max-height: none; /* 高さ制限を解除して自然なサイズで大きく表示 */
-        margin: 0 0 10px 0 !important;
-        padding: 0;
-        justify-content: center;
-        pointer-events: auto;
+        order: 2; position: relative; left: 0; transform: none; width: 100%; height: auto;
+        margin: 0 0 10px 0 !important; justify-content: center; pointer-events: auto;
       }
       .profile-visual-box img {
-        min-width: 0 !important;
-        width: 90% !important; /* 画面幅の90%まで大きく表示 */
-        max-width: 360px !important;
-        height: auto !important;
-        max-height: 520px !important;
-        object-fit: contain;
-        display: block;
-        margin: 0 auto;
+        min-width: 0 !important; width: 90% !important; max-width: 360px !important;
+        height: auto !important; max-height: 520px !important; object-fit: contain; margin: 0 auto; display: block;
       }
-
-      /* 左側ラッパー自体を中継レイアウト化 */
-      .profile-content-wrap {
-        display: contents;
-      }
-
-      /* 3. アイコン（衣装切り替え） */
-      .visual-thumb-list {
-        order: 3;
-        justify-content: center;
-        margin: 4px 0 16px 0;
-      }
-
-      /* 4. クレジット */
+      .profile-content-wrap { display: contents; }
+      .visual-thumb-list { order: 3; justify-content: center; margin: 4px 0 16px 0; }
       .profile-credits-list {
-        order: 4;
-        min-height: auto;
-        background: rgba(255, 255, 255, 0.7);
-        padding: 12px 16px;
-        border-radius: 12px;
-        margin-bottom: 16px;
+        order: 4; min-height: auto; background: rgba(255, 255, 255, 0.7);
+        padding: 12px 16px; border-radius: 12px; margin-bottom: 16px;
       }
+      .profile-comment-block { order: 5; text-align: left; margin-bottom: 16px; }
+      .prof-comment-title { font-size: 1.5rem; }
+      .prof-message-text { min-height: auto; font-size: 1rem; }
+      .profile-specs { order: 6; margin-bottom: 18px; }
+      .social-links { order: 7; justify-content: center; margin-bottom: 20px; }
+      .profile-mv-container { order: 8; margin-top: 10px; }
 
-      /* 5. コメント & メッセージ */
-      .profile-comment-block {
-        order: 5;
-        text-align: left;
-        margin-bottom: 16px;
-      }
-      .prof-comment-title {
-        font-size: 1.5rem;
-      }
-      .prof-message-text {
-        min-height: auto;
-        font-size: 1rem;
-      }
+      .shop-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 12px; }
+      .shop-body { padding: 12px 10px; }
+      .shop-title { font-size: 0.88rem; }
+      .shop-price { font-size: 0.95rem; margin-bottom: 8px; }
+      .btn-buy-trigger { padding: 8px 0; font-size: 0.8rem; }
 
-      /* 6. ステータス（スペック） */
-      .profile-specs {
-        order: 6;
-        margin-bottom: 18px;
-      }
-
-      /* 7. リンクボタン（SNSリンク） */
-      .social-links {
-        order: 7;
-        justify-content: center;
-        margin-bottom: 20px;
-      }
-
-      /* 8. MVスライダー */
-      .profile-mv-container {
-        order: 8;
-        margin-top: 10px;
-      }
+      .about-line-row { flex-direction: column; align-items: stretch; }
+      .about-btn-base { width: 100%; }
+      .carousel-card { flex: 0 0 200px; }
+      .carousel-nav-prev { left: -8px; }
+      .carousel-nav-next { right: -8px; }
     }
   </style>
 </head>
 <body>
 
-  <!-- Loading Screen -->
   <div id="loading">
     <div class="spinner"></div>
     <p style="margin-top: 15px; font-weight: bold; color: var(--text-muted);">読み込み中...</p>
   </div>
 
-  <!-- Header -->
   <header>
     <a href="#" class="logo" id="site-logo">PORTFOLIO</a>
     <nav>
@@ -1310,65 +464,33 @@
   <!-- Profile Section -->
   <section id="profile" class="profile-section">
     <div class="profile-card">
-      
-      <!-- メイン立ち絵 -->
       <div class="profile-visual-box">
         <img id="prof-standing-img" src="" alt="Character Visual" style="display:none;">
       </div>
 
-      <!-- 左側コンテンツエリア -->
       <div class="profile-content-wrap">
-        <!-- 名前 & ふりがな/ローマ字 -->
         <div class="profile-header-group">
           <h1 id="prof-name" class="prof-title">-</h1>
           <div id="prof-sub" class="prof-sub-title">-</div>
         </div>
 
-        <!-- コメント & メッセージ -->
         <div class="profile-comment-block">
           <h2 id="prof-comment" class="prof-comment-title"></h2>
           <p id="prof-message" class="prof-message-text"></p>
         </div>
 
-        <!-- 詳細ステータスリスト -->
         <div class="profile-specs">
-          <div class="spec-row">
-            <span class="spec-label">誕生日</span>
-            <span class="spec-colon">:</span>
-            <span id="prof-birthday" class="spec-value">-</span>
-          </div>
-          <div class="spec-row">
-            <span class="spec-label">年齢</span>
-            <span class="spec-colon">:</span>
-            <span id="prof-age" class="spec-value">-</span>
-          </div>
-          <div class="spec-row">
-            <span class="spec-label">身長</span>
-            <span class="spec-colon">:</span>
-            <span id="prof-height" class="spec-value">-</span>
-          </div>
-          <div class="spec-row space-top">
-            <span class="spec-label">ﾌｧﾝﾈｰﾑ</span>
-            <span class="spec-colon">:</span>
-            <span id="prof-fan-name" class="spec-value">-</span>
-          </div>
-          <div class="spec-row">
-            <span class="spec-label">配信開始日</span>
-            <span class="spec-colon">:</span>
-            <span id="prof-streaming" class="spec-value">-</span>
-          </div>
+          <div class="spec-row"><span class="spec-label">誕生日</span><span class="spec-colon">:</span><span id="prof-birthday" class="spec-value">-</span></div>
+          <div class="spec-row"><span class="spec-label">年齢</span><span class="spec-colon">:</span><span id="prof-age" class="spec-value">-</span></div>
+          <div class="spec-row"><span class="spec-label">身長</span><span class="spec-colon">:</span><span id="prof-height" class="spec-value">-</span></div>
+          <div class="spec-row space-top"><span class="spec-label">ﾌｧﾝﾈｰﾑ</span><span class="spec-colon">:</span><span id="prof-fan-name" class="spec-value">-</span></div>
+          <div class="spec-row"><span class="spec-label">配信開始日</span><span class="spec-colon">:</span><span id="prof-streaming" class="spec-value">-</span></div>
         </div>
 
-        <!-- クレジット -->
         <div class="profile-credits-list" id="prof-credits"></div>
-
-        <!-- アイコン一覧 -->
         <div class="visual-thumb-list" id="visual-thumb-list"></div>
-
-        <!-- SNSリンク -->
         <div class="social-links" id="profile-links"></div>
 
-        <!-- MVスライダー -->
         <div class="profile-mv-container" id="profile-mv-container" style="display:none;">
           <div class="mv-slider-wrapper">
             <button class="mv-btn mv-btn-prev" onclick="prevMvSlide()"><i class="fa-solid fa-chevron-left"></i></button>
@@ -1377,13 +499,11 @@
           </div>
           <div class="mv-dots" id="mv-dots"></div>
         </div>
-
       </div>
-
     </div>
   </section>
 
-  <!-- Notice Section -->
+  <!-- News Section -->
   <section id="notice">
     <div class="section-title">
       <h2>News</h2>
@@ -1392,16 +512,16 @@
     <div class="notice-list" id="notice-list"></div>
   </section>
 
-  <!-- Visual / Gallery Section -->
-  <section id="visual">
+  <!-- Movies Section -->
+  <section id="movies">
     <div class="section-title">
       <h2>Movies</h2>
       <span>動画一覧</span>
     </div>
-    <div class="visual-grid" id="visual-grid"></div>
+    <div class="gallery-wrapper" id="visual-grid"></div>
   </section>
 
-  <!-- Shop / Goods Section -->
+  <!-- Shop Section -->
   <section id="shop">
     <div class="section-title">
       <h2>Goods</h2>
@@ -1410,35 +530,41 @@
     <div class="shop-grid" id="shop-grid"></div>
   </section>
 
-  <!-- About Section（最下部） -->
+  <!-- About Section -->
   <section id="about">
     <div class="section-title">
       <h2>About</h2>
       <span>当サイト・活動について</span>
     </div>
-    <div class="about-card" id="about-content">
-      <div class="about-text-wrap">
-        <h3 class="about-lead" id="about-title">Official Web Site</h3>
-        <p class="about-desc" id="about-desc">
-          バーチャルタレントの公式ポートフォリオ・情報ポータルサイトです。<br>
-          日々の配信アーカイブ、最新のお知らせ、グッズ情報などを発信しています。
-        </p>
-      </div>
-    </div>
+    <div class="about-card" id="about-content"></div>
   </section>
 
-  <!-- Modal for Image Preview -->
   <div id="modal" onclick="closeModal()">
     <img id="modal-img" src="" alt="Preview">
   </div>
 
-  <!-- Footer -->
   <footer>
     <div class="footer-links" id="footer-links"></div>
     <p id="footer-copy">&copy; Official Website. All rights reserved.</p>
   </footer>
 
-  <!-- Script -->
+  <!-- Shop Modal -->
+  <div id="shop-modal" class="shop-modal-overlay" onclick="closeShopModal(event)">
+    <div class="shop-modal-box">
+      <button class="shop-modal-close" onclick="closeShopModalDirect()"><i class="fa-solid fa-xmark"></i></button>
+      <div class="shop-modal-header">
+        <img id="shop-modal-img" src="" alt="Product" loading="lazy">
+        <div class="shop-modal-info">
+          <h3 id="shop-modal-title">-</h3>
+          <p id="shop-modal-price">-</p>
+        </div>
+      </div>
+      <div class="shop-modal-divider">購入先プラットフォームを選択</div>
+      <div class="shop-modal-links" id="shop-modal-links"></div>
+    </div>
+  </div>
+
+  <!-- JavaScript -->
   <script>
     const GAS_API_URL = "https://script.google.com/macros/s/AKfycbxsfZFysfM6B-kf2cnE6xSBzsbQ8JJRKCU4yQZbrqxsPSsKTY63VP-wkHAItKoafvTc/exec";
 
@@ -1460,11 +586,10 @@
       const loader = document.getElementById('loading');
       if (loader) {
         loader.style.opacity = '0';
-        setTimeout(() => { loader.style.visibility = 'hidden'; }, 400);
+        setTimeout(() => { loader.style.visibility = 'hidden'; }, 300);
       }
     }
 
-    // グローバル初期化
     async function init() {
       try {
         const res = await fetch(GAS_API_URL);
@@ -1475,9 +600,8 @@
         try { renderNotice(data.notice); } catch (e) { console.error('Notice Error:', e); }
         try { renderVisual(data.movies, data.movies_priority); } catch (e) { console.error('Visual Error:', e); }
         try { renderShop(data.shop); } catch (e) { console.error('Shop Error:', e); }
-        try { renderAbout(data.about); } catch (e) { console.error('About Error:', e); } // ★追加
+        try { renderAbout(data.about); } catch (e) { console.error('About Error:', e); }
         try { renderFooter(data.footer, data.global_regulations); } catch (e) { console.error('Footer Error:', e); }
-        
 
       } catch (err) {
         console.error("データ取得エラー:", err);
@@ -1486,7 +610,7 @@
       }
     }
 
-    // 1. プロフィール & ビジュアルセレクター描画
+    // 1. プロフィール描画
     function renderProfile(profileData, visualData) {
       if (!profileData || profileData.length === 0) return;
 
@@ -1494,9 +618,7 @@
       profileData.forEach(row => {
         const key = row['項目'] || row['item'] || row['key'];
         const val = row['設定値'] || row['value'] || row['val'];
-        if (key) {
-          p[String(key).trim()] = (val !== undefined && val !== null) ? String(val).trim() : '';
-        }
+        if (key) p[String(key).trim()] = (val !== undefined && val !== null) ? String(val).trim() : '';
       });
 
       const formatDate = (valStr, showYear = true) => {
@@ -1512,14 +634,8 @@
         return valStr;
       };
 
-      const getVal = (key, unit = '') => {
-        if (p[key] && p[key] !== '') {
-          return unit ? `${p[key]}${unit}` : p[key];
-        }
-        return '-';
-      };
+      const getVal = (key, unit = '') => (p[key] && p[key] !== '') ? `${p[key]}${unit}` : '-';
 
-      // 名前 & サブタイトル
       document.getElementById('prof-name').textContent = getVal('name');
       const pron = p['pronunciation'] || '';
       const roma = p['romanization'] || '';
@@ -1528,30 +644,17 @@
       else if (pron || roma) subText = pron || roma;
       document.getElementById('prof-sub').textContent = subText;
 
-      // コメント & メッセージ
       const commentEl = document.getElementById('prof-comment');
       const messageEl = document.getElementById('prof-message');
-      if (p['comment']) {
-        commentEl.textContent = p['comment'];
-        commentEl.style.display = 'block';
-      } else {
-        commentEl.style.display = 'none';
-      }
-      if (p['message']) {
-        messageEl.textContent = p['message'];
-        messageEl.style.display = 'block';
-      } else {
-        messageEl.style.display = 'none';
-      }
+      if (p['comment']) { commentEl.textContent = p['comment']; commentEl.style.display = 'block'; } else { commentEl.style.display = 'none'; }
+      if (p['message']) { messageEl.textContent = p['message']; messageEl.style.display = 'block'; } else { messageEl.style.display = 'none'; }
 
-      // 詳細ステータス
       document.getElementById('prof-birthday').textContent = formatDate(p['birthday'], false);
       document.getElementById('prof-age').textContent = getVal('age', typeof p['age'] === 'number' || (p['age'] && !p['age'].includes('歳')) ? '歳' : '');
       document.getElementById('prof-height').textContent = getVal('height', typeof p['height'] === 'number' || (p['height'] && !p['height'].includes('cm')) ? 'cm' : '');
       document.getElementById('prof-fan-name').textContent = getVal('fan_name');
       document.getElementById('prof-streaming').textContent = formatDate(p['streaming'], true);
 
-      // 立ち絵とクレジット更新
       const updateVisualDisplay = (item) => {
         const standingImg = document.getElementById('prof-standing-img');
         const visualSrc = item.visual_url || item.standing_url || p['standing_url'];
@@ -1582,48 +685,41 @@
         });
       };
 
-      // visualシートのアイコン一覧
       const thumbListContainer = document.getElementById('visual-thumb-list');
       thumbListContainer.innerHTML = '';
 
-      const validVisualData = (visualData || []).filter(v => {
-        return v && v.id !== undefined && v.id !== null && String(v.id).trim() !== '';
-      });
+      const validVisualData = (visualData || []).filter(v => v && v.id !== undefined && v.id !== null && String(v.id).trim() !== '');
 
       if (validVisualData.length > 0) {
         validVisualData.forEach((vItem, index) => {
           const thumbBox = document.createElement('div');
           thumbBox.className = `visual-thumb-item ${index === 0 ? 'active' : ''}`;
-
           if (vItem.thumb_background) {
             const bgImg = document.createElement('img');
             bgImg.className = 'thumb-bg';
             bgImg.src = vItem.thumb_background;
+            bgImg.loading = 'lazy';
             thumbBox.appendChild(bgImg);
           }
-
           if (vItem.thumb_url) {
             const fgImg = document.createElement('img');
             fgImg.className = 'thumb-fg';
             fgImg.src = vItem.thumb_url;
+            fgImg.loading = 'lazy';
             thumbBox.appendChild(fgImg);
           }
-
           thumbBox.addEventListener('click', () => {
             document.querySelectorAll('.visual-thumb-item').forEach(el => el.classList.remove('active'));
             thumbBox.classList.add('active');
             updateVisualDisplay(vItem);
           });
-
           thumbListContainer.appendChild(thumbBox);
         });
-
         updateVisualDisplay(validVisualData[0]);
       } else {
         updateVisualDisplay(p);
       }
 
-      // SNSリンク
       const linksContainer = document.getElementById('profile-links');
       linksContainer.innerHTML = '';
       const snsConfigs = [
@@ -1647,7 +743,7 @@
       });
     }
 
-    // --- MV スライダー描画 & 制御 ---
+    // --- MV スライダー ---
     let currentMvIndex = 0;
     let totalMvSlides = 0;
 
@@ -1656,20 +752,14 @@
       const slidesContainer = document.getElementById('mv-slides');
       const dotsContainer = document.getElementById('mv-dots');
 
-      if (!mvData || mvData.length === 0) {
-        container.style.display = 'none';
-        return;
-      }
+      if (!mvData || mvData.length === 0) { container.style.display = 'none'; return; }
 
       const activeMvs = mvData.filter(item => {
         const active = item.is_active || item.active;
         return active === true || String(active).toUpperCase() === 'TRUE' || active === 1 || active === '1';
       });
 
-      if (activeMvs.length === 0) {
-        container.style.display = 'none';
-        return;
-      }
+      if (activeMvs.length === 0) { container.style.display = 'none'; return; }
 
       totalMvSlides = activeMvs.length;
       slidesContainer.innerHTML = '';
@@ -1677,19 +767,15 @@
 
       const convertYoutubeUrl = (url) => {
         if (!url) return '';
-        const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
-        const match = url.match(regExp);
-        if (match && match[2].length === 11) {
-          return `https://www.youtube.com/embed/${match[2]}`;
-        }
-        return url;
+        const match = url.match(/^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/);
+        return (match && match[2].length === 11) ? `https://www.youtube.com/embed/${match[2]}` : url;
       };
 
       activeMvs.forEach((mv, index) => {
         const slide = document.createElement('div');
         slide.className = 'mv-slide-item';
         const embedUrl = convertYoutubeUrl(mv.mv_url || mv.url);
-        slide.innerHTML = `<iframe src="${embedUrl}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>`;
+        slide.innerHTML = `<iframe src="${embedUrl}" allowfullscreen loading="lazy"></iframe>`;
         slidesContainer.appendChild(slide);
 
         const dot = document.createElement('div');
@@ -1706,29 +792,13 @@
       const slides = document.getElementById('mv-slides');
       slides.style.transform = `translateX(-${currentMvIndex * 100}%)`;
       const dots = document.querySelectorAll('.mv-dot');
-      dots.forEach((dot, idx) => {
-        dot.classList.toggle('active', idx === currentMvIndex);
-      });
+      dots.forEach((dot, idx) => dot.classList.toggle('active', idx === currentMvIndex));
     }
+    function prevMvSlide() { if (totalMvSlides <= 1) return; currentMvIndex = (currentMvIndex - 1 + totalMvSlides) % totalMvSlides; updateMvSlidePosition(); }
+    function nextMvSlide() { if (totalMvSlides <= 1) return; currentMvIndex = (currentMvIndex + 1) % totalMvSlides; updateMvSlidePosition(); }
+    function goToMvSlide(index) { currentMvIndex = index; updateMvSlidePosition(); }
 
-    function prevMvSlide() {
-      if (totalMvSlides <= 1) return;
-      currentMvIndex = (currentMvIndex - 1 + totalMvSlides) % totalMvSlides;
-      updateMvSlidePosition();
-    }
-
-    function nextMvSlide() {
-      if (totalMvSlides <= 1) return;
-      currentMvIndex = (currentMvIndex + 1) % totalMvSlides;
-      updateMvSlidePosition();
-    }
-
-    function goToMvSlide(index) {
-      currentMvIndex = index;
-      updateMvSlidePosition();
-    }
-
-    // 2. お知らせ描画（左右2カラム分割）
+    // 2. お知らせ描画
     function renderNotice(noticeData) {
       const container = document.getElementById('notice-list');
       container.innerHTML = '';
@@ -1740,32 +810,18 @@
 
       const formatYmd = (valStr) => {
         if (!valStr) return '';
-        if (typeof valStr === 'string' && valStr.includes('T')) {
-          const d = new Date(valStr);
-          if (!isNaN(d.getTime())) {
-            const y = d.getFullYear();
-            const m = String(d.getMonth() + 1).padStart(2, '0');
-            const day = String(d.getDate()).padStart(2, '0');
-            return `${y}-${m}-${day}`;
-          }
-        }
         const d = new Date(valStr);
-        if (!isNaN(d.getTime()) && String(valStr).length >= 8) {
-          const y = d.getFullYear();
-          const m = String(d.getMonth() + 1).padStart(2, '0');
-          const day = String(d.getDate()).padStart(2, '0');
-          return `${y}-${m}-${day}`;
+        if (!isNaN(d.getTime())) {
+          return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
         }
         return String(valStr).trim();
       };
 
       const getEmbedUrl = (url) => {
-        const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
-        const match = url.match(regExp);
+        const match = String(url).match(/^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/);
         return (match && match[2].length === 11) ? `https://www.youtube.com/embed/${match[2]}` : null;
       };
 
-      // time_stamp が空欄のものを除外
       const validNotices = noticeData.filter(item => {
         const ts = item.time_stamp || item.timestamp;
         return ts !== undefined && ts !== null && String(ts).trim() !== '';
@@ -1788,21 +844,12 @@
         if (picUrl) {
           const embedUrl = getEmbedUrl(picUrl);
           if (embedUrl) {
-            mediaHtml = `
-              <div class="notice-media">
-                <div class="notice-video-wrap">
-                  <iframe src="${embedUrl}" allowfullscreen loading="lazy"></iframe>
-                </div>
-              </div>`;
+            mediaHtml = `<div class="notice-media"><div class="notice-video-wrap"><iframe src="${embedUrl}" allowfullscreen loading="lazy"></iframe></div></div>`;
           } else {
-            mediaHtml = `
-              <div class="notice-media">
-                <img src="${picUrl}" alt="Notice Image" onclick="openModal('${picUrl}')" loading="lazy">
-              </div>`;
+            mediaHtml = `<div class="notice-media"><img src="${picUrl}" alt="Notice" onclick="openModal('${picUrl}')" loading="lazy"></div>`;
           }
         }
 
-        // 左（テキスト）と右（メディア）の横並び構造
         div.innerHTML = `
           <div class="notice-text-wrap">
             <span class="notice-date">${dateStr}</span>
@@ -1814,7 +861,7 @@
       });
     }
 
-    // 3. ギャラリー描画（マウスドラッグ・スワイプ・ホイール横スクロール対応）
+    // 3. 動画一覧（MOVIES）描画
     function renderVisual(moviesData, priorityData) {
       const container = document.getElementById('visual-grid');
       if (!container) return;
@@ -1832,12 +879,10 @@
         return match ? match[1] : '';
       };
 
-      // 1. 有効な動画のみ抽出
       const validMovies = moviesData.filter(item => {
         const active = item.is_active !== undefined ? item.is_active : item.active;
         const isActive = active === true || String(active).toUpperCase() === 'TRUE' || active === 1 || active === '1' || active === '' || active === undefined;
-        const hasUrl = item.video_url && String(item.video_url).trim() !== '';
-        return isActive && hasUrl;
+        return isActive && item.video_url && String(item.video_url).trim() !== '';
       });
 
       if (validMovies.length === 0) {
@@ -1845,7 +890,6 @@
         return;
       }
 
-      // 2. type毎にグループ化
       const grouped = {};
       validMovies.forEach(item => {
         const type = item.type ? String(item.type).trim() : 'その他';
@@ -1853,7 +897,6 @@
         grouped[type].push(item);
       });
 
-      // 3. movies_priority に従ってソート
       let sortedTypes = Object.keys(grouped);
       if (priorityData && priorityData.length > 0) {
         const orderMap = {};
@@ -1870,7 +913,6 @@
         });
       }
 
-      // 4. カテゴリごとにUI構築
       sortedTypes.forEach(type => {
         const list = grouped[type];
         if (!list || list.length === 0) return;
@@ -1886,13 +928,11 @@
         const carouselContainer = document.createElement('div');
         carouselContainer.className = 'carousel-container';
 
-        // ◀ ボタン
         const prevBtn = document.createElement('button');
         prevBtn.className = 'carousel-nav-btn carousel-nav-prev';
         prevBtn.innerHTML = '<i class="fa-solid fa-chevron-left"></i>';
         prevBtn.style.display = 'none';
 
-        // ▶ ボタン
         const nextBtn = document.createElement('button');
         nextBtn.className = 'carousel-nav-btn carousel-nav-next';
         nextBtn.innerHTML = '<i class="fa-solid fa-chevron-right"></i>';
@@ -1901,15 +941,9 @@
         const track = document.createElement('div');
         track.className = 'carousel-track';
 
-        prevBtn.onclick = () => {
-          track.scrollBy({ left: -260, behavior: 'smooth' });
-        };
+        prevBtn.onclick = () => track.scrollBy({ left: -260, behavior: 'smooth' });
+        nextBtn.onclick = () => track.scrollBy({ left: 260, behavior: 'smooth' });
 
-        nextBtn.onclick = () => {
-          track.scrollBy({ left: 260, behavior: 'smooth' });
-        };
-
-        // --- マウスドラッグ & ホイール操作の実装 ---
         let isDown = false;
         let startX = 0;
         let scrollLeftPos = 0;
@@ -1924,24 +958,18 @@
         });
 
         window.addEventListener('mouseup', () => {
-          if (isDown) {
-            isDown = false;
-            track.classList.remove('is-dragging');
-          }
+          if (isDown) { isDown = false; track.classList.remove('is-dragging'); }
         });
 
         track.addEventListener('mousemove', (e) => {
           if (!isDown) return;
           e.preventDefault();
           const x = e.pageX - track.offsetLeft;
-          const walk = (x - startX) * 1.5; // 移動倍率
-          if (Math.abs(walk) > 5) {
-            isDraggingMoved = true;
-          }
+          const walk = (x - startX) * 1.5;
+          if (Math.abs(walk) > 5) isDraggingMoved = true;
           track.scrollLeft = scrollLeftPos - walk;
         });
 
-        // マウスホイール操作を横スクロールに変換（縦スクロール防止）
         track.addEventListener('wheel', (e) => {
           if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
             e.preventDefault();
@@ -1957,29 +985,21 @@
 
           const card = document.createElement('div');
           card.className = 'carousel-card';
-
-          // ドラッグ終了時のクリック誤動作を防止
           card.onclick = (e) => {
-            if (isDraggingMoved) {
-              e.preventDefault();
-              return;
-            }
+            if (isDraggingMoved) { e.preventDefault(); return; }
             window.open(targetUrl, '_blank', 'noopener,noreferrer');
           };
 
           card.innerHTML = `
             <div class="carousel-card-thumb">
               <img src="${thumbImg}" alt="${title}" loading="lazy" draggable="false" onerror="this.src='https://via.placeholder.com/320x180?text=No+Image'">
-              <div class="play-icon">
-                <i class="fa-brands fa-youtube"></i>
-              </div>
+              <div class="play-icon"><i class="fa-brands fa-youtube"></i></div>
             </div>
             <div class="carousel-card-info">${title}</div>
           `;
           track.appendChild(card);
         });
 
-        // ボタンの表示/非表示・透過度制御
         const updateNavButtons = () => {
           const maxScrollLeft = track.scrollWidth - track.clientWidth;
           if (maxScrollLeft <= 2) {
@@ -1987,23 +1007,18 @@
             nextBtn.style.display = 'none';
             return;
           }
-
           prevBtn.style.display = 'flex';
           nextBtn.style.display = 'flex';
-
           prevBtn.style.opacity = track.scrollLeft <= 5 ? '0.3' : '1';
           prevBtn.style.pointerEvents = track.scrollLeft <= 5 ? 'none' : 'auto';
-          
           nextBtn.style.opacity = track.scrollLeft >= maxScrollLeft - 5 ? '0.3' : '1';
           nextBtn.style.pointerEvents = track.scrollLeft >= maxScrollLeft - 5 ? 'none' : 'auto';
         };
 
         track.addEventListener('scroll', updateNavButtons);
-
         carouselContainer.appendChild(prevBtn);
         carouselContainer.appendChild(track);
         carouselContainer.appendChild(nextBtn);
-
         groupDiv.appendChild(carouselContainer);
         container.appendChild(groupDiv);
 
@@ -2011,8 +1026,8 @@
         window.addEventListener('resize', updateNavButtons);
       });
     }
-    
-    // 4. ショップ・グッズ描画
+
+    // 4. ショップ描画（PC: 3列×3行=9件 / スマホ: 2列×3行=6件）
     let currentShopPage = 1;
     let activeShopList = [];
 
@@ -2065,7 +1080,6 @@
           </div>
         `;
         
-        // 直接イベントリスナーを登録
         const btn = card.querySelector('.btn-buy-trigger');
         btn.addEventListener('click', (e) => {
           e.stopPropagation();
@@ -2131,7 +1145,19 @@
       pageContainer.appendChild(nextBtn);
     }
 
-    // --- ショップ遷移ダイアログ（モーダル）操作 ---
+    let resizeTimer;
+    window.addEventListener('resize', () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(() => {
+        if (activeShopList.length > 0) {
+          const itemsPerPage = getItemsPerPage();
+          const maxPages = Math.ceil(activeShopList.length / itemsPerPage);
+          if (currentShopPage > maxPages) currentShopPage = maxPages || 1;
+          displayShopPage();
+        }
+      }, 150);
+    });
+
     function openShopModal(itemIndex) {
       const item = activeShopList[itemIndex];
       if (!item) return;
@@ -2178,61 +1204,23 @@
     }
 
     function closeShopModal(e) {
-      if (e.target.id === 'shop-modal') {
-        document.getElementById('shop-modal').classList.remove('show');
-      }
+      if (e.target.id === 'shop-modal') document.getElementById('shop-modal').classList.remove('show');
     }
-
     function closeShopModalDirect() {
       document.getElementById('shop-modal').classList.remove('show');
     }
 
-    // 5. ガイドライン描画（アコーディオン）
-    function renderGuideline(guidelineData) {
-      const container = document.getElementById('guideline-list');
-      if (!guidelineData || guidelineData.length === 0) return;
-
-      guidelineData.forEach(item => {
-        const div = document.createElement('div');
-        div.className = 'guideline-item';
-        div.innerHTML = `
-          <div class="guideline-header">
-            <span>${item.title || ''}</span>
-            <i class="fa-solid fa-chevron-down"></i>
-          </div>
-          <div class="guideline-content">
-            <p>${item.content || ''}</p>
-          </div>
-        `;
-        
-        const header = div.querySelector('.guideline-header');
-        const content = div.querySelector('.guideline-content');
-        header.addEventListener('click', () => {
-          const isActive = div.classList.toggle('active');
-          content.style.maxHeight = isActive ? content.scrollHeight + 40 + 'px' : '0';
-        });
-
-        container.appendChild(div);
-      });
-    }
-
-    // 6. フッター & グローバル設定
+    // 5. フッター & グローバル設定
     function renderFooter(footerData, globalData) {
       if (globalData && globalData.length > 0) {
-        const siteTitleItem = globalData.find(row => {
-          const k = row.item || row['項目'] || row.key;
-          return k === 'site_title';
-        });
+        const siteTitleItem = globalData.find(row => (row.item || row['項目'] || row.key) === 'site_title');
         const titleVal = siteTitleItem ? (siteTitleItem.value || siteTitleItem['設定値']) : (globalData[0].site_title || '');
         if (titleVal) {
           document.title = titleVal;
           document.getElementById('site-logo').textContent = titleVal;
         }
 
-        const bgItem = globalData.find(row => {
-          const k = row.item || row['項目'] || row.key;
-          return k === 'page_background' || k === 'background';
-        });
+        const bgItem = globalData.find(row => (row.item || row['項目'] || row.key) === 'page_background' || (row.item || row['項目'] || row.key) === 'background');
         const bgVal = bgItem ? (bgItem.value || bgItem['設定値']) : (globalData[0].page_background || globalData[0].background || '');
         if (bgVal) {
           document.body.style.backgroundImage = `url('${bgVal}')`;
@@ -2241,6 +1229,7 @@
 
       if (footerData && footerData.length > 0) {
         const container = document.getElementById('footer-links');
+        container.innerHTML = '';
         footerData.forEach(f => {
           const a = document.createElement('a');
           a.href = f.url || '#';
@@ -2251,7 +1240,7 @@
       }
     }
 
-    // 7. ABOUT セクション描画（about シート参照・lineごとグループ化）
+    // 6. ABOUT セクション描画
     function renderAbout(aboutData) {
       const container = document.getElementById('about-content');
       if (!container) return;
@@ -2262,7 +1251,6 @@
         return;
       }
 
-      // line ごとにグループ化
       const lineMap = {};
       aboutData.forEach(item => {
         const lineNum = Number(item.line) || 1;
@@ -2285,14 +1273,12 @@
           const textVal = item.text_value || '';
 
           if (type === 'テキスト') {
-            // テキスト：titleは参照せず value の内容を表示
             const textEl = document.createElement('div');
             textEl.className = 'about-obj-text';
-            textEl.innerHTML = formatTextItem ? formatTextItem(val, false) : val;
+            textEl.innerHTML = formatTextItem(val, false);
             rowDiv.appendChild(textEl);
 
           } else if (type === 'ボタンリンク') {
-            // ボタンリンク：リンク先は value
             const btn = document.createElement('a');
             btn.className = 'about-btn-base about-btn-link';
             btn.href = val || '#';
@@ -2304,7 +1290,6 @@
             rowDiv.appendChild(btn);
 
           } else if (type === 'ストア') {
-            // ストアボタン：リンク先は value
             const storeBtn = document.createElement('a');
             storeBtn.className = 'about-btn-base about-btn-store';
             storeBtn.href = val || '#';
@@ -2316,12 +1301,10 @@
             rowDiv.appendChild(storeBtn);
 
           } else if (type === 'メール') {
-            // メール起動：title_valueが件名、text_valueが本文ひな形
             const mailBtn = document.createElement('button');
             mailBtn.type = 'button';
             mailBtn.className = 'about-btn-base about-btn-mail';
             mailBtn.innerHTML = `<i class="fa-solid fa-envelope"></i><span>${title}</span>`;
-            
             mailBtn.onclick = () => {
               const recipient = String(val).trim();
               const subject = encodeURIComponent(titleVal);
@@ -2336,7 +1319,6 @@
       });
     }
 
-    // モーダル操作
     function openModal(imgSrc) {
       document.getElementById('modal-img').src = imgSrc;
       document.getElementById('modal').classList.add('show');
@@ -2347,25 +1329,8 @@
 
     document.addEventListener('DOMContentLoaded', () => {
       init();
-      setTimeout(hideLoader, 4000);
+      setTimeout(hideLoader, 3500);
     });
   </script>
-
-  <!-- Shop Link Dialog Modal -->
-  <div id="shop-modal" class="shop-modal-overlay" onclick="closeShopModal(event)">
-    <div class="shop-modal-box">
-      <button class="shop-modal-close" onclick="closeShopModalDirect()"><i class="fa-solid fa-xmark"></i></button>
-      <div class="shop-modal-header">
-        <img id="shop-modal-img" src="" alt="Product">
-        <div class="shop-modal-info">
-          <h3 id="shop-modal-title">-</h3>
-          <p id="shop-modal-price">-</p>
-        </div>
-      </div>
-      <div class="shop-modal-divider">購入先プラットフォームを選択</div>
-      <div class="shop-modal-links" id="shop-modal-links"></div>
-    </div>
-  </div>
-  
 </body>
 </html>
