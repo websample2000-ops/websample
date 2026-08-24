@@ -53,15 +53,19 @@
     /* --- Loading Spinner --- */
     #loading {
       position: fixed;
-      top: 0; left: 0; width: 100%; height: 100%;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
       background: rgba(255, 255, 255, 0.95);
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
       z-index: 9999;
-      transition: opacity 0.4s ease, visibility 0.4s;
+      transition: opacity 0.3s ease, visibility 0.3s;
     }
+
     .spinner {
       width: 50px;
       height: 50px;
@@ -70,43 +74,51 @@
       border-radius: 50%;
       animation: spin 0.8s linear infinite;
     }
-    @keyframes spin { to { transform: rotate(360deg); } }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
 
     /* --- Header / Navigation --- */
     header {
       position: sticky;
       top: 0;
-      background: rgba(255, 255, 255, 0.85);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
+      background: rgba(255, 255, 255, 0.88);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
       border-bottom: 1px solid var(--border-color);
       z-index: 1000;
-      padding: 12px 24px;
+      padding: 14px 32px;
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
+
     .logo {
       font-family: 'Outfit', sans-serif;
       font-weight: 800;
-      font-size: 1.25rem;
+      font-size: 1.45rem;
       color: var(--primary-dark);
       text-decoration: none;
+      letter-spacing: 0.5px;
     }
+
     .back-to-home {
       display: inline-flex;
       align-items: center;
       gap: 6px;
       text-decoration: none;
       color: #00158f;
-      font-weight: 800;
-      font-size: 0.92rem;
-      padding: 6px 14px;
+      font-family: 'Fredoka', 'Outfit', sans-serif;
+      font-weight: 700;
+      font-size: 1rem;
+      padding: 8px 16px;
       border-radius: 20px;
       background: rgba(255, 204, 213, 0.35);
       border: 1.5px solid #ffccd5;
       transition: all 0.2s;
     }
+
     .back-to-home:hover {
       background: var(--primary);
       color: #ffffff;
@@ -137,11 +149,9 @@
       min-height: 360px;
     }
 
-    /* 1. タイトル（大・中央・和風フォント） */
     .guideline-main-title {
       font-family: 'Potta One', cursive;
       font-size: 2rem;
-      font-weight: 400;
       color: #00158f;
       text-align: center;
       margin: 10px 0 32px 0;
@@ -153,7 +163,6 @@
         3px 4px 8px rgba(0, 21, 143, 0.2);
     }
 
-    /* 2. 項目見出し（中・左・下線とアクセントボーダー） */
     .guideline-heading {
       font-family: 'Potta One', 'M PLUS Rounded 1c', cursive;
       font-size: 1.35rem;
@@ -165,17 +174,18 @@
       padding-bottom: 6px;
       letter-spacing: 0.5px;
     }
+
     .guideline-heading:first-of-type {
       margin-top: 10px;
     }
 
-    /* 3. ○付き段落ブロック */
     .guideline-paragraph-block {
       display: flex;
       align-items: flex-start;
       gap: 12px;
       margin: 14px 0 18px 0;
     }
+
     .guideline-bullet {
       font-size: 1rem;
       line-height: 1.7;
@@ -184,12 +194,14 @@
       user-select: none;
       flex-shrink: 0;
     }
+
     .guideline-paragraph-body {
       flex: 1;
       display: flex;
       flex-direction: column;
       gap: 6px;
     }
+
     .guideline-paragraph-line {
       font-size: 0.95rem;
       font-weight: 500;
@@ -198,7 +210,6 @@
       word-break: break-word;
     }
 
-    /* 4. 通常テキスト */
     .guideline-text {
       font-size: 0.95rem;
       font-weight: 500;
@@ -208,7 +219,6 @@
       word-break: break-word;
     }
 
-    /* 5. 注釈（赤系のアラート枠） */
     .guideline-annotation {
       font-size: 0.9rem;
       font-weight: 700;
@@ -221,24 +231,22 @@
       border-radius: 0 8px 8px 0;
     }
 
-    /* 太字指定 */
     .is-bold-text {
       font-weight: 800;
       color: #00158f;
     }
 
-    /* 埋め込みリンクの装飾 */
     .guideline-frame-box a {
       color: var(--primary-dark);
       text-decoration: underline;
       font-weight: 700;
       transition: color 0.15s;
     }
+
     .guideline-frame-box a:hover {
       color: #00158f;
     }
 
-    /* フッター */
     footer {
       background: #2d3436;
       color: #dfe6e9;
@@ -247,6 +255,7 @@
       font-size: 0.85rem;
       margin-top: auto;
     }
+
     .footer-links {
       margin-bottom: 16px;
       display: flex;
@@ -254,13 +263,26 @@
       justify-content: center;
       flex-wrap: wrap;
     }
+
     .footer-links a {
       color: #b2bec3;
       text-decoration: none;
     }
-    .footer-links a:hover { color: #fff; }
 
-    @media (max-width: 600px) {
+    .footer-links a:hover {
+      color: #fff;
+    }
+
+    @media (max-width: 860px) {
+      body {
+        background-attachment: scroll !important;
+        background-size: 100% auto !important;
+        background-position: center top !important;
+        background-repeat: repeat-y !important;
+      }
+      header {
+        padding: 12px 20px;
+      }
       .guideline-frame-box {
         padding: 26px 20px;
       }
@@ -308,7 +330,7 @@
       const loader = document.getElementById('loading');
       if (loader) {
         loader.style.opacity = '0';
-        setTimeout(() => { loader.style.visibility = 'hidden'; }, 400);
+        setTimeout(() => { loader.style.visibility = 'hidden'; }, 300);
       }
     }
 
@@ -317,9 +339,6 @@
       return String(str).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
     }
 
-    /**
-     * <表示名(URL)> 形式のリンク置換 ＆ 太字装飾
-     */
     function formatTextItem(textStr, isBold) {
       if (!textStr) return '';
       let escaped = escapeHtml(String(textStr));
@@ -334,13 +353,8 @@
         const res = await fetch(GAS_API_URL);
         const data = await res.json();
 
-        // サイトタイトルと背景の同期
         applyGlobalSettings(data.global_regulations);
-        
-        // フッターリンクの描画
         applyFooter(data.footer, data.global_regulations);
-
-        // ガイドラインデータの描画
         renderGuidelineContent(data.guideline || []);
 
       } catch (err) {
@@ -360,7 +374,6 @@
         return;
       }
 
-      // priority 順にソート
       const sortedRows = [...rows].sort((a, b) => {
         const pA = Number(a.priority) || 0;
         const pB = Number(b.priority) || 0;
@@ -382,7 +395,6 @@
         }
       };
 
-      // 段落グループの集約ロジック
       sortedRows.forEach(row => {
         const type = String(row.text_type || row.type || '').trim();
         const text = String(row.text || row.content || '').trim();
@@ -418,7 +430,6 @@
       });
       flushParagraph();
 
-      // 各要素のDOM生成
       renderBlocks.forEach(block => {
         if (block.type === 'タイトル') {
           const el = document.createElement('h1');
@@ -468,20 +479,14 @@
     function applyGlobalSettings(globalData) {
       if (!globalData || globalData.length === 0) return;
 
-      const siteTitleItem = globalData.find(row => {
-        const k = row.item || row['項目'] || row.key;
-        return k === 'site_title';
-      });
+      const siteTitleItem = globalData.find(row => (row.item || row['項目'] || row.key) === 'site_title');
       const titleVal = siteTitleItem ? (siteTitleItem.value || siteTitleItem['設定値']) : (globalData[0].site_title || '');
       if (titleVal) {
         document.title = `ガイドライン | ${titleVal}`;
         document.getElementById('site-logo').textContent = titleVal;
       }
 
-      const bgItem = globalData.find(row => {
-        const k = row.item || row['項目'] || row.key;
-        return k === 'page_background' || k === 'background';
-      });
+      const bgItem = globalData.find(row => (row.item || row['項目'] || row.key) === 'page_background' || (row.item || row['項目'] || row.key) === 'background');
       const bgVal = bgItem ? (bgItem.value || bgItem['設定値']) : (globalData[0].page_background || globalData[0].background || '');
       if (bgVal) {
         document.body.style.backgroundImage = `url('${bgVal}')`;
@@ -504,7 +509,7 @@
 
     document.addEventListener('DOMContentLoaded', () => {
       initGuidelinePage();
-      setTimeout(hideLoader, 4000);
+      setTimeout(hideLoader, 3500);
     });
   </script>
 </body>
