@@ -610,28 +610,34 @@
       }
     }
 
-    // 1. プロフィール描画
+    // 1. プロフィール描画（オブジェクト形式・配列形式の双方に対応）
     function renderProfile(profileData, visualData) {
-      if (!profileData || profileData.length === 0) return;
+      if (!profileData) return;
 
       const p = {};
-      profileData.forEach(row => {
-        const key = row['項目'] || row['item'] || row['key'];
-        const val = row['設定値'] || row['value'] || row['val'];
-        if (key) p[String(key).trim()] = (val !== undefined && val !== null) ? String(val).trim() : '';
-      });
+      if (Array.isArray(profileData)) {
+        profileData.forEach(row => {
+          const key = row['項目'] || row['item'] || row['key'];
+          const val = row['設定値'] || row['value'] || row['val'];
+          if (key) p[String(key).trim()] = (val !== undefined && val !== null) ? String(val).trim() : '';
+        });
+      } else if (typeof profileData === 'object') {
+        Object.keys(profileData).forEach(key => {
+          const val = profileData[key];
+          p[String(key).trim()] = (val !== undefined && val !== null) ? String(val).trim() : '';
+        });
+      }
 
       const formatDate = (valStr, showYear = true) => {
         if (!valStr || valStr === '') return '-';
-        if (typeof valStr === 'string' && valStr.includes('T')) {
-          const d = new Date(valStr);
-          if (!isNaN(d.getTime())) {
-            const m = d.getMonth() + 1;
-            const day = d.getDate();
-            return showYear ? `${d.getFullYear()}年${m}月${day}日` : `${m}月${day}日`;
-          }
+        const str = String(valStr).trim();
+        const match = str.match(/^(\d{4})[^\d](\d{1,2})[^\d](\d{1,2})/);
+        if (match) {
+          const m = parseInt(match[2], 10);
+          const d = parseInt(match[3], 10);
+          return showYear ? `${match[1]}年${m}月${d}日` : `${m}月${d}日`;
         }
-        return valStr;
+        return str;
       };
 
       const getVal = (key, unit = '') => (p[key] && p[key] !== '') ? `${p[key]}${unit}` : '-';
@@ -650,14 +656,14 @@
       if (p['message']) { messageEl.textContent = p['message']; messageEl.style.display = 'block'; } else { messageEl.style.display = 'none'; }
 
       document.getElementById('prof-birthday').textContent = formatDate(p['birthday'], false);
-      document.getElementById('prof-age').textContent = getVal('age', typeof p['age'] === 'number' || (p['age'] && !p['age'].includes('歳')) ? '歳' : '');
-      document.getElementById('prof-height').textContent = getVal('height', typeof p['height'] === 'number' || (p['height'] && !p['height'].includes('cm')) ? 'cm' : '');
+      document.getElementById('prof-age').textContent = getVal('age', typeof p['age'] === 'number' || (p['age'] && !String(p['age']).includes('歳')) ? '歳' : '');
+      document.getElementById('prof-height').textContent = getVal('height', typeof p['height'] === 'number' || (p['height'] && !String(p['height']).includes('cm')) ? 'cm' : '');
       document.getElementById('prof-fan-name').textContent = getVal('fan_name');
       document.getElementById('prof-streaming').textContent = formatDate(p['streaming'], true);
 
       const updateVisualDisplay = (item) => {
         const standingImg = document.getElementById('prof-standing-img');
-        const visualSrc = item.visual_url || item.standing_url || p['standing_url'];
+        const visualSrc = item.visual_url || item.standing_url || p['standing_url'] || p['visual_url'];
         if (visualSrc) {
           standingImg.src = visualSrc;
           standingImg.style.display = 'block';
@@ -1027,7 +1033,7 @@
       });
     }
 
-    // 4. ショップ描画（PC: 3列×3行=9件 / スマホ: 2列×3行=6件）
+    // 4. ショップ描画
     let currentShopPage = 1;
     let activeShopList = [];
 
