@@ -231,6 +231,42 @@
       box-shadow: 0 10px 15px rgba(0,0,0,0.2); opacity: 0; visibility: hidden; transition: all 0.3s; z-index: 100000;
     }
     #loading-toast.show { opacity: 1; visibility: visible; }
+
+    /* テーブル一覧内のメディアセルレイアウト */
+    .table-media-cell {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 220px;
+      max-width: 320px;
+    }
+    .table-thumb-preview {
+      width: 44px;
+      height: 44px;
+      border-radius: 6px;
+      object-fit: cover;
+      border: 1px solid var(--border);
+      background: #f8fafc;
+      cursor: pointer;
+      flex-shrink: 0;
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+    .table-thumb-preview:hover {
+      transform: scale(1.15);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    }
+    .table-url-text {
+      font-size: 0.8rem;
+      color: #2563eb;
+      text-decoration: underline;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      word-break: break-all;
+    }
+    .table-url-text:hover {
+      color: #1d4ed8;
+    }
   </style>
 </head>
 <body>
@@ -711,13 +747,54 @@
           const td = document.createElement('td');
           const val = row[h] !== undefined ? row[h] : '';
           const conf = colConfs[h] || {};
+          const valStr = String(val).trim();
 
-          if (conf.type === 'select' && conf.options && conf.optionLabels) {
-            const optIdx = conf.options.indexOf(String(val));
+          // 1. type: url または URL文字列の場合のビュー＋URL表示
+          if (conf.type === 'url' || valStr.startsWith('http')) {
+            if (!valStr) {
+              td.textContent = '-';
+            } else {
+              const ytId = extractYouTubeId(valStr);
+
+              if (ytId) {
+                // YouTube動画サムネイル ＋ URL
+                const thumbUrl = `https://img.youtube.com/vi/${ytId}/hqdefault.jpg`;
+                td.innerHTML = `
+                  <div class="table-media-cell">
+                    <img src="${thumbUrl}" class="table-thumb-preview" alt="Video Thumb" title="クリックして動画を開く" onclick="window.open('${valStr}','_blank')">
+                    <a href="${valStr}" target="_blank" rel="noopener noreferrer" class="table-url-text" title="${valStr}">${valStr}</a>
+                  </div>
+                `;
+              } else if (valStr.match(/\.(jpeg|jpg|gif|png|webp|svg)(\?.*)?$/i) || h.includes('image') || h.includes('visual') || h.includes('thumb') || h.includes('picture')) {
+                // 画像サムネイル ＋ URL
+                td.innerHTML = `
+                  <div class="table-media-cell">
+                    <img src="${valStr}" class="table-thumb-preview" alt="Image" title="クリックして元画像を開く" onclick="window.open('${valStr}','_blank')" onerror="this.style.display='none'">
+                    <a href="${valStr}" target="_blank" rel="noopener noreferrer" class="table-url-text" title="${valStr}">${valStr}</a>
+                  </div>
+                `;
+              } else {
+                // 一般外部リンク
+                td.innerHTML = `
+                  <div class="table-media-cell">
+                    <a href="${valStr}" target="_blank" rel="noopener noreferrer" class="table-url-text" title="${valStr}">
+                      <i class="fa-solid fa-link" style="margin-right:4px;"></i>${valStr}
+                    </a>
+                  </div>
+                `;
+              }
+            }
+
+          // 2. select で日本語ラベルがある場合
+          } else if (conf.type === 'select' && conf.options && conf.optionLabels) {
+            const optIdx = conf.options.indexOf(valStr);
             td.textContent = optIdx !== -1 && conf.optionLabels[optIdx] ? conf.optionLabels[optIdx] : val;
+
+          // 3. 通常テキスト
           } else {
-            td.textContent = val;
+            td.textContent = val !== '' ? val : '-';
           }
+
           tr.appendChild(td);
         });
         body.appendChild(tr);
