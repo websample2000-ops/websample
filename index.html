@@ -566,7 +566,7 @@
 
   <!-- JavaScript -->
   <script>
-    const GAS_API_URL = "https://script.google.com/macros/s/AKfycbxsfZFysfM6B-kf2cnE6xSBzsbQ8JJRKCU4yQZbrqxsPSsKTY63VP-wkHAItKoafvTc/exec";
+    const DATA_JSON_URL = `./data.json?t=${Date.now()}`;
 
     function escapeHtml(str) {
       if (!str) return '';
@@ -592,7 +592,7 @@
 
     async function init() {
       try {
-        const res = await fetch(GAS_API_URL);
+        const res = await fetch(DATA_JSON_URL);
         const data = await res.json();
         
         try { renderProfile(data.profile, data.visual); } catch (e) { console.error('Profile Error:', e); }
