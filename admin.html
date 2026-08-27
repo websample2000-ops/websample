@@ -212,7 +212,6 @@
       outline: none; border-color: var(--primary);
     }
 
-    /* プレビュー枠 */
     .field-preview { margin-top: 6px; display: inline-block; max-height: 80px; border-radius: 4px; border: 1px solid var(--border); overflow: hidden; }
     .field-preview img { height: 100%; max-height: 80px; object-fit: cover; display: block; }
 
@@ -335,154 +334,13 @@
   <script>
     const GAS_API_URL = "https://script.google.com/macros/s/AKfycbxYlAr1y9mOf_WSLpsmR42yt8aJZ4oxjys4Hheu59wxlbTR-GmgE1btDEI73s-BrBJr/exec";
 
-    // フォールバック用スキーマ定義
-    const DEFAULT_SCHEMA = {
-      "notice": {
-        "title": "お知らせ",
-        "headerRow": 1,
-        "dataStartRow": 2,
-        "columns": {
-          "time_stamp": { "label": "日時", "type": "datetime", "required": true },
-          "message": { "label": "本文", "type": "textarea", "rows": 4, "required": true },
-          "picture": { "label": "画像・動画URL", "type": "url", "required": false }
-        }
-      },
-      "global_regulations": {
-        "title": "基本設定",
-        "headerRow": 1,
-        "dataStartRow": 2,
-        "columns": {
-          "item": { "label": "用途", "type": "text", "required": true },
-          "type": { "label": "形式", "type": "select", "options": ["画像url", "テキスト", "その他"], "required": true }
-        }
-      },
-      "visual": {
-        "title": "立ち絵",
-        "headerRow": 1,
-        "dataStartRow": 2,
-        "columns": {
-          "id": { "label": "管理番号", "type": "number", "required": true },
-          "costume_name": { "label": "イラスト名(管理用)", "type": "text", "required": false },
-          "visual_url": { "label": "立ち絵画像URL", "type": "url", "required": true },
-          "thumb_background": { "label": "アイコン背景画像URL", "type": "url", "required": true },
-          "comment": { "label": "立ち絵説明(管理用)", "type": "text", "required": false },
-          "character_design": { "label": "キャラクター案", "type": "text", "required": false },
-          "illustrator": { "label": "イラストレーター", "type": "text", "required": false },
-          "2d_animation": { "label": "2Dデザイナー", "type": "text", "required": false },
-          "3d_modeling": { "label": "3Dモデリング", "type": "text", "required": false },
-          "priority": { "label": "表示順（優先度）", "type": "number", "min": 1, "required": true }
-        }
-      },
-      "movies_priority": {
-        "title": "動画カテゴリ",
-        "headerRow": 1,
-        "dataStartRow": 2,
-        "columns": {
-          "type": { "label": "動画カテゴリ", "type": "text", "required": true },
-          "priority": { "label": "表示順（優先度）", "type": "number", "min": 1, "required": true }
-        }
-      },
-      "movies": {
-        "title": "動画",
-        "headerRow": 1,
-        "dataStartRow": 2,
-        "columns": {
-          "type": { "label": "動画カテゴリ", "type": "text", "required": true },
-          "title": { "label": "動画タイトル", "type": "relation_select", "fromSheet": "movies_priority", "fromColumn": "type", "required": true },
-          "image_url": { "label": "サムネイル画像URL", "type": "url", "required": false },
-          "video_url": { "label": "動画URL", "type": "url", "required": true },
-          "is_active": { "label": "公開設定", "type": "select", "options": ["true", "false"], "optionLabels": ["公開", "非公開"], "required": true }
-        }
-      },
-      "shop": {
-        "title": "ショップ",
-        "headerRow": 1,
-        "dataStartRow": 2,
-        "columns": {
-          "id": { "label": "管理番号", "type": "number", "required": true },
-          "name": { "label": "商品名", "type": "text", "required": true },
-          "merchandise_image": { "label": "商品画像URL", "type": "url", "required": true },
-          "price": { "label": "価格（円）", "type": "number", "required": true },
-          "booth": { "label": "BOOTH", "type": "url", "required": false },
-          "suzuri": { "label": "SUZURI", "type": "url", "required": false },
-          "base": { "label": "BASE", "type": "url", "required": false },
-          "fanbox": { "label": "FANBOX", "type": "url", "required": false }
-        }
-      },
-      "about": {
-        "title": "その他",
-        "headerRow": 1,
-        "dataStartRow": 2,
-        "columns": {
-          "title": { "label": "タイトル", "type": "text", "required": true },
-          "line": { "label": "表示ライン", "type": "number", "min": 1, "required": true },
-          "type": { "label": "表示種類", "type": "select", "options": ["ボタンリンク", "ストア", "メール", "テキスト"], "required": true },
-          "button_image": { "label": "ボタン画像URL", "type": "url", "required": true },
-          "value": { "label": "設定値", "type": "text", "required": true },
-          "title_value": { "label": "メール件名", "type": "text", "required": false },
-          "text_value": { "label": "メール本文", "type": "textarea", "rows": 6, "required": false },
-          "priority": { "label": "表示順（優先度）", "type": "number", "min": 1, "required": true }
-        }
-      },
-      "guideline": {
-        "title": "その他",
-        "headerRow": 1,
-        "dataStartRow": 2,
-        "columns": {
-          "text_value": { "label": "テキストタイプ", "type": "select", "options": ["タイトル", "項目", "テキスト", "段落テキスト", "注釈"], "required": true },
-          "paragraph_group": { "label": "段落グループ", "type": "number", "min": 1, "required": false },
-          "is_active": { "label": "太字可否", "type": "select", "options": ["true", "false"], "optionLabels": ["太字", "通常"], "required": true },
-          "text": { "label": "テキスト", "type": "text", "required": false },
-          "priority": { "label": "表示順（優先度）", "type": "number", "min": 1, "required": true }
-        }
-      },
-      "profile": {
-        "title": "基本プロフィール",
-        "layout": "key-value",
-        "dataStartRow": 1,
-        "keyColumn": 1,
-        "valueColumn": 2,
-        "descColumn": 3,
-        "items": {
-          "name": { "label": "キャラクター名", "type": "text", "required": true },
-          "pronunciation": { "label": "ふりがな", "type": "text", "required": true },
-          "romanization": { "label": "ローマ字", "type": "text", "required": true },
-          "birthday": { "label": "誕生日", "type": "date", "format": "MM月DD日", "required": false },
-          "streaming": { "label": "配信活動開始日", "type": "date", "format": "YYYY年MM月DD日", "required": false },
-          "age": { "label": "年齢", "type": "number", "min": 0, "required": false },
-          "height": { "label": "身長(cm)", "type": "number", "required": false },
-          "fan_name": { "label": "ファンネーム", "type": "text", "required": false },
-          "comment": { "label": "キャッチフレーズ", "type": "text", "required": false },
-          "message": { "label": "自己紹介メッセージ", "type": "textarea", "rows": 3, "required": false },
-          "youtube_url": { "label": "YouTubeチャンネルURL", "type": "url", "required": false },
-          "x_url": { "label": "X (旧Twitter) URL", "type": "url", "required": false },
-          "sns_url-1": { "label": "配信プラットフォーム-1", "type": "url", "required": false },
-          "sns_url-2": { "label": "配信プラットフォーム-2", "type": "url", "required": false },
-          "sns_url-3": { "label": "配信プラットフォーム-3", "type": "url", "required": false },
-          "movie_url-1": { "label": "自己紹介動画URL-1", "type": "url", "required": false },
-          "movie_url-2": { "label": "自己紹介動画URL-2", "type": "url", "required": false },
-          "movie_url-3": { "label": "自己紹介動画URL-3", "type": "url", "required": false }
-        }
-      },
-      "account": {
-        "title": "管理アカウント",
-        "headerRow": 1,
-        "dataStartRow": 2,
-        "columns": {
-          "account": { "label": "アカウント", "type": "text", "required": true },
-          "password": { "label": "パスワード", "type": "text", "required": true },
-          "authority": { "label": "権限", "type": "text", "required": true }
-        }
-      }
-    };
-
-    let APP_SCHEMA = DEFAULT_SCHEMA;
+    let APP_SCHEMA = {};
     let currentActiveSheet = 'profile';
     let currentHeaders = [];
     let currentRows = [];
     let editingRowIndex = null;
     let profileRawRows = [];
-    let relationCache = {}; // relation_select用のキャッシュ
+    let relationCache = {};
 
     function showToast(text) {
       document.getElementById('toast-text').textContent = text;
@@ -492,14 +350,12 @@
       document.getElementById('loading-toast').classList.remove('show');
     }
 
-    // スキーマ読み込み (schema.yaml または schema.json)
     async function loadSchemaConfig() {
       try {
         const resYaml = await fetch('./schema.yaml');
         if (resYaml.ok) {
           const yamlText = await resYaml.text();
           APP_SCHEMA = jsyaml.load(yamlText);
-          console.log('schema.yaml を読み込みました');
           return;
         }
       } catch (e) {}
@@ -508,12 +364,9 @@
         const resJson = await fetch('./schema.json');
         if (resJson.ok) {
           APP_SCHEMA = await resJson.json();
-          console.log('schema.json を読み込みました');
           return;
         }
       } catch (e) {}
-
-      console.log('内蔵デフォルトスキーマを使用します');
     }
 
     window.onload = async function() {
@@ -571,7 +424,6 @@
       switchNav('profile', '基本プロフィール');
     }
 
-    // 1. ナビゲーション切り替え
     function switchNav(sheetName, title) {
       currentActiveSheet = sheetName;
       document.getElementById('page-title').textContent = title;
@@ -594,7 +446,18 @@
       }
     }
 
-    // 2. 基本プロフィール (Profile) の読み込み & 描画（スキーマ適用）
+    // 表示対象カラムのみを抽出するヘルパー関数
+    function getVisibleColumns() {
+      const sheetConf = APP_SCHEMA[currentActiveSheet];
+      if (!sheetConf || !sheetConf.columns) {
+        return currentHeaders.filter(h => h && h.trim() !== '' && !h.startsWith('col_'));
+      }
+      return currentHeaders.filter(h => {
+        return h && h.trim() !== '' && !h.startsWith('col_') && sheetConf.columns[h] !== undefined;
+      });
+    }
+
+    // 1. 基本プロフィール (Profile) 描画（未設定キー非表示対応）
     async function loadProfileData() {
       showToast('基本プロフィールを読み込み中...');
       try {
@@ -605,14 +468,19 @@
         const tbody = document.getElementById('profile-body');
         tbody.innerHTML = '';
 
-        if (profileRawRows.length === 0) {
-          tbody.innerHTML = '<tr><td colspan="2" style="text-align:center; color:#94a3b8; padding:20px;">データがありません</td></tr>';
+        const schemaItems = (APP_SCHEMA.profile && APP_SCHEMA.profile.items) ? APP_SCHEMA.profile.items : {};
+
+        // yamlに定義されている項目のみを抽出
+        const visibleRows = profileRawRows.filter(row => {
+          return row.key && row.key.trim() !== '' && schemaItems[row.key] !== undefined;
+        });
+
+        if (visibleRows.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="2" style="text-align:center; color:#94a3b8; padding:20px;">表示可能な項目がありません</td></tr>';
           return;
         }
 
-        const schemaItems = (APP_SCHEMA.profile && APP_SCHEMA.profile.items) ? APP_SCHEMA.profile.items : {};
-
-        profileRawRows.forEach(row => {
+        visibleRows.forEach(row => {
           const key = row.key;
           const conf = schemaItems[key] || {};
           const labelName = conf.label || key;
@@ -651,26 +519,33 @@
       }
     }
 
-    // 基本プロフィールの保存
     async function saveProfileAll() {
       const schemaItems = (APP_SCHEMA.profile && APP_SCHEMA.profile.items) ? APP_SCHEMA.profile.items : {};
       
-      // バリデーション
       for (let row of profileRawRows) {
-        const conf = schemaItems[row.key] || {};
-        const val = document.getElementById(`prof-val-${row._rowIndex}`).value.trim();
+        const conf = schemaItems[row.key];
+        if (!conf) continue; // yaml未定義キーはバリデーションスキップ
+        const el = document.getElementById(`prof-val-${row._rowIndex}`);
+        if (!el) continue;
+        const val = el.value.trim();
         if (conf.required && !val) {
           alert(`【${conf.label || row.key}】は入力必須です。`);
-          document.getElementById(`prof-val-${row._rowIndex}`).focus();
+          el.focus();
           return;
         }
       }
 
       showToast('基本プロフィールを保存中...');
-      const payloadList = profileRawRows.map(row => ({
-        rowIndex: row._rowIndex,
-        value: document.getElementById(`prof-val-${row._rowIndex}`).value
-      }));
+      const payloadList = [];
+      profileRawRows.forEach(row => {
+        const el = document.getElementById(`prof-val-${row._rowIndex}`);
+        if (el) {
+          payloadList.push({
+            rowIndex: row._rowIndex,
+            value: el.value
+          });
+        }
+      });
 
       try {
         const res = await fetch(GAS_API_URL, {
@@ -687,7 +562,7 @@
       }
     }
 
-    // 3. 通常シートのデータ読み込み & テーブル描画（スキーマ日本語ヘッダー適用）
+    // 2. 通常シート一覧テーブル描画（空欄・未定義カラム除外対応）
     async function loadCurrentTableData() {
       showToast(`「${currentActiveSheet}」を読み込み中...`);
       try {
@@ -712,8 +587,9 @@
 
       const sheetConf = APP_SCHEMA[currentActiveSheet] || { columns: {} };
       const colConfs = sheetConf.columns || {};
+      const visibleCols = getVisibleColumns();
 
-      currentHeaders.forEach(h => {
+      visibleCols.forEach(h => {
         const th = document.createElement('th');
         const conf = colConfs[h] || {};
         th.textContent = conf.label || h;
@@ -721,7 +597,7 @@
       });
 
       if (currentRows.length === 0) {
-        body.innerHTML = `<tr><td colspan="${currentHeaders.length + 1}" style="text-align:center; padding:24px; color:#94a3b8;">データがありません</td></tr>`;
+        body.innerHTML = `<tr><td colspan="${visibleCols.length + 1}" style="text-align:center; padding:24px; color:#94a3b8;">データがありません</td></tr>`;
         return;
       }
 
@@ -734,12 +610,11 @@
         `;
         tr.appendChild(tdOp);
 
-        currentHeaders.forEach(h => {
+        visibleCols.forEach(h => {
           const td = document.createElement('td');
           const val = row[h] !== undefined ? row[h] : '';
           const conf = colConfs[h] || {};
 
-          // selectでラベル指定がある場合の表示変換
           if (conf.type === 'select' && conf.options && conf.optionLabels) {
             const optIdx = conf.options.indexOf(String(val));
             td.textContent = optIdx !== -1 && conf.optionLabels[optIdx] ? conf.optionLabels[optIdx] : val;
@@ -752,7 +627,7 @@
       });
     }
 
-    // 4. 動的フォーム生成モーダル（スキーマ完全対応）
+    // 3. モーダルフォーム生成（空欄・未定義カラム除外対応）
     async function openCreateModal() {
       editingRowIndex = null;
       const sheetConf = APP_SCHEMA[currentActiveSheet] || {};
@@ -776,9 +651,10 @@
 
       const sheetConf = APP_SCHEMA[currentActiveSheet] || { columns: {} };
       const colConfs = sheetConf.columns || {};
+      const visibleCols = getVisibleColumns();
       const fieldsFragment = document.createDocumentFragment();
 
-      for (const h of currentHeaders) {
+      for (const h of visibleCols) {
         const conf = colConfs[h] || {};
         const labelText = conf.label || h;
         const isReq = conf.required ? '<span class="required-badge">*必須</span>' : '';
@@ -853,12 +729,11 @@
           input.placeholder = 'https://...';
           grp.appendChild(input);
 
-          // 画像プレビュー枠（画像系URLの場合）
           if (h.includes('image') || h.includes('visual') || h.includes('thumb') || h.includes('picture')) {
             const prev = document.createElement('div');
             prev.className = 'field-preview';
             prev.id = `prev-${h}`;
-            if (val && val.startsWith('http')) {
+            if (val && String(val).startsWith('http')) {
               prev.innerHTML = `<img src="${val}" onerror="this.style.display='none'">`;
             }
             input.oninput = () => {
@@ -886,7 +761,6 @@
       container.appendChild(fieldsFragment);
     }
 
-    // 別シートの選択肢を動的取得するヘルパー
     async function fetchRelationOptions(fromSheet, fromColumn) {
       if (!fromSheet || !fromColumn) return [];
       const cacheKey = `${fromSheet}_${fromColumn}`;
@@ -918,14 +792,14 @@
       document.getElementById('form-modal').classList.remove('show');
     }
 
-    // 5. 保存（バリデーション＋スプレッドシート書き込み）
+    // 4. 保存（表示対象カラムのみバリデーション＋保存）
     async function submitRowForm() {
       const sheetConf = APP_SCHEMA[currentActiveSheet] || { columns: {} };
       const colConfs = sheetConf.columns || {};
+      const visibleCols = getVisibleColumns();
       const rowData = {};
 
-      // スキーマバリデーションチェック
-      for (const h of currentHeaders) {
+      for (const h of visibleCols) {
         const fieldEl = document.getElementById(`field-${h}`);
         const val = fieldEl ? fieldEl.value.trim() : '';
         const conf = colConfs[h] || {};
@@ -960,7 +834,6 @@
         if (resData.success) {
           closeModal();
           alert(resData.message);
-          // relationCache をクリアして次回の参照を最新化
           relationCache = {};
           loadCurrentTableData();
         } else {
@@ -973,7 +846,7 @@
       }
     }
 
-    // 6. 削除
+    // 5. 削除
     async function deleteRow(rowIndex) {
       if (!confirm(`行番号: ${rowIndex} を削除しますか？`)) return;
       showToast('削除中...');
@@ -1001,7 +874,7 @@
       }
     }
 
-    // 7. 一括GitHubプッシュ
+    // 6. 一括GitHubプッシュ
     async function syncAllToGitHub() {
       if (!confirm('スプレッドシートの全データをJSON化してGitHub（本番サイト）へ反映しますか？')) return;
       showToast('GitHubへデータをプッシュ中...');
