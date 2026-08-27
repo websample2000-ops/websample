@@ -386,7 +386,7 @@
       loadCurrentTableData();
     }
 
-    // 1. 基本プロフィール (Profile) の読み込み & 描画
+    // 基本プロフィール (Profile) の読み込み & 描画
     async function loadProfileData() {
       try {
         const res = await fetch(`${GAS_API_URL}?action=getSheetData&sheetName=profile`);
@@ -395,18 +395,20 @@
         const tbody = document.getElementById('profile-body');
         tbody.innerHTML = '';
 
-        profileRawRows.forEach((row, idx) => {
-          // 1列目: key, 2列目: value, 3列目: desc
-          const keys = Object.keys(row).filter(k => k !== '_rowIndex');
-          const keyName = row[keys[0]] || '';
-          const val = row[keys[1]] || '';
-          const desc = row[keys[2]] || '';
+        if (profileRawRows.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="2" style="text-align:center; color:#94a3b8; padding:12px;">データがありません</td></tr>';
+          return;
+        }
 
+        profileRawRows.forEach(row => {
           const tr = document.createElement('tr');
           tr.innerHTML = `
-            <td class="profile-key">${keyName}<div class="profile-desc">${desc}</div></td>
+            <td class="profile-key">
+              ${row.key}
+              ${row.desc ? `<div class="profile-desc">${row.desc}</div>` : ''}
+            </td>
             <td>
-              <input type="text" class="profile-input" id="prof-val-${row._rowIndex}" value="${val}">
+              <input type="text" class="profile-input" id="prof-val-${row._rowIndex}" value="${row.value || ''}">
             </td>
           `;
           tbody.appendChild(tr);
