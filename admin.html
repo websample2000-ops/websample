@@ -3,236 +3,211 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin Dashboard | サイト管理</title>
+  <title>サイト管理ダッシュボード</title>
   
-  <!-- FontAwesome & Google Fonts -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600;700&family=M+PLUS+Rounded+1c:wght@400;700;800&family=Outfit:wght@400;600;800&family=Potta+One&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600;700&family=M+PLUS+Rounded+1c:wght@400;700;800&family=Outfit:wght@500;700;800&display=swap" rel="stylesheet">
 
   <style>
     :root {
       --primary: #ff758c;
       --primary-dark: #ff477e;
-      --secondary: #6c5ce7;
-      --bg: #f8fafc;
+      --primary-light: #fff0f3;
+      --bg: #f1f5f9;
+      --sidebar-bg: #1e293b;
       --surface: #ffffff;
-      --text: #1e293b;
+      --text: #0f172a;
       --text-muted: #64748b;
       --border: #e2e8f0;
       --radius: 12px;
-      --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01);
+      --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
-      font-family: 'M PLUS Rounded 1c', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      font-family: 'M PLUS Rounded 1c', -apple-system, BlinkMacSystemFont, sans-serif;
       background: var(--bg);
       color: var(--text);
-      padding: 24px 16px;
       min-height: 100vh;
+      display: flex;
     }
 
-    .container { max-width: 1080px; margin: 0 auto; }
-    
-    header {
+    /* サイドバー */
+    .sidebar {
+      width: 240px;
+      background: var(--sidebar-bg);
+      color: #fff;
       display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 24px;
-      gap: 16px;
-      flex-wrap: wrap;
+      flex-direction: column;
+      flex-shrink: 0;
+      position: sticky;
+      top: 0;
+      height: 100vh;
     }
-    .header-title {
+    .sidebar-header {
+      padding: 20px 18px;
       font-family: 'Outfit', sans-serif;
-      font-size: 1.6rem;
+      font-size: 1.3rem;
       font-weight: 800;
-      color: var(--primary-dark);
+      color: var(--primary);
+      border-bottom: 1px solid #334155;
       display: flex;
       align-items: center;
       gap: 10px;
+    }
+    .nav-list { list-style: none; padding: 12px 8px; flex: 1; overflow-y: auto; }
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 14px;
+      color: #94a3b8;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 0.92rem;
+      transition: all 0.2s;
+      margin-bottom: 4px;
+    }
+    .nav-item:hover { background: #334155; color: #fff; }
+    .nav-item.active { background: var(--primary); color: #fff; }
+    .nav-item i { width: 20px; text-align: center; }
+
+    .sidebar-footer {
+      padding: 16px;
+      border-top: 1px solid #334155;
+    }
+
+    /* メインコンテナ */
+    .main-wrapper {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      overflow-y: auto;
+    }
+
+    .top-header {
+      background: #fff;
+      border-bottom: 1px solid var(--border);
+      padding: 14px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .top-title { font-weight: 800; font-size: 1.2rem; }
+
+    .content-area {
+      padding: 24px;
+      display: grid;
+      grid-template-columns: 380px 1fr;
+      gap: 24px;
+      align-items: start;
+    }
+
+    @media (max-width: 1100px) {
+      .content-area { grid-template-columns: 1fr; }
     }
 
     .card {
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: var(--radius);
-      padding: 22px;
-      margin-bottom: 24px;
+      padding: 20px;
       box-shadow: var(--shadow);
     }
-
-    .select-group {
-      display: flex;
-      gap: 12px;
-      align-items: center;
-      flex-wrap: wrap;
-    }
-
-    select, input, textarea {
-      width: 100%;
-      padding: 10px 14px;
-      border: 1.5px solid var(--border);
-      border-radius: 8px;
-      font-size: 0.95rem;
-      background: #fff;
-      font-family: inherit;
-    }
-    select:focus, input:focus, textarea:focus {
-      outline: none;
-      border-color: var(--primary);
-    }
-
-    select { width: auto; min-width: 240px; font-weight: bold; cursor: pointer; }
-
-    button {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 10px 18px;
-      border-radius: 8px;
-      border: none;
-      font-weight: 700;
-      font-size: 0.9rem;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-    button:hover { opacity: 0.88; transform: translateY(-1px); }
-    button:active { transform: translateY(0); }
-    button:disabled { opacity: 0.45; cursor: not-allowed; transform: none; }
-
-    .btn-primary { background: var(--primary); color: #fff; }
-    .btn-success { background: #10b981; color: #fff; }
-    .btn-danger { background: #ef4444; color: #fff; }
-    .btn-secondary { background: #64748b; color: #fff; }
-
-    /* データ一覧テーブル */
-    .table-wrap {
-      overflow-x: auto;
-      margin-top: 18px;
-      max-height: 480px;
-      border: 1px solid var(--border);
-      border-radius: 8px;
-    }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 0.88rem;
-      text-align: left;
-    }
-    th, td {
-      padding: 12px 14px;
-      border-bottom: 1px solid var(--border);
-      white-space: nowrap;
-      max-width: 260px;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-    th { background: #f1f5f9; position: sticky; top: 0; z-index: 5; font-weight: 800; color: #475569; }
-    tr:hover td { background: #f8fafc; }
-
-    /* ログインモーダル */
-    #login-overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(30, 41, 59, 0.92);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      z-index: 99999;
-      padding: 20px;
-    }
-    .login-box {
-      background: #ffffff;
-      border-radius: 18px;
-      padding: 36px 30px;
-      width: 100%;
-      max-width: 380px;
-      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.25);
-      text-align: center;
-    }
-    .login-icon { font-size: 2.8rem; color: var(--primary); margin-bottom: 12px; }
-    .login-box h2 { font-size: 1.35rem; color: var(--text); margin-bottom: 6px; font-weight: 800; }
-    .login-box p { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 22px; font-weight: 600; }
-
-    /* 編集・追加モーダル */
-    .modal-overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.55);
-      backdrop-filter: blur(4px);
-      -webkit-backdrop-filter: blur(4px);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 16px;
-      opacity: 0;
-      visibility: hidden;
-      transition: all 0.2s;
-      z-index: 1000;
-    }
-    .modal-overlay.show { opacity: 1; visibility: visible; }
-    .modal-box {
-      background: #fff;
-      border-radius: var(--radius);
-      width: 100%;
-      max-width: 580px;
-      max-height: 88vh;
-      display: flex;
-      flex-direction: column;
-      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2);
-    }
-    .modal-header {
-      padding: 16px 22px;
-      border-bottom: 1px solid var(--border);
+    .card-title {
+      font-size: 1.05rem;
+      font-weight: 800;
+      margin-bottom: 16px;
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
-    .modal-header h3 { font-size: 1.15rem; font-weight: 800; color: var(--text); }
-    .modal-body {
-      padding: 22px;
-      overflow-y: auto;
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-    }
-    .modal-footer {
-      padding: 14px 22px;
-      border-top: 1px solid var(--border);
-      display: flex;
-      justify-content: flex-end;
-      gap: 10px;
-    }
-    .form-group label {
-      display: block;
-      font-size: 0.85rem;
-      font-weight: 800;
-      margin-bottom: 5px;
-      color: #475569;
-    }
 
-    /* 通知トースト */
-    #loading-toast {
-      position: fixed;
-      bottom: 24px;
-      right: 24px;
-      background: #1e293b;
-      color: #fff;
-      padding: 14px 22px;
-      border-radius: 10px;
-      display: flex;
+    /* ボタン */
+    button {
+      display: inline-flex;
       align-items: center;
-      gap: 12px;
-      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-      opacity: 0;
-      visibility: hidden;
-      transition: all 0.3s;
-      z-index: 100000;
-      font-weight: 600;
+      gap: 6px;
+      padding: 8px 16px;
+      border-radius: 8px;
+      border: none;
+      font-weight: 700;
+      font-size: 0.88rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    button:hover { opacity: 0.88; transform: translateY(-1px); }
+    button:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+
+    .btn-primary { background: var(--primary); color: #fff; }
+    .btn-sync { background: #8b5cf6; color: #fff; font-size: 0.95rem; padding: 10px 20px; box-shadow: 0 4px 10px rgba(139,92,246,0.3); }
+    .btn-success { background: #10b981; color: #fff; }
+    .btn-danger { background: #ef4444; color: #fff; }
+    .btn-secondary { background: #64748b; color: #fff; }
+
+    /* 基本情報 (Profile) リスト */
+    .profile-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+    .profile-table tr { border-bottom: 1px solid #f1f5f9; }
+    .profile-table td { padding: 8px 6px; }
+    .profile-key { font-weight: bold; color: #475569; width: 100px; }
+    .profile-input {
+      width: 100%;
+      padding: 6px 10px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      font-size: 0.85rem;
+    }
+    .profile-desc { font-size: 0.72rem; color: #94a3b8; margin-top: 2px; }
+
+    /* データ一覧テーブル */
+    .table-wrap {
+      overflow-x: auto;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      max-height: 520px;
+    }
+    table { width: 100%; border-collapse: collapse; font-size: 0.86rem; text-align: left; }
+    th, td { padding: 10px 12px; border-bottom: 1px solid var(--border); white-space: nowrap; max-width: 220px; overflow: hidden; text-overflow: ellipsis; }
+    th { background: #f8fafc; position: sticky; top: 0; z-index: 5; font-weight: 800; color: #475569; }
+    tr:hover td { background: #f8fafc; }
+
+    /* タブ切り替え（動画シート用） */
+    .tab-group { display: flex; gap: 8px; margin-bottom: 16px; border-bottom: 2px solid var(--border); padding-bottom: 8px; }
+    .tab-btn { background: none; color: var(--text-muted); border-radius: 6px; padding: 6px 14px; }
+    .tab-btn.active { background: #e2e8f0; color: var(--text); font-weight: 800; }
+
+    /* ログインモーダル */
+    #login-overlay {
+      position: fixed; inset: 0; background: rgba(15, 23, 42, 0.95);
+      backdrop-filter: blur(6px); display: flex; justify-content: center; align-items: center; z-index: 99999;
+    }
+    .login-box { background: #fff; border-radius: 16px; padding: 32px; width: 100%; max-width: 360px; text-align: center; }
+    .login-box input { width: 100%; padding: 10px 14px; border: 1.5px solid var(--border); border-radius: 8px; margin-bottom: 12px; }
+
+    /* 編集モーダル */
+    .modal-overlay {
+      position: fixed; inset: 0; background: rgba(0,0,0,0.5); backdrop-filter: blur(3px);
+      display: flex; justify-content: center; align-items: center; padding: 16px; opacity: 0; visibility: hidden; transition: all 0.2s; z-index: 1000;
+    }
+    .modal-overlay.show { opacity: 1; visibility: visible; }
+    .modal-box { background: #fff; border-radius: var(--radius); width: 100%; max-width: 540px; max-height: 85vh; display: flex; flex-direction: column; }
+    .modal-header { padding: 16px 20px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+    .modal-body { padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 14px; }
+    .modal-footer { padding: 14px 20px; border-top: 1px solid var(--border); display: flex; justify-content: flex-end; gap: 10px; }
+    .form-group label { display: block; font-size: 0.82rem; font-weight: 800; margin-bottom: 4px; color: #475569; }
+    .form-group input, .form-group textarea { width: 100%; padding: 8px 12px; border: 1px solid var(--border); border-radius: 6px; }
+
+    #loading-toast {
+      position: fixed; bottom: 24px; right: 24px; background: #1e293b; color: #fff;
+      padding: 12px 20px; border-radius: 8px; display: flex; align-items: center; gap: 10px;
+      box-shadow: 0 10px 15px rgba(0,0,0,0.2); opacity: 0; visibility: hidden; transition: all 0.3s; z-index: 100000;
     }
     #loading-toast.show { opacity: 1; visibility: visible; }
   </style>
@@ -242,44 +217,83 @@
   <!-- ログイン画面 -->
   <div id="login-overlay">
     <div class="login-box">
-      <div class="login-icon"><i class="fa-solid fa-user-shield"></i></div>
-      <h2>管理者ログイン</h2>
-      <p>アカウント名とパスワードを入力してください</p>
-      
-      <input type="text" id="login-account" placeholder="アカウント名" style="margin-bottom: 12px;" onkeydown="if(event.key==='Enter') submitLogin()">
-      <input type="password" id="login-password" placeholder="パスワード" style="margin-bottom: 14px;" onkeydown="if(event.key==='Enter') submitLogin()">
-      
-      <div id="login-err-msg" style="color:#ef4444; font-size:0.82rem; margin-bottom:14px; font-weight:bold; display:none;"></div>
-      
-      <button class="btn-primary" id="btn-login" style="width:100%; justify-content:center; padding:12px 0;" onclick="submitLogin()">
-        <i class="fa-solid fa-right-to-bracket"></i> ログイン
-      </button>
+      <div style="font-size:2.4rem; color:var(--primary); margin-bottom:10px;"><i class="fa-solid fa-lock"></i></div>
+      <h2 style="margin-bottom:6px;">管理者ログイン</h2>
+      <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:20px;">アカウント名とパスワードを入力</p>
+      <input type="text" id="login-account" placeholder="アカウント名" onkeydown="if(event.key==='Enter') submitLogin()">
+      <input type="password" id="login-password" placeholder="パスワード" onkeydown="if(event.key==='Enter') submitLogin()">
+      <div id="login-err-msg" style="color:#ef4444; font-size:0.8rem; margin-bottom:12px; display:none;"></div>
+      <button class="btn-primary" id="btn-login" style="width:100%; justify-content:center; padding:10px 0;" onclick="submitLogin()">ログイン</button>
     </div>
   </div>
 
-  <!-- 管理画面本体 -->
-  <div class="container">
-    <header>
-      <div class="header-title"><i class="fa-solid fa-sliders"></i> DASHBOARD</div>
-      <div style="display:flex; gap:10px;">
-        <button class="btn-success" onclick="openCreateModal()"><i class="fa-solid fa-plus"></i> 新規追加</button>
-        <button class="btn-secondary" onclick="logout()"><i class="fa-solid fa-right-from-bracket"></i> ログアウト</button>
-      </div>
+  <!-- サイドバー -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <i class="fa-solid fa-gem"></i> VTuber Admin
+    </div>
+    <ul class="nav-list">
+      <li class="nav-item active" onclick="switchNav('notice', 'お知らせ設定')"><i class="fa-solid fa-bullhorn"></i> お知らせ</li>
+      <li class="nav-item" onclick="switchNav('visual', '立ち絵設定')"><i class="fa-solid fa-image"></i> 立ち絵</li>
+      <li class="nav-item" onclick="switchNav('movies_priority', '動画設定')"><i class="fa-solid fa-play"></i> 動画</li>
+      <li class="nav-item" onclick="switchNav('shop', 'ショップ設定')"><i class="fa-solid fa-bag-shopping"></i> ショップ</li>
+      <li class="nav-item" onclick="switchNav('about', 'About設定')"><i class="fa-solid fa-circle-info"></i> About</li>
+      <li class="nav-item" onclick="switchNav('guideline', 'ガイドライン設定')"><i class="fa-solid fa-book-bookmark"></i> ガイドライン</li>
+      <li class="nav-item" onclick="switchNav('account', 'アカウント管理')"><i class="fa-solid fa-users-gear"></i> アカウント管理</li>
+    </ul>
+    <div class="sidebar-footer">
+      <button class="btn-secondary" style="width:100%; justify-content:center;" onclick="logout()"><i class="fa-solid fa-right-from-bracket"></i> ログアウト</button>
+    </div>
+  </aside>
+
+  <!-- メインコンテンツ -->
+  <div class="main-wrapper">
+    <header class="top-header">
+      <div class="top-title" id="page-title">お知らせ設定</div>
+      <button class="btn-sync" onclick="syncAllToGitHub()"><i class="fa-solid fa-rocket"></i> サイトへ反映（GitHubプッシュ）</button>
     </header>
 
-    <div class="card">
-      <div class="select-group">
-        <label for="sheet-select" style="font-weight:800;">編集シート:</label>
-        <select id="sheet-select" onchange="loadCurrentSheetData()"></select>
-        <button class="btn-secondary" onclick="loadCurrentSheetData()"><i class="fa-solid fa-rotate"></i> 再読込</button>
+    <div class="content-area">
+      
+      <!-- 左：基本情報 (Profile) 固定編集エリア -->
+      <div class="card">
+        <div class="card-title">
+          <span><i class="fa-solid fa-id-card" style="color:var(--primary);"></i> 基本プロフィール</span>
+          <button class="btn-primary" style="padding:4px 10px; font-size:0.75rem;" onclick="saveProfileAll()"><i class="fa-solid fa-check"></i> 保存</button>
+        </div>
+        <div style="max-height: calc(100vh - 200px); overflow-y: auto;">
+          <table class="profile-table">
+            <tbody id="profile-body">
+              <tr><td colspan="2" style="text-align:center; color:#94a3b8;">読み込み中...</td></tr>
+            </tbody>
+          </table>
+        </div>
       </div>
 
-      <div class="table-wrap">
-        <table id="data-table">
-          <thead><tr id="table-head"></tr></thead>
-          <tbody id="table-body"></tbody>
-        </table>
+      <!-- 右：各シート動的切り替えエリア -->
+      <div class="card">
+        <!-- 動画シート用タブ（動画選択時のみ表示） -->
+        <div class="tab-group" id="movie-tabs" style="display:none;">
+          <button class="tab-btn active" id="tab-movie-prio" onclick="changeMovieTab('movies_priority')">優先動画 (movies_priority)</button>
+          <button class="tab-btn" id="tab-movie-all" onclick="changeMovieTab('movies')">動画一覧 (movies)</button>
+        </div>
+
+        <div class="card-title">
+          <span id="sub-card-title">データ一覧</span>
+          <div>
+            <button class="btn-secondary" style="padding:6px 12px;" onclick="loadCurrentTableData()"><i class="fa-solid fa-rotate"></i> 再読込</button>
+            <button class="btn-success" style="padding:6px 12px;" onclick="openCreateModal()"><i class="fa-solid fa-plus"></i> 新規追加</button>
+          </div>
+        </div>
+
+        <div class="table-wrap">
+          <table>
+            <thead><tr id="table-head"></tr></thead>
+            <tbody id="table-body"></tbody>
+          </table>
+        </div>
       </div>
+
     </div>
   </div>
 
@@ -288,26 +302,26 @@
     <div class="modal-box">
       <div class="modal-header">
         <h3 id="modal-title">データ編集</h3>
-        <button onclick="closeModal()" style="background:none; border:none; font-size:1.4rem; cursor:pointer; color:var(--text-muted);">&times;</button>
+        <button onclick="closeModal()" style="background:none; border:none; font-size:1.4rem; cursor:pointer;">&times;</button>
       </div>
       <div class="modal-body" id="modal-fields"></div>
       <div class="modal-footer">
         <button class="btn-secondary" onclick="closeModal()">キャンセル</button>
-        <button class="btn-primary" id="btn-save" onclick="submitForm()"><i class="fa-solid fa-cloud-arrow-up"></i> 保存してGitHub反映</button>
+        <button class="btn-primary" id="btn-save-row" onclick="submitRowForm()"><i class="fa-solid fa-floppy-disk"></i> スプレッドシートに保存</button>
       </div>
     </div>
   </div>
 
-  <!-- トースト通知 -->
   <div id="loading-toast"><i class="fa-solid fa-spinner fa-spin"></i> <span id="toast-text">処理中...</span></div>
 
   <script>
-    // ★ デプロイしたGASのウェブアプリURL（末尾 /exec）を設定してください
-    const GAS_API_URL = "https://script.google.com/macros/s/AKfycbxOw2LRXYI_m7_nJyzYlt2GQblEzeseUfsr9s1-Q1oLRqHJSsIKYCYy7KBiFQ143CFA/exec";
+    const GAS_API_URL = "https://script.google.com/macros/s/AKfycbxsfZFysfM6B-kf2cnE6xSBzsbQ8JJRKCU4yQZbrqxsPSsKTY63VP-wkHAItKoafvTc/exec";
 
+    let currentActiveSheet = 'notice';
     let currentHeaders = [];
     let currentRows = [];
     let editingRowIndex = null;
+    let profileRawRows = [];
 
     function showToast(text) {
       document.getElementById('toast-text').textContent = text;
@@ -317,16 +331,13 @@
       document.getElementById('loading-toast').classList.remove('show');
     }
 
-    // 初期化チェック
     window.onload = function() {
-      const isAuthed = sessionStorage.getItem('admin_user_authed');
-      if (isAuthed) {
+      if (sessionStorage.getItem('admin_user_authed')) {
         document.getElementById('login-overlay').style.display = 'none';
-        initDashboard();
+        initApp();
       }
     };
 
-    // 1. ログイン送信
     async function submitLogin() {
       const acc = document.getElementById('login-account').value.trim();
       const pass = document.getElementById('login-password').value.trim();
@@ -344,25 +355,23 @@
       errMsg.style.display = 'none';
 
       try {
-        const url = `${GAS_API_URL}?action=verifyAccount&account=${encodeURIComponent(acc)}&password=${encodeURIComponent(pass)}`;
-        const res = await fetch(url);
+        const res = await fetch(`${GAS_API_URL}?action=verifyAccount&account=${encodeURIComponent(acc)}&password=${encodeURIComponent(pass)}`);
         const data = await res.json();
-
         btn.disabled = false;
-        btn.innerHTML = '<i class="fa-solid fa-right-to-bracket"></i> ログイン';
+        btn.innerHTML = 'ログイン';
 
         if (data.success) {
           sessionStorage.setItem('admin_user_authed', data.user || acc);
           document.getElementById('login-overlay').style.display = 'none';
-          initDashboard();
+          initApp();
         } else {
-          errMsg.textContent = data.message || '認証に失敗しました';
+          errMsg.textContent = data.message;
           errMsg.style.display = 'block';
         }
       } catch (err) {
         btn.disabled = false;
-        btn.innerHTML = '<i class="fa-solid fa-right-to-bracket"></i> ログイン';
-        errMsg.textContent = '通信エラーが発生しました: ' + err.message;
+        btn.innerHTML = 'ログイン';
+        errMsg.textContent = '通信エラー: ' + err.message;
         errMsg.style.display = 'block';
       }
     }
@@ -372,50 +381,104 @@
       location.reload();
     }
 
-    // 2. ダッシュボード初期化
-    async function initDashboard() {
-      showToast('シート一覧を読み込み中...');
+    function initApp() {
+      loadProfileData();
+      loadCurrentTableData();
+    }
+
+    // 1. 基本プロフィール (Profile) の読み込み & 描画
+    async function loadProfileData() {
       try {
-        const res = await fetch(`${GAS_API_URL}?action=getSheetList`);
-        const sheets = await res.json();
+        const res = await fetch(`${GAS_API_URL}?action=getSheetData&sheetName=profile`);
+        const data = await res.json();
+        profileRawRows = data.rows || [];
+        const tbody = document.getElementById('profile-body');
+        tbody.innerHTML = '';
 
-        const sel = document.getElementById('sheet-select');
-        sel.innerHTML = '';
-        sheets.forEach(s => {
-          const opt = document.createElement('option');
-          opt.value = s;
-          opt.textContent = s;
-          sel.appendChild(opt);
+        profileRawRows.forEach((row, idx) => {
+          // 1列目: key, 2列目: value, 3列目: desc
+          const keys = Object.keys(row).filter(k => k !== '_rowIndex');
+          const keyName = row[keys[0]] || '';
+          const val = row[keys[1]] || '';
+          const desc = row[keys[2]] || '';
+
+          const tr = document.createElement('tr');
+          tr.innerHTML = `
+            <td class="profile-key">${keyName}<div class="profile-desc">${desc}</div></td>
+            <td>
+              <input type="text" class="profile-input" id="prof-val-${row._rowIndex}" value="${val}">
+            </td>
+          `;
+          tbody.appendChild(tr);
         });
-
-        loadCurrentSheetData();
       } catch (err) {
-        hideToast();
-        alert('シート一覧取得エラー: ' + err.message);
+        console.error('Profile load error:', err);
       }
     }
 
-    // 3. 選択シートのデータ読み込み
-    async function loadCurrentSheetData() {
-      const sheetName = document.getElementById('sheet-select').value;
-      if (!sheetName) return;
+    // 基本プロフィールの保存
+    async function saveProfileAll() {
+      showToast('基本プロフィールを保存中...');
+      const payloadList = profileRawRows.map(row => ({
+        rowIndex: row._rowIndex,
+        value: document.getElementById(`prof-val-${row._rowIndex}`).value
+      }));
 
-      showToast(`「${sheetName}」を読み込み中...`);
       try {
-        const res = await fetch(`${GAS_API_URL}?action=getSheetData&sheetName=${encodeURIComponent(sheetName)}`);
-        const data = await res.json();
-
+        const res = await fetch(GAS_API_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify({ action: 'saveProfileBatch', profileData: payloadList })
+        });
+        const resData = await res.json();
         hideToast();
+        alert(resData.message);
+      } catch (e) {
+        hideToast();
+        alert('保存エラー: ' + e.message);
+      }
+    }
+
+    // 2. ナビゲーション切り替え
+    function switchNav(sheetName, title) {
+      currentActiveSheet = sheetName;
+      document.getElementById('page-title').textContent = title;
+
+      // サイドバーのアクティブクラス切り替え
+      document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+      event.currentTarget.classList.add('active');
+
+      // 動画タブの表示制御
+      const isMovie = (sheetName === 'movies_priority' || sheetName === 'movies');
+      document.getElementById('movie-tabs').style.display = isMovie ? 'flex' : 'none';
+
+      loadCurrentTableData();
+    }
+
+    function changeMovieTab(sheetName) {
+      currentActiveSheet = sheetName;
+      document.getElementById('tab-movie-prio').classList.toggle('active', sheetName === 'movies_priority');
+      document.getElementById('tab-movie-all').classList.toggle('active', sheetName === 'movies');
+      loadCurrentTableData();
+    }
+
+    // 3. 選択中シートのデータ読み込み & テーブル描画
+    async function loadCurrentTableData() {
+      showToast(`「${currentActiveSheet}」を読み込み中...`);
+      try {
+        const res = await fetch(`${GAS_API_URL}?action=getSheetData&sheetName=${encodeURIComponent(currentActiveSheet)}`);
+        const data = await res.json();
+        hideToast();
+
         currentHeaders = data.headers || [];
         currentRows = data.rows || [];
         renderTable();
       } catch (err) {
         hideToast();
-        alert('データ取得エラー: ' + err.message);
+        alert('読み込み失敗: ' + err.message);
       }
     }
 
-    // 4. 一覧テーブル描画
     function renderTable() {
       const head = document.getElementById('table-head');
       const body = document.getElementById('table-body');
@@ -435,7 +498,6 @@
 
       currentRows.forEach((row, idx) => {
         const tr = document.createElement('tr');
-        
         const tdOp = document.createElement('td');
         tdOp.innerHTML = `
           <button class="btn-primary" style="padding:4px 8px; font-size:0.75rem;" onclick="openEditModal(${idx})"><i class="fa-solid fa-pen"></i></button>
@@ -452,10 +514,10 @@
       });
     }
 
-    // 5. モーダル表示
+    // 4. モーダル
     function openCreateModal() {
       editingRowIndex = null;
-      document.getElementById('modal-title').textContent = '新規データ追加';
+      document.getElementById('modal-title').textContent = `${currentActiveSheet} に新規追加`;
       renderModalFields({});
       document.getElementById('form-modal').classList.add('show');
     }
@@ -463,7 +525,7 @@
     function openEditModal(rowIndexInArray) {
       const row = currentRows[rowIndexInArray];
       editingRowIndex = row._rowIndex;
-      document.getElementById('modal-title').textContent = `行 ${editingRowIndex} の編集`;
+      document.getElementById('modal-title').textContent = `${currentActiveSheet} の編集 (行: ${editingRowIndex})`;
       renderModalFields(row);
       document.getElementById('form-modal').classList.add('show');
     }
@@ -478,7 +540,7 @@
         grp.innerHTML = `<label>${h}</label>`;
 
         const val = data[h] !== undefined ? data[h] : '';
-        if (String(h).includes('message') || String(h).includes('text') || String(h).includes('value')) {
+        if (String(h).includes('message') || String(h).includes('text') || String(h).includes('guideline')) {
           const textarea = document.createElement('textarea');
           textarea.rows = 3;
           textarea.id = `field-${h}`;
@@ -499,43 +561,38 @@
       document.getElementById('form-modal').classList.remove('show');
     }
 
-    // 6. 保存＆同期
-    async function submitForm() {
-      const sheetName = document.getElementById('sheet-select').value;
+    // 5. 保存（スプレッドシートのみ）
+    async function submitRowForm() {
       const rowData = {};
-
       currentHeaders.forEach(h => {
         rowData[h] = document.getElementById(`field-${h}`).value;
       });
 
-      const btn = document.getElementById('btn-save');
+      const btn = document.getElementById('btn-save-row');
       btn.disabled = true;
-      showToast('シート保存 ＆ GitHub反映中...');
+      showToast('シートに保存中...');
 
       try {
-        const payload = {
-          action: 'saveRow',
-          sheetName: sheetName,
-          rowIndex: editingRowIndex,
-          rowData: rowData
-        };
-
         const res = await fetch(GAS_API_URL, {
           method: 'POST',
-          headers: { 'Content-Type': 'text/plain;charset=utf-8' }, // CORS preflight回避用
-          body: JSON.stringify(payload)
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify({
+            action: 'saveRow',
+            sheetName: currentActiveSheet,
+            rowIndex: editingRowIndex,
+            rowData: rowData
+          })
         });
-        const data = await res.json();
-
+        const resData = await res.json();
         hideToast();
         btn.disabled = false;
 
-        if (data.success) {
+        if (resData.success) {
           closeModal();
-          alert(data.message);
-          loadCurrentSheetData();
+          alert(resData.message);
+          loadCurrentTableData();
         } else {
-          alert('更新エラー: ' + data.message);
+          alert('エラー: ' + resData.message);
         }
       } catch (err) {
         hideToast();
@@ -544,37 +601,50 @@
       }
     }
 
-    // 7. 削除＆同期
+    // 6. 削除（スプレッドシートのみ）
     async function deleteRow(rowIndex) {
-      if (!confirm(`本当にこの行（行番号: ${rowIndex}）を削除してGitHubへ反映しますか？`)) return;
-
-      const sheetName = document.getElementById('sheet-select').value;
-      showToast('削除 ＆ GitHub反映中...');
+      if (!confirm(`行番号: ${rowIndex} を削除しますか？`)) return;
+      showToast('削除中...');
 
       try {
-        const payload = {
-          action: 'deleteRow',
-          sheetName: sheetName,
-          rowIndex: rowIndex
-        };
-
         const res = await fetch(GAS_API_URL, {
           method: 'POST',
           headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-          body: JSON.stringify(payload)
+          body: JSON.stringify({
+            action: 'deleteRow',
+            sheetName: currentActiveSheet,
+            rowIndex: rowIndex
+          })
         });
-        const data = await res.json();
-
+        const resData = await res.json();
         hideToast();
-        if (data.success) {
-          alert(data.message);
-          loadCurrentSheetData();
-        } else {
-          alert('削除エラー: ' + data.message);
+        if (resData.success) {
+          alert(resData.message);
+          loadCurrentTableData();
         }
       } catch (err) {
         hideToast();
         alert('通信エラー: ' + err.message);
+      }
+    }
+
+    // 7. 一括GitHubプッシュ
+    async function syncAllToGitHub() {
+      if (!confirm('スプレッドシートの全データをJSON化してGitHub（本番サイト）へ反映しますか？')) return;
+      showToast('GitHubへデータをプッシュ中...');
+
+      try {
+        const res = await fetch(GAS_API_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify({ action: 'syncAllToGitHub' })
+        });
+        const resData = await res.json();
+        hideToast();
+        alert(resData.message);
+      } catch (err) {
+        hideToast();
+        alert('GitHubプッシュエラー: ' + err.message);
       }
     }
   </script>
