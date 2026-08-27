@@ -1,33 +1,13 @@
 {
-  "global_regulations": [
-    {
-      "item": "page_background",
-      "type": "画像URL",
-      "value": "https://raw.githubusercontent.com/websample2000-ops/websample/main/assets/background/page_background.jpg",
-      "": "...ページ背景指定"
-    },
-    {
-      "item": "default_thumb_background",
-      "type": "画像URL",
-      "value": "https://raw.githubusercontent.com/websample2000-ops/websample/main/assets/background/thumbbackground.png",
-      "": "...thumbのデフォルト画像\n　(Visualで指定されてない場合参照される)"
-    },
-    {
-      "item": "email_address",
-      "type": "メール",
-      "value": "web.sample2000@gmail.com",
-      "": "...連絡およびお問い合わせ先メールアドレス"
-    }
-  ],
   "notice": [
     {
-      "time_stamp": "2026-08-22T15:00:00.000Z",
+      "time_stamp": "2026-08-23",
       "message": "sample",
       "picture": "",
       "CellImage": ""
     },
     {
-      "time_stamp": "2026-08-22T15:00:00.000Z",
+      "time_stamp": "2026-08-23",
       "message": "sample2",
       "picture": "https://raw.githubusercontent.com/websample2000-ops/websample/main/assets/notice/sample.jpg",
       "CellImage": {
@@ -35,7 +15,7 @@
       }
     },
     {
-      "time_stamp": "2026-08-22T15:00:00.000Z",
+      "time_stamp": "2026-08-23",
       "message": "sample3",
       "picture": "https://www.youtube.com/watch?v=v-CHjvyWkZk&t=36s",
       "CellImage": {
@@ -43,103 +23,27 @@
       }
     }
   ],
-  "profile": [
-    {
-      "項目": "name",
-      "設定値": "潤華ねろ",
-      "": "...キャラクターの名称"
-    },
-    {
-      "項目": "pronunciation",
-      "設定値": "うるか ねろ",
-      "": "...名称のふりがな"
-    },
-    {
-      "項目": "romanization",
-      "設定値": "uruka nero",
-      "": "...名称のローマ字"
-    },
-    {
-      "項目": "nickname",
-      "設定値": "ウル",
-      "": "...ニックネーム"
-    },
-    {
-      "項目": "comment",
-      "設定値": "サンプル",
-      "": "...キャッチフレーズや挨拶の言葉"
-    },
-    {
-      "項目": "message",
-      "設定値": "サンプルサンプルサンプルサンプルサンプルサンプルサンプル",
-      "": "...自己紹介やメッセージ"
-    },
-    {
-      "項目": "birthday",
-      "設定値": "2025-12-31T15:00:00.000Z",
-      "": "...誕生日"
-    },
-    {
-      "項目": "streaming",
-      "設定値": "2025-12-31T15:00:00.000Z",
-      "": "...配信活動開始日"
-    },
-    {
-      "項目": "age",
-      "設定値": 20,
-      "": "...年齢"
-    },
-    {
-      "項目": "height",
-      "設定値": 155,
-      "": "...身長"
-    },
-    {
-      "項目": "fan_name",
-      "設定値": "りすなー",
-      "": "...ファンネーム"
-    },
-    {
-      "項目": "youtube_url",
-      "設定値": "https://www.youtube.com/channel/UCcy9G8C6x4M0vZXVHzyn0EQ",
-      "": "...YouTubeチャンネルのURL"
-    },
-    {
-      "項目": "x_url",
-      "設定値": "https://x.com/uruka_nero",
-      "": "...XのURL"
-    },
-    {
-      "項目": "sns_url-1",
-      "設定値": "",
-      "": "...配信プラットフォームなどのURL(予備枠)"
-    },
-    {
-      "項目": "sns_url-2",
-      "設定値": "",
-      "": "...配信プラットフォームなどのURL(予備枠)"
-    },
-    {
-      "項目": "sns_url-3",
-      "設定値": "",
-      "": "...配信プラットフォームなどのURL(予備枠)"
-    },
-    {
-      "項目": "movie_url-1",
-      "設定値": "",
-      "": "...MVや自己紹介動画のURL"
-    },
-    {
-      "項目": "movie_url-2",
-      "設定値": "",
-      "": "...MVや自己紹介動画のURL"
-    },
-    {
-      "項目": "movie_url-3",
-      "設定値": "",
-      "": "...MVや自己紹介動画のURL"
-    }
-  ],
+  "profile": {
+    "name": "潤華ねろ",
+    "pronunciation": "うるか ねろ",
+    "romanization": "uruka nero",
+    "nickname": "ウル",
+    "comment": "サンプル",
+    "message": "サンプルサンプルサンプルサンプルサンプルサンプルサンプル",
+    "birthday": "2026-01-03",
+    "streaming": "2026-01-03",
+    "age": 20,
+    "height": 155,
+    "fan_name": "りすなー",
+    "youtube_url": "https://www.youtube.com/channel/UCcy9G8C6x4M0vZXVHzyn0EQ",
+    "x_url": "https://x.com/uruka_nero",
+    "sns_url-1": "",
+    "sns_url-2": "",
+    "sns_url-3": "",
+    "movie_url-1": "https://www.youtube.com/watch?v=v-CHjvyWkZk&t=36s",
+    "movie_url-2": "https://www.youtube.com/watch?v=3HPWXoSYmP4&t=114s",
+    "movie_url-3": ""
+  },
   "profile_mv": [
     {
       "mv_url": "https://www.youtube.com/watch?v=v-CHjvyWkZk&t=36s",
@@ -719,6 +623,34 @@
       "bold_text": true,
       "text": "制定日：202X年X月X日 ［VTuber名］",
       "priority": 999
+    },
+    {
+      "text_type": "注釈",
+      "paragraph_group": "",
+      "bold_text": "",
+      "text": "",
+      "priority": ""
+    }
+  ],
+  "global_regulations": [
+    {
+      "item": "page_background",
+      "type": "画像URL",
+      "value": "https://raw.githubusercontent.com/websample2000-ops/websample/main/assets/background/page_background.jpg",
+      "": "...ページ背景指定"
+    },
+    {
+      "item": "default_thumb_background",
+      "type": "画像URL",
+      "value": "https://raw.githubusercontent.com/websample2000-ops/websample/main/assets/background/thumbbackground.png",
+      "": "...thumbのデフォルト画像\n　(Visualで指定されてない場合参照される)"
+    }
+  ],
+  "account": [
+    {
+      "account": "web.sample2000@gmail.com",
+      "password": "admin",
+      "authority": "admin"
     }
   ]
 }
