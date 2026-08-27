@@ -22,24 +22,6 @@
             }
         }
     },
-    "global_regulations": {
-        "title": "基本設定",
-        "headerRow": 1,
-        "dataStartRow": 2,
-        "columns": {
-            "item": {
-                "label": "用途",
-                "type": "text",
-                "required": true
-            },
-            "type": { 
-                "label": "形式", 
-                "type": "select",
-                "options": [ "画像url", "テキスト", "その他" ],
-                "required": true
-            }
-        }
-    },
     "visual": {
         "title": "立ち絵",
         "headerRow": 1,
@@ -351,42 +333,42 @@
             },
             "youtube_url": {
                 "label": "YouTubeチャンネルURL",
-                "type": "url",
+                "type": "web",
                 "required": false
             },
             "x_url": {
                 "label": "X (旧Twitter) URL",
-                "type": "url",
+                "type": "web",
                 "required": false
             },
             "sns_url-1": {
                 "label": "配信プラットフォーム-1",
-                "type": "url",
+                "type": "web",
                 "required": false
             },
             "sns_url-2": {
                 "label": "配信プラットフォーム-2",
-                "type": "url",
+                "type": "web",
                 "required": false
             },
             "sns_url-3": {
                 "label": "配信プラットフォーム-3",
-                "type": "url",
+                "type": "web",
                 "required": false
             },
             "movie_url-1": {
                 "label": "自己紹介動画URL-1",
-                "type": "url",
+                "type": "web",
                 "required": false
             },
             "movie_url-2": {
                 "label": "自己紹介動画URL-2",
-                "type": "url",
+                "type": "web",
                 "required": false
             },
             "movie_url-3": {
                 "label": "自己紹介動画URL-3",
-                "type": "url",
+                "type": "web",
                 "required": false
             }
         }
