@@ -212,8 +212,18 @@
       outline: none; border-color: var(--primary);
     }
 
-    .field-preview { margin-top: 6px; display: inline-block; max-height: 80px; border-radius: 4px; border: 1px solid var(--border); overflow: hidden; }
-    .field-preview img { height: 100%; max-height: 80px; object-fit: cover; display: block; }
+    /* プレビュー枠（画像・動画） */
+    .media-preview-box {
+      margin-top: 8px;
+      padding: 8px;
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      display: none;
+    }
+    .media-preview-box.show { display: block; }
+    .media-preview-box img { max-height: 120px; max-width: 100%; object-fit: contain; border-radius: 4px; display: block; }
+    .media-preview-box iframe { width: 100%; height: 160px; border: none; border-radius: 4px; }
 
     #loading-toast {
       position: fixed; bottom: 24px; right: 24px; background: #1e293b; color: #fff;
@@ -350,6 +360,58 @@
       document.getElementById('loading-toast').classList.remove('show');
     }
 
+    // YouTube URLから動画IDを抽出
+    function extractYouTubeId(url) {
+      if (!url) return null;
+      const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=|shorts\/)([^#\&\?]*).*/;
+      const match = url.match(regExp);
+      return (match && match[2].length === 11) ? match[2] : null;
+    }
+
+    // プレビューHTMLを生成
+    function renderPreviewHtml(url) {
+      if (!url || typeof url !== 'string' || !url.startsWith('http')) return '';
+      const ytId = extractYouTubeId(url);
+      if (ytId) {
+        return `<iframe src="https://www.youtube.com/embed/${ytId}" allowfullscreen></iframe>`;
+      }
+      return `<img src="${url}" onerror="this.parentElement.style.display='none'">`;
+    }
+
+    // 日付フォーマット変換（カレンダー値 YYYY-MM-DD -> ターゲット形式）
+    function formatOutputDate(rawVal, formatType) {
+      if (!rawVal) return '';
+      if (!formatType) return rawVal;
+
+      const d = new Date(rawVal);
+      if (isNaN(d.getTime())) return rawVal;
+
+      const yyyy = d.getFullYear();
+      const mm = String(d.getMonth() + 1).padStart(2, '0');
+      const dd = String(d.getDate()).padStart(2, '0');
+
+      if (formatType === 'YYYY年MM月DD日') return `${yyyy}年${mm}月${dd}日`;
+      if (formatType === 'MM月DD日') return `${mm}月${dd}日`;
+      if (formatType === 'YYYY-MM-DD') return `${yyyy}-${mm}-${dd}`;
+      return rawVal;
+    }
+
+    // 日付文字列から <input type="date"> 用 (YYYY-MM-DD) へ復元
+    function parseInputDate(val) {
+      if (!val) return '';
+      const str = String(val).trim();
+      const matchYMD = str.match(/(\d{4})[^\d](\d{1,2})[^\d](\d{1,2})/);
+      if (matchYMD) {
+        return `${matchYMD[1]}-${String(matchYMD[2]).padStart(2, '0')}-${String(matchYMD[3]).padStart(2, '0')}`;
+      }
+      const matchMD = str.match(/(\d{1,2})[^\d](\d{1,2})/);
+      if (matchMD) {
+        const currentYear = new Date().getFullYear();
+        return `${currentYear}-${String(matchMD[1]).padStart(2, '0')}-${String(matchMD[2]).padStart(2, '0')}`;
+      }
+      return '';
+    }
+
     async function loadSchemaConfig() {
       try {
         const resYaml = await fetch('./schema.yaml');
@@ -446,7 +508,6 @@
       }
     }
 
-    // 表示対象カラムのみを抽出するヘルパー関数
     function getVisibleColumns() {
       const sheetConf = APP_SCHEMA[currentActiveSheet];
       if (!sheetConf || !sheetConf.columns) {
@@ -457,7 +518,7 @@
       });
     }
 
-    // 1. 基本プロフィール (Profile) 描画（未設定キー非表示対応）
+    // 1. 基本プロフィール (Profile) 描画
     async function loadProfileData() {
       showToast('基本プロフィールを読み込み中...');
       try {
@@ -470,7 +531,6 @@
 
         const schemaItems = (APP_SCHEMA.profile && APP_SCHEMA.profile.items) ? APP_SCHEMA.profile.items : {};
 
-        // yamlに定義されている項目のみを抽出
         const visibleRows = profileRawRows.filter(row => {
           return row.key && row.key.trim() !== '' && schemaItems[row.key] !== undefined;
         });
@@ -498,8 +558,21 @@
           } else if (inputType === 'number') {
             const minAttr = conf.min !== undefined ? `min="${conf.min}"` : '';
             inputHtml = `<input type="number" class="profile-input" id="prof-val-${row._rowIndex}" value="${val}" ${minAttr} placeholder="${placeholder}">`;
-          } else if (inputType === 'date') {
-            inputHtml = `<input type="text" class="profile-input" id="prof-val-${row._rowIndex}" value="${val}" placeholder="${conf.format || placeholder || 'YYYY-MM-DD'}">`;
+          } else if (inputType === 'date' || inputType === 'data') {
+            // カレンダーピッカー表示
+            const dateVal = parseInputDate(val);
+            inputHtml = `
+              <div style="display:flex; gap:10px; align-items:center;">
+                <input type="date" class="profile-input" id="prof-date-${row._rowIndex}" value="${dateVal}" onchange="updateProfileDateFormatted(${row._rowIndex}, '${conf.format || ''}')">
+                <input type="text" class="profile-input" id="prof-val-${row._rowIndex}" value="${val}" placeholder="${conf.format || '日付'}">
+              </div>
+            `;
+          } else if (inputType === 'url') {
+            const previewHtml = renderPreviewHtml(val);
+            inputHtml = `
+              <input type="url" class="profile-input" id="prof-val-${row._rowIndex}" value="${val}" placeholder="https://..." oninput="updateProfileUrlPreview(${row._rowIndex})">
+              <div class="media-preview-box ${previewHtml ? 'show' : ''}" id="prof-prev-${row._rowIndex}">${previewHtml}</div>
+            `;
           } else {
             inputHtml = `<input type="text" class="profile-input" id="prof-val-${row._rowIndex}" value="${val}" placeholder="${placeholder}">`;
           }
@@ -519,12 +592,36 @@
       }
     }
 
+    // 日付選択時の自動フォーマット連動
+    function updateProfileDateFormatted(rowIndex, formatType) {
+      const dateEl = document.getElementById(`prof-date-${rowIndex}`);
+      const valEl = document.getElementById(`prof-val-${rowIndex}`);
+      if (dateEl && valEl) {
+        valEl.value = formatOutputDate(dateEl.value, formatType);
+      }
+    }
+
+    // Profile URL プレビュー連動
+    function updateProfileUrlPreview(rowIndex) {
+      const inputEl = document.getElementById(`prof-val-${rowIndex}`);
+      const prevEl = document.getElementById(`prof-prev-${rowIndex}`);
+      if (!inputEl || !prevEl) return;
+      const html = renderPreviewHtml(inputEl.value.trim());
+      if (html) {
+        prevEl.innerHTML = html;
+        prevEl.classList.add('show');
+      } else {
+        prevEl.innerHTML = '';
+        prevEl.classList.remove('show');
+      }
+    }
+
     async function saveProfileAll() {
       const schemaItems = (APP_SCHEMA.profile && APP_SCHEMA.profile.items) ? APP_SCHEMA.profile.items : {};
       
       for (let row of profileRawRows) {
         const conf = schemaItems[row.key];
-        if (!conf) continue; // yaml未定義キーはバリデーションスキップ
+        if (!conf) continue;
         const el = document.getElementById(`prof-val-${row._rowIndex}`);
         if (!el) continue;
         const val = el.value.trim();
@@ -562,7 +659,7 @@
       }
     }
 
-    // 2. 通常シート一覧テーブル描画（空欄・未定義カラム除外対応）
+    // 2. 通常シート一覧テーブル描画
     async function loadCurrentTableData() {
       showToast(`「${currentActiveSheet}」を読み込み中...`);
       try {
@@ -627,7 +724,7 @@
       });
     }
 
-    // 3. モーダルフォーム生成（空欄・未定義カラム除外対応）
+    // 3. モーダルフォーム生成（カレンダー・URLプレビュー対応）
     async function openCreateModal() {
       editingRowIndex = null;
       const sheetConf = APP_SCHEMA[currentActiveSheet] || {};
@@ -713,38 +810,89 @@
           if (conf.step !== undefined) input.step = conf.step;
           grp.appendChild(input);
 
+        } else if (inputType === 'date' || inputType === 'data') {
+          // カレンダーピッカー
+          const dateBox = document.createElement('div');
+          dateBox.style.display = 'flex';
+          dateBox.style.gap = '10px';
+          dateBox.style.alignItems = 'center';
+
+          const dateInput = document.createElement('input');
+          dateInput.type = 'date';
+          dateInput.value = parseInputDate(val);
+
+          const textInput = document.createElement('input');
+          textInput.type = 'text';
+          textInput.id = `field-${h}`;
+          textInput.value = val;
+          textInput.placeholder = conf.format || 'YYYY-MM-DD';
+
+          dateInput.onchange = () => {
+            textInput.value = formatOutputDate(dateInput.value, conf.format);
+          };
+
+          dateBox.appendChild(dateInput);
+          dateBox.appendChild(textInput);
+          grp.appendChild(dateBox);
+
         } else if (inputType === 'datetime') {
-          const input = document.createElement('input');
-          input.type = 'text';
-          input.id = `field-${h}`;
-          input.value = val;
-          input.placeholder = 'YYYY-MM-DD HH:mm:ss';
-          grp.appendChild(input);
+          // 日時ピッカー（時間付き）
+          const dtInput = document.createElement('input');
+          dtInput.type = 'datetime-local';
+          dtInput.style.marginBottom = '6px';
+
+          const textInput = document.createElement('input');
+          textInput.type = 'text';
+          textInput.id = `field-${h}`;
+          textInput.value = val;
+          textInput.placeholder = 'YYYY-MM-DD HH:mm:ss';
+
+          if (val) {
+            const parsed = new Date(val);
+            if (!isNaN(parsed.getTime())) {
+              const localIso = new Date(parsed.getTime() - parsed.getTimezoneOffset() * 60000).toISOString().slice(0, 16);
+              dtInput.value = localIso;
+            }
+          }
+
+          dtInput.onchange = () => {
+            if (dtInput.value) {
+              textInput.value = dtInput.value.replace('T', ' ') + ':00';
+            }
+          };
+
+          grp.appendChild(dtInput);
+          grp.appendChild(textInput);
 
         } else if (inputType === 'url') {
+          // URL入力 ＋ プレビュー枠
           const input = document.createElement('input');
           input.type = 'url';
           input.id = `field-${h}`;
           input.value = val;
           input.placeholder = 'https://...';
-          grp.appendChild(input);
 
-          if (h.includes('image') || h.includes('visual') || h.includes('thumb') || h.includes('picture')) {
-            const prev = document.createElement('div');
-            prev.className = 'field-preview';
-            prev.id = `prev-${h}`;
-            if (val && String(val).startsWith('http')) {
-              prev.innerHTML = `<img src="${val}" onerror="this.style.display='none'">`;
-            }
-            input.oninput = () => {
-              if (input.value.startsWith('http')) {
-                prev.innerHTML = `<img src="${input.value}" onerror="this.style.display='none'">`;
-              } else {
-                prev.innerHTML = '';
-              }
-            };
-            grp.appendChild(prev);
+          const prev = document.createElement('div');
+          prev.className = 'media-preview-box';
+          const initHtml = renderPreviewHtml(val);
+          if (initHtml) {
+            prev.innerHTML = initHtml;
+            prev.classList.add('show');
           }
+
+          input.oninput = () => {
+            const html = renderPreviewHtml(input.value.trim());
+            if (html) {
+              prev.innerHTML = html;
+              prev.classList.add('show');
+            } else {
+              prev.innerHTML = '';
+              prev.classList.remove('show');
+            }
+          };
+
+          grp.appendChild(input);
+          grp.appendChild(prev);
 
         } else {
           const input = document.createElement('input');
@@ -792,7 +940,7 @@
       document.getElementById('form-modal').classList.remove('show');
     }
 
-    // 4. 保存（表示対象カラムのみバリデーション＋保存）
+    // 4. 保存
     async function submitRowForm() {
       const sheetConf = APP_SCHEMA[currentActiveSheet] || { columns: {} };
       const colConfs = sheetConf.columns || {};
