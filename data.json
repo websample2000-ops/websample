@@ -1,0 +1,724 @@
+{
+  "global_regulations": [
+    {
+      "item": "page_background",
+      "type": "画像URL",
+      "value": "https://raw.githubusercontent.com/websample2000-ops/websample/main/assets/background/page_background.jpg",
+      "": "...ページ背景指定"
+    },
+    {
+      "item": "default_thumb_background",
+      "type": "画像URL",
+      "value": "https://raw.githubusercontent.com/websample2000-ops/websample/main/assets/background/thumbbackground.png",
+      "": "...thumbのデフォルト画像\n　(Visualで指定されてない場合参照される)"
+    },
+    {
+      "item": "email_address",
+      "type": "メール",
+      "value": "web.sample2000@gmail.com",
+      "": "...連絡およびお問い合わせ先メールアドレス"
+    }
+  ],
+  "notice": [
+    {
+      "time_stamp": "2026-08-22T15:00:00.000Z",
+      "message": "sample",
+      "picture": "",
+      "CellImage": ""
+    },
+    {
+      "time_stamp": "2026-08-22T15:00:00.000Z",
+      "message": "sample2",
+      "picture": "https://raw.githubusercontent.com/websample2000-ops/websample/main/assets/notice/sample.jpg",
+      "CellImage": {
+        "valueType": "IMAGE"
+      }
+    },
+    {
+      "time_stamp": "2026-08-22T15:00:00.000Z",
+      "message": "sample3",
+      "picture": "https://www.youtube.com/watch?v=v-CHjvyWkZk&t=36s",
+      "CellImage": {
+        "valueType": "IMAGE"
+      }
+    }
+  ],
+  "profile": [
+    {
+      "項目": "name",
+      "設定値": "潤華ねろ",
+      "": "...キャラクターの名称"
+    },
+    {
+      "項目": "pronunciation",
+      "設定値": "うるか ねろ",
+      "": "...名称のふりがな"
+    },
+    {
+      "項目": "romanization",
+      "設定値": "uruka nero",
+      "": "...名称のローマ字"
+    },
+    {
+      "項目": "nickname",
+      "設定値": "ウル",
+      "": "...ニックネーム"
+    },
+    {
+      "項目": "comment",
+      "設定値": "サンプル",
+      "": "...キャッチフレーズや挨拶の言葉"
+    },
+    {
+      "項目": "message",
+      "設定値": "サンプルサンプルサンプルサンプルサンプルサンプルサンプル",
+      "": "...自己紹介やメッセージ"
+    },
+    {
+      "項目": "birthday",
+      "設定値": "2025-12-31T15:00:00.000Z",
+      "": "...誕生日"
+    },
+    {
+      "項目": "streaming",
+      "設定値": "2025-12-31T15:00:00.000Z",
+      "": "...配信活動開始日"
+    },
+    {
+      "項目": "age",
+      "設定値": 20,
+      "": "...年齢"
+    },
+    {
+      "項目": "height",
+      "設定値": 155,
+      "": "...身長"
+    },
+    {
+      "項目": "fan_name",
+      "設定値": "りすなー",
+      "": "...ファンネーム"
+    },
+    {
+      "項目": "youtube_url",
+      "設定値": "https://www.youtube.com/channel/UCcy9G8C6x4M0vZXVHzyn0EQ",
+      "": "...YouTubeチャンネルのURL"
+    },
+    {
+      "項目": "x_url",
+      "設定値": "https://x.com/uruka_nero",
+      "": "...XのURL"
+    },
+    {
+      "項目": "sns_url-1",
+      "設定値": "",
+      "": "...配信プラットフォームなどのURL(予備枠)"
+    },
+    {
+      "項目": "sns_url-2",
+      "設定値": "",
+      "": "...配信プラットフォームなどのURL(予備枠)"
+    },
+    {
+      "項目": "sns_url-3",
+      "設定値": "",
+      "": "...配信プラットフォームなどのURL(予備枠)"
+    },
+    {
+      "項目": "movie_url-1",
+      "設定値": "",
+      "": "...MVや自己紹介動画のURL"
+    },
+    {
+      "項目": "movie_url-2",
+      "設定値": "",
+      "": "...MVや自己紹介動画のURL"
+    },
+    {
+      "項目": "movie_url-3",
+      "設定値": "",
+      "": "...MVや自己紹介動画のURL"
+    }
+  ],
+  "profile_mv": [
+    {
+      "mv_url": "https://www.youtube.com/watch?v=v-CHjvyWkZk&t=36s",
+      "priority": 1,
+      "start_at": "",
+      "end_at": "",
+      "is_active": true
+    },
+    {
+      "mv_url": "https://www.youtube.com/watch?v=3HPWXoSYmP4&t=114s",
+      "priority": 2,
+      "start_at": "",
+      "end_at": "",
+      "is_active": true
+    }
+  ],
+  "visual": [
+    {
+      "id": 100001,
+      "costume_name": "sample",
+      "visual_url": "https://raw.githubusercontent.com/websample2000-ops/websample/main/assets/visual/mainVisual/sampleimage.png",
+      "": {
+        "valueType": "IMAGE"
+      },
+      "thumb_url": "https://raw.githubusercontent.com/websample2000-ops/websample/main/assets/visual/thumb/samplethumb.png",
+      "thumb_background": "https://raw.githubusercontent.com/websample2000-ops/websample/main/assets/background/thumbbackground.png",
+      "comment": "サンプルサンプルサンプル",
+      "character_design": "潤華ねろ",
+      "illustrator": "潤華ねろ",
+      "2d_animation": "",
+      "3d_modeling": "",
+      "priority": 1
+    },
+    {
+      "id": 100002,
+      "costume_name": "sample1",
+      "visual_url": "https://raw.githubusercontent.com/websample2000-ops/websample/main/assets/visual/mainVisual/sampleimage1.png",
+      "": {
+        "valueType": "IMAGE"
+      },
+      "thumb_url": "https://raw.githubusercontent.com/websample2000-ops/websample/main/assets/visual/thumb/samplethumb1.png",
+      "thumb_background": "https://raw.githubusercontent.com/websample2000-ops/websample/main/assets/background/thumbbackground2.png",
+      "comment": "サンプルサンプルサンプル2",
+      "character_design": "潤華ねろ",
+      "illustrator": "潤華ねろ",
+      "2d_animation": "潤華ねろ",
+      "3d_modeling": "潤華ねろ",
+      "priority": 2
+    },
+    {
+      "id": 100003,
+      "costume_name": "sample2",
+      "visual_url": "https://raw.githubusercontent.com/websample2000-ops/websample/main/assets/visual/mainVisual/sampleimage2.png",
+      "": {
+        "valueType": "IMAGE"
+      },
+      "thumb_url": "https://raw.githubusercontent.com/websample2000-ops/websample/main/assets/visual/thumb/samplethumb2.png",
+      "thumb_background": "https://raw.githubusercontent.com/websample2000-ops/websample/main/assets/background/thumbbackground2.png",
+      "comment": "",
+      "character_design": "",
+      "illustrator": "",
+      "2d_animation": "",
+      "3d_modeling": "",
+      "priority": ""
+    }
+  ],
+  "shop": [
+    {
+      "id": 1,
+      "name": "アクリルキーホルダー",
+      "merchandise_image": "https://raw.githubusercontent.com/websample2000-ops/websample/main/assets/shop/sample_shop.png",
+      "": {
+        "valueType": "IMAGE"
+      },
+      "price": 700,
+      "booth": "https://websample2000-ops.github.io/websample/sample.html",
+      "suzuri": "https://websample2000-ops.github.io/websample/sample.html",
+      "base": "https://websample2000-ops.github.io/websample/sample.html",
+      "fanbox": "https://websample2000-ops.github.io/websample/sample.html"
+    },
+    {
+      "id": 2,
+      "name": "ペンライト",
+      "merchandise_image": "https://raw.githubusercontent.com/websample2000-ops/websample/main/assets/shop/sample_shop.png",
+      "": {
+        "valueType": "IMAGE"
+      },
+      "price": 800,
+      "booth": "",
+      "suzuri": "",
+      "base": "https://websample2000-ops.github.io/websample/sample.html",
+      "fanbox": ""
+    },
+    {
+      "id": 3,
+      "name": "アクリルスタンド",
+      "merchandise_image": "https://raw.githubusercontent.com/websample2000-ops/websample/main/assets/shop/sample_shop.png",
+      "": {
+        "valueType": "IMAGE"
+      },
+      "price": 1500,
+      "booth": "https://websample2000-ops.github.io/websample/sample.html",
+      "suzuri": "https://websample2000-ops.github.io/websample/sample.html",
+      "base": "",
+      "fanbox": ""
+    },
+    {
+      "id": 4,
+      "name": "Tシャツ",
+      "merchandise_image": "https://raw.githubusercontent.com/websample2000-ops/websample/main/assets/shop/sample_shop.png",
+      "": {
+        "valueType": "IMAGE"
+      },
+      "price": 3000,
+      "booth": "https://websample2000-ops.github.io/websample/sample.html",
+      "suzuri": "https://websample2000-ops.github.io/websample/sample.html",
+      "base": "",
+      "fanbox": ""
+    },
+    {
+      "id": 5,
+      "name": "ぬいぐるみ",
+      "merchandise_image": "https://raw.githubusercontent.com/websample2000-ops/websample/main/assets/shop/sample_shop.png",
+      "": {
+        "valueType": "IMAGE"
+      },
+      "price": 2700,
+      "booth": "https://websample2000-ops.github.io/websample/sample.html",
+      "suzuri": "",
+      "base": "https://websample2000-ops.github.io/websample/sample.html",
+      "fanbox": "https://websample2000-ops.github.io/websample/sample.html"
+    },
+    {
+      "id": 6,
+      "name": "缶バッジ",
+      "merchandise_image": "https://raw.githubusercontent.com/websample2000-ops/websample/main/assets/shop/sample_shop.png",
+      "": {
+        "valueType": "IMAGE"
+      },
+      "price": 300,
+      "booth": "https://websample2000-ops.github.io/websample/sample.html",
+      "suzuri": "https://websample2000-ops.github.io/websample/sample.html",
+      "base": "",
+      "fanbox": ""
+    },
+    {
+      "id": 7,
+      "name": "ボイス",
+      "merchandise_image": "https://raw.githubusercontent.com/websample2000-ops/websample/main/assets/shop/sample_shop.png",
+      "": {
+        "valueType": "IMAGE"
+      },
+      "price": 500,
+      "booth": "https://websample2000-ops.github.io/websample/sample.html",
+      "suzuri": "",
+      "base": "",
+      "fanbox": ""
+    },
+    {
+      "id": 8,
+      "name": "ボイス",
+      "merchandise_image": "https://raw.githubusercontent.com/websample2000-ops/websample/main/assets/shop/sample_shop.png",
+      "": {
+        "valueType": "IMAGE"
+      },
+      "price": 500,
+      "booth": "https://websample2000-ops.github.io/websample/sample.html",
+      "suzuri": "",
+      "base": "",
+      "fanbox": ""
+    },
+    {
+      "id": 9,
+      "name": "ボイス",
+      "merchandise_image": "https://raw.githubusercontent.com/websample2000-ops/websample/main/assets/shop/sample_shop.png",
+      "": {
+        "valueType": "IMAGE"
+      },
+      "price": 500,
+      "booth": "https://websample2000-ops.github.io/websample/sample.html",
+      "suzuri": "",
+      "base": "",
+      "fanbox": ""
+    },
+    {
+      "id": 10,
+      "name": "ボイス",
+      "merchandise_image": "https://raw.githubusercontent.com/websample2000-ops/websample/main/assets/shop/sample_shop.png",
+      "": {
+        "valueType": "IMAGE"
+      },
+      "price": 500,
+      "booth": "https://websample2000-ops.github.io/websample/sample.html",
+      "suzuri": "",
+      "base": "",
+      "fanbox": ""
+    },
+    {
+      "id": 11,
+      "name": "ボイス",
+      "merchandise_image": "https://raw.githubusercontent.com/websample2000-ops/websample/main/assets/shop/sample_shop.png",
+      "": {
+        "valueType": "IMAGE"
+      },
+      "price": 500,
+      "booth": "https://websample2000-ops.github.io/websample/sample.html",
+      "suzuri": "",
+      "base": "",
+      "fanbox": ""
+    }
+  ],
+  "about": [
+    {
+      "title": "ガイドライン",
+      "line": 1,
+      "type": "ボタンリンク",
+      "button_image": "",
+      "": "",
+      "value": "https://websample2000-ops.github.io/websample/guideline.html",
+      "title_value": "",
+      "text_value": "",
+      "priority": 1
+    },
+    {
+      "title": "お問い合わせ",
+      "line": 1,
+      "type": "メール",
+      "button_image": "",
+      "": "",
+      "value": "web.sample2000@gmail.com",
+      "title_value": "sample",
+      "text_value": "【ご所属・企業名】: \n【お名前】: \n【ご連絡先メールアドレス】: \n\n【お問い合わせ・ご要請内容】: \n※具体的な修正・削除要請内容をご記入ください。",
+      "priority": 2
+    },
+    {
+      "title": "booth",
+      "line": 2,
+      "type": "ストア",
+      "button_image": "",
+      "": "",
+      "value": "https://websample2000-ops.github.io/websample/sample.html",
+      "title_value": "",
+      "text_value": "",
+      "priority": 3
+    },
+    {
+      "title": "suzuri",
+      "line": 2,
+      "type": "ストア",
+      "button_image": "",
+      "": "",
+      "value": "https://websample2000-ops.github.io/websample/sample.html",
+      "title_value": "",
+      "text_value": "",
+      "priority": 4
+    },
+    {
+      "title": "base",
+      "line": 2,
+      "type": "ストア",
+      "button_image": "",
+      "": "",
+      "value": "https://websample2000-ops.github.io/websample/sample.html",
+      "title_value": "",
+      "text_value": "",
+      "priority": 5
+    },
+    {
+      "title": "fanbox",
+      "line": 2,
+      "type": "ストア",
+      "button_image": "",
+      "": "",
+      "value": "https://websample2000-ops.github.io/websample/sample.html",
+      "title_value": "",
+      "text_value": "",
+      "priority": 6
+    }
+  ],
+  "footer": [],
+  "movies": [
+    {
+      "type": "ゲーム配信",
+      "title": "【FF14】極ゾディアーク　T2・H1・D5 PT（ヒーラー目線）",
+      "image_url": "",
+      "": {
+        "valueType": "IMAGE"
+      },
+      "video_url": "https://www.youtube.com/watch?v=v-CHjvyWkZk&t=50s",
+      "is_active": true
+    },
+    {
+      "type": "ゲーム配信",
+      "title": "【FF14】極エメラルドウエポン　T2：H1：D5",
+      "image_url": "",
+      "": {
+        "valueType": "IMAGE"
+      },
+      "video_url": "https://www.youtube.com/watch?v=3HPWXoSYmP4&t=1s",
+      "is_active": true
+    },
+    {
+      "type": "歌枠",
+      "title": "【PSO2】謳無き丘へ～Harmonics Pre=Ciel～",
+      "image_url": "",
+      "": {
+        "valueType": "IMAGE"
+      },
+      "video_url": "https://www.youtube.com/watch?v=sNe4f-YlXTI",
+      "is_active": true
+    },
+    {
+      "type": "雑談",
+      "title": "極エメラルドウエポン_歩兵＆爆撃機の避け方",
+      "image_url": "",
+      "": {
+        "valueType": "IMAGE"
+      },
+      "video_url": "https://www.youtube.com/watch?v=PYCrME6cUz8",
+      "is_active": true
+    },
+    {
+      "type": "その他",
+      "title": "黒い砂漠 演奏「みちしるべ」",
+      "image_url": "",
+      "": {
+        "valueType": "IMAGE"
+      },
+      "video_url": "https://www.youtube.com/watch?v=HWDVVysH_oI",
+      "is_active": true
+    },
+    {
+      "type": "ショート",
+      "title": "【切り抜き】【R.E.P.O.】ローブにビビるころさん",
+      "image_url": "",
+      "": {
+        "valueType": "IMAGE"
+      },
+      "video_url": "https://www.youtube.com/shorts/Lb_GMwCpYvE",
+      "is_active": true
+    },
+    {
+      "type": "ゲーム配信",
+      "title": "【FF14】極ゾディアーク　T2・H1・D5 PT（ヒーラー目線）",
+      "image_url": "",
+      "": {
+        "valueType": "IMAGE"
+      },
+      "video_url": "https://www.youtube.com/watch?v=v-CHjvyWkZk&t=50s",
+      "is_active": true
+    },
+    {
+      "type": "ゲーム配信",
+      "title": "【FF14】極エメラルドウエポン　T2：H1：D5",
+      "image_url": "",
+      "": {
+        "valueType": "IMAGE"
+      },
+      "video_url": "https://www.youtube.com/watch?v=3HPWXoSYmP4&t=1s",
+      "is_active": true
+    },
+    {
+      "type": "ゲーム配信",
+      "title": "【FF14】極ゾディアーク　T2・H1・D5 PT（ヒーラー目線）",
+      "image_url": "",
+      "": {
+        "valueType": "IMAGE"
+      },
+      "video_url": "https://www.youtube.com/watch?v=v-CHjvyWkZk&t=50s",
+      "is_active": true
+    },
+    {
+      "type": "ゲーム配信",
+      "title": "【FF14】極エメラルドウエポン　T2：H1：D5",
+      "image_url": "",
+      "": {
+        "valueType": "IMAGE"
+      },
+      "video_url": "https://www.youtube.com/watch?v=3HPWXoSYmP4&t=1s",
+      "is_active": true
+    }
+  ],
+  "movies_priority": [
+    {
+      "type": "ゲーム配信",
+      "priority": 1
+    },
+    {
+      "type": "歌枠",
+      "priority": 2
+    },
+    {
+      "type": "雑談",
+      "priority": 3
+    },
+    {
+      "type": "その他",
+      "priority": 5
+    },
+    {
+      "type": "ショート",
+      "priority": 4
+    }
+  ],
+  "guideline": [
+    {
+      "text_type": "タイトル",
+      "paragraph_group": "",
+      "bold_text": true,
+      "text": "二次創作・ファン活動に関するガイドライン",
+      "priority": 1
+    },
+    {
+      "text_type": "項目",
+      "paragraph_group": "",
+      "bold_text": true,
+      "text": "1. イラスト・立体物・同人誌（ファンアート）について",
+      "priority": 100
+    },
+    {
+      "text_type": "段落テキスト",
+      "paragraph_group": 1,
+      "bold_text": false,
+      "text": "利用の範囲: 非営利目的（同人誌即売会等での実費程度の頒布を含む）での制作・公開を歓迎します。",
+      "priority": 105
+    },
+    {
+      "text_type": "段落テキスト",
+      "paragraph_group": 2,
+      "bold_text": false,
+      "text": "活動内での使用: 制作いただいたファンアートは、配信のサムネイル、SNSでの紹介、活動実績の紹介等で使用させていただく場合があります。あらかじめご了承ください。",
+      "priority": 110
+    },
+    {
+      "text_type": "段落テキスト",
+      "paragraph_group": 3,
+      "bold_text": false,
+      "text": "ハッシュタグ: X（旧Twitter）へ投稿する際は、ぜひ専用ハッシュタグ「#［ファンアートタグ］」をつけてご投稿ください。",
+      "priority": 115
+    },
+    {
+      "text_type": "項目",
+      "paragraph_group": "",
+      "bold_text": true,
+      "text": "2. 切り抜き動画について",
+      "priority": 200
+    },
+    {
+      "text_type": "テキスト",
+      "paragraph_group": "",
+      "bold_text": false,
+      "text": "大歓迎です！ 配信の魅力が伝わるような切り抜き動画の作成・投稿を歓迎しています。",
+      "priority": 205
+    },
+    {
+      "text_type": "段落テキスト",
+      "paragraph_group": 4,
+      "bold_text": true,
+      "text": "必須事項: ",
+      "priority": 210
+    },
+    {
+      "text_type": "段落テキスト",
+      "paragraph_group": 4,
+      "bold_text": false,
+      "text": "動画の概要欄（または動画内）に、必ず「元動画のURL」と「［VTuber名］のチャンネルURL」を記載してください。",
+      "priority": 215
+    },
+    {
+      "text_type": "段落テキスト",
+      "paragraph_group": 5,
+      "bold_text": true,
+      "text": "禁止事項: ",
+      "priority": 220
+    },
+    {
+      "text_type": "段落テキスト",
+      "paragraph_group": 5,
+      "bold_text": false,
+      "text": "メンバーシップ限定配信、有料チケット制配信、または「切り抜き禁止」と明示した配信の切り抜きはご遠慮ください。",
+      "priority": 225
+    },
+    {
+      "text_type": "段落テキスト",
+      "paragraph_group": 6,
+      "bold_text": true,
+      "text": "収益化:",
+      "priority": 230
+    },
+    {
+      "text_type": "段落テキスト",
+      "paragraph_group": 6,
+      "bold_text": false,
+      "text": " YouTubeの広告収益化や投げ銭機能を利用した収益化は、事前に［お問い合わせ窓口］までご相談ください。",
+      "priority": 235
+    },
+    {
+      "text_type": "項目",
+      "paragraph_group": "",
+      "bold_text": true,
+      "text": "3. 禁止事項（すべての活動共通）",
+      "priority": 300
+    },
+    {
+      "text_type": "テキスト",
+      "paragraph_group": "",
+      "bold_text": false,
+      "text": "以下に該当する表現・行為は固く禁止いたします。",
+      "priority": 305
+    },
+    {
+      "text_type": "段落テキスト",
+      "paragraph_group": 7,
+      "bold_text": false,
+      "text": "公序良俗に反するもの、過度な暴力的表現",
+      "priority": 310
+    },
+    {
+      "text_type": "段落テキスト",
+      "paragraph_group": 8,
+      "bold_text": false,
+      "text": "特定の個人、団体、人種、宗教、政治等を批判・中傷する目的のもの",
+      "priority": 315
+    },
+    {
+      "text_type": "段落テキスト",
+      "paragraph_group": 9,
+      "bold_text": false,
+      "text": "［VTuber名］公式と誤認・混同させるような表現やなりすまし",
+      "priority": 320
+    },
+    {
+      "text_type": "段落テキスト",
+      "paragraph_group": 10,
+      "bold_text": false,
+      "text": "公式のロゴやイラスト、配信画面のスクショをそのまま転用したグッズの販売",
+      "priority": 325
+    },
+    {
+      "text_type": "段落テキスト",
+      "paragraph_group": 11,
+      "bold_text": false,
+      "text": "AI生成サービスへの公式イラスト・音声の無断学習・模倣生成",
+      "priority": 330
+    },
+    {
+      "text_type": "段落テキスト",
+      "paragraph_group": 12,
+      "bold_text": false,
+      "text": "その他、［VTuber名］が不適切と判断したもの",
+      "priority": 335
+    },
+    {
+      "text_type": "項目",
+      "paragraph_group": "",
+      "bold_text": true,
+      "text": "4. 免責事項・その他",
+      "priority": 400
+    },
+    {
+      "text_type": "段落テキスト",
+      "paragraph_group": 13,
+      "bold_text": false,
+      "text": "二次創作活動によって生じたトラブルや損害について、［VTuber名］は一切の責任を負いかねます。",
+      "priority": 405
+    },
+    {
+      "text_type": "段落テキスト",
+      "paragraph_group": 14,
+      "bold_text": false,
+      "text": "本ガイドラインは予告なく変更・更新される場合があります。常に最新の内容をご確認ください。",
+      "priority": 410
+    },
+    {
+      "text_type": "テキスト",
+      "paragraph_group": "",
+      "bold_text": true,
+      "text": "制定日：202X年X月X日 ［VTuber名］",
+      "priority": 999
+    }
+  ]
+}
