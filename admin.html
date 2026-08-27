@@ -104,27 +104,22 @@
 
     .content-area {
       padding: 24px;
-      display: grid;
-      grid-template-columns: 380px 1fr;
-      gap: 24px;
-      align-items: start;
-    }
-
-    @media (max-width: 1100px) {
-      .content-area { grid-template-columns: 1fr; }
+      max-width: 1200px;
+      width: 100%;
+      margin: 0 auto;
     }
 
     .card {
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: var(--radius);
-      padding: 20px;
+      padding: 24px;
       box-shadow: var(--shadow);
     }
     .card-title {
-      font-size: 1.05rem;
+      font-size: 1.1rem;
       font-weight: 800;
-      margin-bottom: 16px;
+      margin-bottom: 18px;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -152,29 +147,38 @@
     .btn-danger { background: #ef4444; color: #fff; }
     .btn-secondary { background: #64748b; color: #fff; }
 
-    /* 基本情報 (Profile) リスト */
-    .profile-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
-    .profile-table tr { border-bottom: 1px solid #f1f5f9; }
-    .profile-table td { padding: 8px 6px; }
-    .profile-key { font-weight: bold; color: #475569; width: 100px; }
+    /* 基本情報 (Profile) テーブル */
+    .profile-table-wrap {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .profile-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+    .profile-table tr { border-bottom: 1px solid var(--border); }
+    .profile-table tr:last-child { border-bottom: none; }
+    .profile-table th { background: #f8fafc; padding: 12px 16px; font-weight: 800; color: #475569; text-align: left; }
+    .profile-table td { padding: 10px 16px; }
+    .profile-key { font-weight: bold; color: #1e293b; width: 220px; vertical-align: top; padding-top: 14px; }
     .profile-input {
       width: 100%;
-      padding: 6px 10px;
-      border: 1px solid var(--border);
+      padding: 8px 12px;
+      border: 1.5px solid var(--border);
       border-radius: 6px;
-      font-size: 0.85rem;
+      font-size: 0.9rem;
+      font-family: inherit;
     }
-    .profile-desc { font-size: 0.72rem; color: #94a3b8; margin-top: 2px; }
+    .profile-input:focus { outline: none; border-color: var(--primary); }
+    .profile-desc { font-size: 0.75rem; color: #94a3b8; margin-top: 4px; font-weight: normal; }
 
-    /* データ一覧テーブル */
+    /* 通常データ一覧テーブル */
     .table-wrap {
       overflow-x: auto;
       border: 1px solid var(--border);
       border-radius: 8px;
-      max-height: 520px;
+      max-height: 600px;
     }
-    table { width: 100%; border-collapse: collapse; font-size: 0.86rem; text-align: left; }
-    th, td { padding: 10px 12px; border-bottom: 1px solid var(--border); white-space: nowrap; max-width: 220px; overflow: hidden; text-overflow: ellipsis; }
+    table { width: 100%; border-collapse: collapse; font-size: 0.88rem; text-align: left; }
+    th, td { padding: 12px 14px; border-bottom: 1px solid var(--border); white-space: nowrap; max-width: 260px; overflow: hidden; text-overflow: ellipsis; }
     th { background: #f8fafc; position: sticky; top: 0; z-index: 5; font-weight: 800; color: #475569; }
     tr:hover td { background: #f8fafc; }
 
@@ -233,7 +237,8 @@
       <i class="fa-solid fa-gem"></i> VTuber Admin
     </div>
     <ul class="nav-list">
-      <li class="nav-item active" onclick="switchNav('notice', 'お知らせ設定')"><i class="fa-solid fa-bullhorn"></i> お知らせ</li>
+      <li class="nav-item active" onclick="switchNav('profile', '基本プロフィール')"><i class="fa-solid fa-id-card"></i> 基本プロフィール</li>
+      <li class="nav-item" onclick="switchNav('notice', 'お知らせ設定')"><i class="fa-solid fa-bullhorn"></i> お知らせ</li>
       <li class="nav-item" onclick="switchNav('visual', '立ち絵設定')"><i class="fa-solid fa-image"></i> 立ち絵</li>
       <li class="nav-item" onclick="switchNav('movies_priority', '動画設定')"><i class="fa-solid fa-play"></i> 動画</li>
       <li class="nav-item" onclick="switchNav('shop', 'ショップ設定')"><i class="fa-solid fa-bag-shopping"></i> ショップ</li>
@@ -249,30 +254,38 @@
   <!-- メインコンテンツ -->
   <div class="main-wrapper">
     <header class="top-header">
-      <div class="top-title" id="page-title">お知らせ設定</div>
+      <div class="top-title" id="page-title">基本プロフィール</div>
       <button class="btn-sync" onclick="syncAllToGitHub()"><i class="fa-solid fa-rocket"></i> サイトへ反映（GitHubプッシュ）</button>
     </header>
 
     <div class="content-area">
       
-      <!-- 左：基本情報 (Profile) 固定編集エリア -->
-      <div class="card">
+      <!-- 1. 基本プロフィール (Profile) 編集ビュー -->
+      <div class="card" id="profile-view">
         <div class="card-title">
-          <span><i class="fa-solid fa-id-card" style="color:var(--primary);"></i> 基本プロフィール</span>
-          <button class="btn-primary" style="padding:4px 10px; font-size:0.75rem;" onclick="saveProfileAll()"><i class="fa-solid fa-check"></i> 保存</button>
+          <span><i class="fa-solid fa-id-card" style="color:var(--primary);"></i> 基本情報設定</span>
+          <div>
+            <button class="btn-secondary" style="padding:6px 12px;" onclick="loadProfileData()"><i class="fa-solid fa-rotate"></i> 再読込</button>
+            <button class="btn-primary" style="padding:6px 16px;" onclick="saveProfileAll()"><i class="fa-solid fa-floppy-disk"></i> スプレッドシートに保存</button>
+          </div>
         </div>
-        <div style="max-height: calc(100vh - 200px); overflow-y: auto;">
+        <div class="profile-table-wrap">
           <table class="profile-table">
+            <thead>
+              <tr>
+                <th style="width: 220px;">項目名</th>
+                <th>設定値</th>
+              </tr>
+            </thead>
             <tbody id="profile-body">
-              <tr><td colspan="2" style="text-align:center; color:#94a3b8;">読み込み中...</td></tr>
+              <tr><td colspan="2" style="text-align:center; color:#94a3b8; padding:20px;">読み込み中...</td></tr>
             </tbody>
           </table>
         </div>
       </div>
 
-      <!-- 右：各シート動的切り替えエリア -->
-      <div class="card">
-        <!-- 動画シート用タブ（動画選択時のみ表示） -->
+      <!-- 2. 通常シート (Notice, Visual, Shop等) 一覧ビュー -->
+      <div class="card" id="general-view" style="display:none;">
         <div class="tab-group" id="movie-tabs" style="display:none;">
           <button class="tab-btn active" id="tab-movie-prio" onclick="changeMovieTab('movies_priority')">優先動画 (movies_priority)</button>
           <button class="tab-btn" id="tab-movie-all" onclick="changeMovieTab('movies')">動画一覧 (movies)</button>
@@ -317,7 +330,7 @@
   <script>
     const GAS_API_URL = "https://script.google.com/macros/s/AKfycbxYlAr1y9mOf_WSLpsmR42yt8aJZ4oxjys4Hheu59wxlbTR-GmgE1btDEI73s-BrBJr/exec";
 
-    let currentActiveSheet = 'notice';
+    let currentActiveSheet = 'profile';
     let currentHeaders = [];
     let currentRows = [];
     let editingRowIndex = null;
@@ -382,21 +395,58 @@
     }
 
     function initApp() {
-      loadProfileData();
+      switchNav('profile', '基本プロフィール');
+    }
+
+    // 1. ナビゲーション切り替え
+    function switchNav(sheetName, title) {
+      currentActiveSheet = sheetName;
+      document.getElementById('page-title').textContent = title;
+
+      // サイドバーのアクティブクラス更新
+      document.querySelectorAll('.nav-list .nav-item').forEach(el => {
+        el.classList.remove('active');
+        if (el.textContent.includes(title)) {
+          el.classList.add('active');
+        }
+      });
+
+      // profileビュー と 通常ビュー の表示切り替え
+      const isProfile = (sheetName === 'profile');
+      document.getElementById('profile-view').style.display = isProfile ? 'block' : 'none';
+      document.getElementById('general-view').style.display = isProfile ? 'none' : 'block';
+
+      // 動画タブの表示制御
+      const isMovie = (sheetName === 'movies_priority' || sheetName === 'movies');
+      document.getElementById('movie-tabs').style.display = isMovie ? 'flex' : 'none';
+
+      if (isProfile) {
+        loadProfileData();
+      } else {
+        loadCurrentTableData();
+      }
+    }
+
+    function changeMovieTab(sheetName) {
+      currentActiveSheet = sheetName;
+      document.getElementById('tab-movie-prio').classList.toggle('active', sheetName === 'movies_priority');
+      document.getElementById('tab-movie-all').classList.toggle('active', sheetName === 'movies');
       loadCurrentTableData();
     }
 
-    // 基本プロフィール (Profile) の読み込み & 描画
+    // 2. 基本プロフィール (Profile) の読み込み & 描画
     async function loadProfileData() {
+      showToast('基本プロフィールを読み込み中...');
       try {
         const res = await fetch(`${GAS_API_URL}?action=getSheetData&sheetName=profile`);
         const data = await res.json();
+        hideToast();
         profileRawRows = data.rows || [];
         const tbody = document.getElementById('profile-body');
         tbody.innerHTML = '';
 
         if (profileRawRows.length === 0) {
-          tbody.innerHTML = '<tr><td colspan="2" style="text-align:center; color:#94a3b8; padding:12px;">データがありません</td></tr>';
+          tbody.innerHTML = '<tr><td colspan="2" style="text-align:center; color:#94a3b8; padding:20px;">データがありません</td></tr>';
           return;
         }
 
@@ -414,6 +464,7 @@
           tbody.appendChild(tr);
         });
       } catch (err) {
+        hideToast();
         console.error('Profile load error:', err);
       }
     }
@@ -441,30 +492,7 @@
       }
     }
 
-    // 2. ナビゲーション切り替え
-    function switchNav(sheetName, title) {
-      currentActiveSheet = sheetName;
-      document.getElementById('page-title').textContent = title;
-
-      // サイドバーのアクティブクラス切り替え
-      document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
-      event.currentTarget.classList.add('active');
-
-      // 動画タブの表示制御
-      const isMovie = (sheetName === 'movies_priority' || sheetName === 'movies');
-      document.getElementById('movie-tabs').style.display = isMovie ? 'flex' : 'none';
-
-      loadCurrentTableData();
-    }
-
-    function changeMovieTab(sheetName) {
-      currentActiveSheet = sheetName;
-      document.getElementById('tab-movie-prio').classList.toggle('active', sheetName === 'movies_priority');
-      document.getElementById('tab-movie-all').classList.toggle('active', sheetName === 'movies');
-      loadCurrentTableData();
-    }
-
-    // 3. 選択中シートのデータ読み込み & テーブル描画
+    // 3. 通常シートのデータ読み込み & テーブル描画
     async function loadCurrentTableData() {
       showToast(`「${currentActiveSheet}」を読み込み中...`);
       try {
@@ -542,7 +570,7 @@
         grp.innerHTML = `<label>${h}</label>`;
 
         const val = data[h] !== undefined ? data[h] : '';
-        if (String(h).includes('message') || String(h).includes('text') || String(h).includes('guideline')) {
+        if (String(h).includes('message') || String(h).includes('text') || String(h).includes('guideline') || String(h).includes('comment')) {
           const textarea = document.createElement('textarea');
           textarea.rows = 3;
           textarea.id = `field-${h}`;
