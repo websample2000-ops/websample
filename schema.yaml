@@ -42,6 +42,11 @@
                 "type": "url",
                 "required": true
             },
+            "thumb_url": {
+                "label": "アイコン画像URL",
+                "type": "url",
+                "required": true
+            },
             "thumb_background": {
                 "label": "アイコン背景画像URL",
                 "type": "url",
