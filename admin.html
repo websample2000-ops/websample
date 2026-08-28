@@ -212,6 +212,29 @@
       outline: none; border-color: var(--primary);
     }
 
+    /* アップロードコントロール */
+    .upload-control-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .upload-btn-row {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+    .btn-upload-file {
+      background: #3b82f6;
+      color: #fff;
+      padding: 6px 12px;
+      font-size: 0.8rem;
+      border-radius: 6px;
+      white-space: nowrap;
+    }
+    .btn-upload-file:hover {
+      background: #2563eb;
+    }
+
     /* プレビュー枠（画像・動画） */
     .media-preview-box {
       margin-top: 8px;
@@ -396,7 +419,6 @@
       document.getElementById('loading-toast').classList.remove('show');
     }
 
-    // YouTube URLから動画IDを抽出
     function extractYouTubeId(url) {
       if (!url) return null;
       const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=|shorts\/)([^#\&\?]*).*/;
@@ -404,7 +426,6 @@
       return (match && match[2].length === 11) ? match[2] : null;
     }
 
-    // プレビューHTMLを生成
     function renderPreviewHtml(url) {
       if (!url || typeof url !== 'string' || !url.startsWith('http')) return '';
       const ytId = extractYouTubeId(url);
@@ -414,7 +435,6 @@
       return `<img src="${url}" onerror="this.parentElement.style.display='none'">`;
     }
 
-    // 日付フォーマット変換（カレンダー値 YYYY-MM-DD -> ターゲット形式）
     function formatOutputDate(rawVal, formatType) {
       if (!rawVal) return '';
       if (!formatType) return rawVal;
@@ -432,7 +452,6 @@
       return rawVal;
     }
 
-    // 日付文字列から <input type="date"> 用 (YYYY-MM-DD) へ復元
     function parseInputDate(val) {
       if (!val) return '';
       const str = String(val).trim();
@@ -595,7 +614,6 @@
             const minAttr = conf.min !== undefined ? `min="${conf.min}"` : '';
             inputHtml = `<input type="number" class="profile-input" id="prof-val-${row._rowIndex}" value="${val}" ${minAttr} placeholder="${placeholder}">`;
           } else if (inputType === 'date' || inputType === 'data') {
-            // カレンダーピッカー表示
             const dateVal = parseInputDate(val);
             inputHtml = `
               <div style="display:flex; gap:10px; align-items:center;">
@@ -628,7 +646,6 @@
       }
     }
 
-    // 日付選択時の自動フォーマット連動
     function updateProfileDateFormatted(rowIndex, formatType) {
       const dateEl = document.getElementById(`prof-date-${rowIndex}`);
       const valEl = document.getElementById(`prof-val-${rowIndex}`);
@@ -637,7 +654,6 @@
       }
     }
 
-    // Profile URL プレビュー連動
     function updateProfileUrlPreview(rowIndex) {
       const inputEl = document.getElementById(`prof-val-${rowIndex}`);
       const prevEl = document.getElementById(`prof-prev-${rowIndex}`);
@@ -749,7 +765,6 @@
           const conf = colConfs[h] || {};
           const valStr = String(val).trim();
 
-          // 1. type: url または URL文字列の場合のビュー＋URL表示
           if (conf.type === 'url' || valStr.startsWith('http')) {
             if (!valStr) {
               td.textContent = '-';
@@ -757,7 +772,6 @@
               const ytId = extractYouTubeId(valStr);
 
               if (ytId) {
-                // YouTube動画サムネイル ＋ URL
                 const thumbUrl = `https://img.youtube.com/vi/${ytId}/hqdefault.jpg`;
                 td.innerHTML = `
                   <div class="table-media-cell">
@@ -766,7 +780,6 @@
                   </div>
                 `;
               } else if (valStr.match(/\.(jpeg|jpg|gif|png|webp|svg)(\?.*)?$/i) || h.includes('image') || h.includes('visual') || h.includes('thumb') || h.includes('picture')) {
-                // 画像サムネイル ＋ URL
                 td.innerHTML = `
                   <div class="table-media-cell">
                     <img src="${valStr}" class="table-thumb-preview" alt="Image" title="クリックして元画像を開く" onclick="window.open('${valStr}','_blank')" onerror="this.style.display='none'">
@@ -774,7 +787,6 @@
                   </div>
                 `;
               } else {
-                // 一般外部リンク
                 td.innerHTML = `
                   <div class="table-media-cell">
                     <a href="${valStr}" target="_blank" rel="noopener noreferrer" class="table-url-text" title="${valStr}">
@@ -785,12 +797,10 @@
               }
             }
 
-          // 2. select で日本語ラベルがある場合
           } else if (conf.type === 'select' && conf.options && conf.optionLabels) {
             const optIdx = conf.options.indexOf(valStr);
             td.textContent = optIdx !== -1 && conf.optionLabels[optIdx] ? conf.optionLabels[optIdx] : val;
 
-          // 3. 通常テキスト
           } else {
             td.textContent = val !== '' ? val : '-';
           }
@@ -801,7 +811,7 @@
       });
     }
 
-    // 3. モーダルフォーム生成（カレンダー・URLプレビュー対応）
+    // 3. モーダルフォーム生成（画像直接アップロード対応）
     async function openCreateModal() {
       editingRowIndex = null;
       const sheetConf = APP_SCHEMA[currentActiveSheet] || {};
@@ -888,7 +898,6 @@
           grp.appendChild(input);
 
         } else if (inputType === 'date' || inputType === 'data') {
-          // カレンダーピッカー
           const dateBox = document.createElement('div');
           dateBox.style.display = 'flex';
           dateBox.style.gap = '10px';
@@ -913,7 +922,6 @@
           grp.appendChild(dateBox);
 
         } else if (inputType === 'datetime') {
-          // 日時ピッカー（時間付き）
           const dtInput = document.createElement('input');
           dtInput.type = 'datetime-local';
           dtInput.style.marginBottom = '6px';
@@ -942,7 +950,9 @@
           grp.appendChild(textInput);
 
         } else if (inputType === 'url') {
-          // URL入力 ＋ プレビュー枠
+          const uploadWrap = document.createElement('div');
+          uploadWrap.className = 'upload-control-wrap';
+
           const input = document.createElement('input');
           input.type = 'url';
           input.id = `field-${h}`;
@@ -968,8 +978,78 @@
             }
           };
 
-          grp.appendChild(input);
-          grp.appendChild(prev);
+          // アップロードボタン行
+          const uploadBtnRow = document.createElement('div');
+          uploadBtnRow.className = 'upload-btn-row';
+
+          const fileInput = document.createElement('input');
+          fileInput.type = 'file';
+          fileInput.accept = 'image/*';
+          fileInput.style.display = 'none';
+          fileInput.id = `file-input-${h}`;
+
+          const uploadBtn = document.createElement('button');
+          uploadBtn.type = 'button';
+          uploadBtn.className = 'btn-upload-file';
+          uploadBtn.innerHTML = '<i class="fa-solid fa-cloud-arrow-up"></i> 画像ファイルを選択してアップロード';
+          uploadBtn.onclick = () => fileInput.click();
+
+          fileInput.onchange = async (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            // アップロード対象パス決定
+            let folder = 'assets/notice';
+            if (currentActiveSheet === 'visual') folder = 'assets/visual';
+            else if (currentActiveSheet === 'shop') folder = 'assets/shop';
+            else if (currentActiveSheet === 'global_regulations') folder = 'assets/background';
+
+            const cleanFileName = file.name.replace(/[^a-zA-Z0-9._-]/g, '_');
+            const targetPath = `${folder}/${Date.now()}_${cleanFileName}`;
+
+            uploadBtn.disabled = true;
+            uploadBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> アップロード中...';
+            showToast('GitHubへ画像をアップロード中...');
+
+            try {
+              const base64Content = await readFileAsBase64(file);
+              const res = await fetch(GAS_API_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                body: JSON.stringify({
+                  action: 'uploadImageToGitHub',
+                  filePath: targetPath,
+                  base64Content: base64Content
+                })
+              });
+              const resData = await res.json();
+              hideToast();
+              uploadBtn.disabled = false;
+              uploadBtn.innerHTML = '<i class="fa-solid fa-cloud-arrow-up"></i> 画像ファイルを選択してアップロード';
+
+              if (resData.success && resData.url) {
+                input.value = resData.url;
+                input.dispatchEvent(new Event('input'));
+                alert('アップロード完了！URLを設定しました。');
+              } else {
+                alert('アップロード失敗: ' + (resData.message || '不明なエラー'));
+              }
+            } catch (err) {
+              hideToast();
+              uploadBtn.disabled = false;
+              uploadBtn.innerHTML = '<i class="fa-solid fa-cloud-arrow-up"></i> 画像ファイルを選択してアップロード';
+              alert('アップロードエラー: ' + err.message);
+            }
+          };
+
+          uploadBtnRow.appendChild(uploadBtn);
+          uploadBtnRow.appendChild(fileInput);
+
+          uploadWrap.appendChild(uploadBtnRow);
+          uploadWrap.appendChild(input);
+          uploadWrap.appendChild(prev);
+
+          grp.appendChild(uploadWrap);
 
         } else {
           const input = document.createElement('input');
@@ -984,6 +1064,19 @@
 
       container.innerHTML = '';
       container.appendChild(fieldsFragment);
+    }
+
+    // ファイルをBase64文字列に変換するヘルパー
+    function readFileAsBase64(file) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => {
+          const base64 = reader.result.split(',')[1];
+          resolve(base64);
+        };
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+      });
     }
 
     async function fetchRelationOptions(fromSheet, fromColumn) {
