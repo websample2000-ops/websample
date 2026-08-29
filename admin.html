@@ -361,6 +361,40 @@
     .badge-building { background: rgba(245, 158, 11, 0.2); color: #f59e0b; border: 1px solid #f59e0b; }
     .badge-error { background: rgba(239, 68, 68, 0.2); color: #ef4444; border: 1px solid #ef4444; }
     .badge-unknown { background: rgba(148, 163, 184, 0.2); color: #94a3b8; border: 1px solid #94a3b8; }
+
+    /* サイドバーの GitHub Actions 進行状況枠 */
+    .actions-status-box {
+      margin: 10px 8px 4px 8px;
+      padding: 10px 12px;
+      background: #0f172a;
+      border: 1px solid #334155;
+      border-radius: 8px;
+      font-size: 0.8rem;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .actions-status-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: #94a3b8;
+      font-weight: 700;
+    }
+    .actions-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 2px 8px;
+      border-radius: 12px;
+      font-size: 0.72rem;
+      font-weight: 800;
+    }
+    .actions-running { background: rgba(59, 130, 246, 0.2); color: #3b82f6; border: 1px solid #3b82f6; }
+    .actions-queued { background: rgba(245, 158, 11, 0.2); color: #f59e0b; border: 1px solid #f59e0b; }
+    .actions-success { background: rgba(16, 185, 129, 0.2); color: #10b981; border: 1px solid #10b981; }
+    .actions-failure { background: rgba(239, 68, 68, 0.2); color: #ef4444; border: 1px solid #ef4444; }
+    .actions-unknown { background: rgba(148, 163, 184, 0.2); color: #94a3b8; border: 1px solid #94a3b8; }
   </style>
 </head>
 <body>
@@ -394,8 +428,24 @@
       <li class="nav-item" onclick="switchNav('about', 'About')"><i class="fa-solid fa-circle-info"></i> About</li>
       <li class="nav-item" onclick="switchNav('guideline', 'ガイドライン')"><i class="fa-solid fa-book-bookmark"></i> ガイドライン</li>
       <li class="nav-item" onclick="switchNav('account', '管理アカウント')"><i class="fa-solid fa-users-gear"></i> 管理アカウント</li>
-      <li class="nav-item" onclick="switchNav('account', '管理アカウント')"><i class="fa-solid fa-users-gear"></i> 管理アカウント</li>
     </ul>
+
+    <!-- ★ GitHub Actions 進行状況枠 -->
+    <div class="actions-status-box">
+      <div class="actions-status-header">
+        <span><i class="fa-solid fa-play"></i> Actions 状況</span>
+        <button onclick="updateActionsStatus()" style="background:none; border:none; color:#94a3b8; padding:0; cursor:pointer;" title="最新状態を取得">
+          <i class="fa-solid fa-rotate" id="actions-refresh-icon"></i>
+        </button>
+      </div>
+      <div style="display:flex; justify-content:space-between; align-items:center;">
+        <span id="actions-status-badge" class="actions-badge actions-unknown">確認中...</span>
+        <a id="actions-detail-link" href="#" target="_blank" rel="noopener noreferrer" style="font-size:0.72rem; color:#60a5fa; text-decoration:none; display:none;">
+          詳細 <i class="fa-solid fa-arrow-up-right-from-square" style="font-size:0.65rem;"></i>
+        </a>
+      </div>
+      <div id="actions-time" style="font-size:0.7rem; color:#64748b; text-align:right;">-</div>
+    </div>
 
     <!-- ★ 管理アカウントの下に追加するビルドステータス枠 -->
     <div class="build-status-box">
@@ -655,6 +705,7 @@
 
     function initApp() {
       updateStorageUsage();
+      updateActionsStatus();
       updateBuildStatus();
       switchNav('profile', '基本プロフィール');
     }
@@ -1370,6 +1421,85 @@
         }
       } catch (e) {
         console.error('Build status error:', e);
+      }
+    }
+
+    let actionsPollTimer = null;
+
+    // GitHub Actions 進行状況の取得
+    async function updateActionsStatus() {
+      const badge = document.getElementById('actions-status-badge');
+      const timeEl = document.getElementById('actions-time');
+      const linkEl = document.getElementById('actions-detail-link');
+      const icon = document.getElementById('actions-refresh-icon');
+
+      if (!badge) return;
+      if (icon) icon.classList.add('fa-spin');
+
+      try {
+        const res = await fetch(`${GAS_API_URL}?action=getActionsStatus`);
+        const data = await res.json();
+        if (icon) icon.classList.remove('fa-spin');
+
+        if (data.success) {
+          badge.className = 'actions-badge';
+          if (data.htmlUrl) {
+            linkEl.href = data.htmlUrl;
+            linkEl.style.display = 'inline-block';
+          }
+
+          // 1. 実行中 / 待機中
+          if (data.status === 'in_progress') {
+            badge.classList.add('actions-running');
+            badge.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> 実行中...';
+            // 実行中の場合は5秒ごとに自動再取得
+            startActionsPolling();
+
+          } else if (data.status === 'queued') {
+            badge.classList.add('actions-queued');
+            badge.innerHTML = '<i class="fa-solid fa-clock"></i> 待機中...';
+            startActionsPolling();
+
+          // 2. 完了時 (conclusionで判定)
+          } else if (data.status === 'completed') {
+            stopActionsPolling();
+            if (data.conclusion === 'success') {
+              badge.classList.add('actions-success');
+              badge.innerHTML = '<i class="fa-solid fa-check"></i> 成功';
+            } else if (data.conclusion === 'failure') {
+              badge.classList.add('actions-failure');
+              badge.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i> 失敗';
+            } else {
+              badge.classList.add('actions-unknown');
+              badge.textContent = data.conclusion || '完了';
+            }
+          } else {
+            stopActionsPolling();
+            badge.classList.add('actions-unknown');
+            badge.textContent = data.status;
+          }
+
+          if (data.updatedAt) {
+            timeEl.textContent = data.updatedAt.slice(5, 16); // "MM-DD HH:mm"
+          }
+        }
+      } catch (e) {
+        if (icon) icon.classList.remove('fa-spin');
+        console.error('Actions status error:', e);
+      }
+    }
+
+    function startActionsPolling() {
+      if (actionsPollTimer) return;
+      actionsPollTimer = setInterval(() => {
+        updateActionsStatus();
+      }, 5000); // 5秒間隔でステータス確認
+    }
+
+    function stopActionsPolling() {
+      if (actionsPollTimer) {
+        clearInterval(actionsPollTimer);
+        actionsPollTimer = null;
       }
     }
   </script>
