@@ -363,6 +363,20 @@
       <li class="nav-item" onclick="switchNav('account', '管理アカウント')"><i class="fa-solid fa-users-gear"></i> 管理アカウント</li>
     </ul>
     <div class="sidebar-footer">
+      <!-- ★ ストレージ表示枠 -->
+      <div class="storage-info-box">
+        <div class="storage-header">
+          <span><i class="fa-solid fa-hard-drive"></i> 容量使用状況</span>
+          <span id="storage-percent">--%</span>
+        </div>
+        <div class="storage-bar-bg">
+          <div class="storage-bar-fill" id="storage-progress"></div>
+        </div>
+        <div class="storage-text" id="storage-usage-text">
+          - MB / 1,000 MB (1GB)
+        </div>
+      </div>
+      
       <button class="btn-secondary" style="width:100%; justify-content:center;" onclick="logout()"><i class="fa-solid fa-right-from-bracket"></i> ログアウト</button>
     </div>
   </aside>
@@ -570,12 +584,28 @@
       }
     }
 
+    // 容量情報の読み込み
+    async function updateStorageUsage() {
+      try {
+        const res = await fetch(`${GAS_API_URL}?action=getRepoStorage`);
+        const data = await res.json();
+        if (data.success) {
+          document.getElementById('storage-percent').textContent = `${data.usagePercent}%`;
+          document.getElementById('storage-progress').style.width = `${data.usagePercent}%`;
+          document.getElementById('storage-usage-text').textContent = `${data.sizeMB} MB / ${data.limitMB.toLocaleString()} MB (1GB)`;
+        }
+      } catch (e) {
+        console.error('Storage info error:', e);
+      }
+    }
+
     function logout() {
       sessionStorage.removeItem('admin_user_authed');
       location.reload();
     }
 
     function initApp() {
+      updateStorageUsage();
       switchNav('profile', '基本プロフィール');
     }
 
