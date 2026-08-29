@@ -328,6 +328,39 @@
       font-weight: 800;
       font-family: 'Fredoka', 'Outfit', sans-serif;
     }
+
+    /* サイドバーのビルドステータス表示 */
+    .build-status-box {
+      margin: 10px 8px 4px 8px;
+      padding: 10px 12px;
+      background: #0f172a;
+      border: 1px solid #334155;
+      border-radius: 8px;
+      font-size: 0.8rem;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .build-status-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: #94a3b8;
+      font-weight: 700;
+    }
+    .build-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 2px 8px;
+      border-radius: 12px;
+      font-size: 0.72rem;
+      font-weight: 800;
+    }
+    .badge-success { background: rgba(16, 185, 129, 0.2); color: #10b981; border: 1px solid #10b981; }
+    .badge-building { background: rgba(245, 158, 11, 0.2); color: #f59e0b; border: 1px solid #f59e0b; }
+    .badge-error { background: rgba(239, 68, 68, 0.2); color: #ef4444; border: 1px solid #ef4444; }
+    .badge-unknown { background: rgba(148, 163, 184, 0.2); color: #94a3b8; border: 1px solid #94a3b8; }
   </style>
 </head>
 <body>
@@ -361,7 +394,23 @@
       <li class="nav-item" onclick="switchNav('about', 'About')"><i class="fa-solid fa-circle-info"></i> About</li>
       <li class="nav-item" onclick="switchNav('guideline', 'ガイドライン')"><i class="fa-solid fa-book-bookmark"></i> ガイドライン</li>
       <li class="nav-item" onclick="switchNav('account', '管理アカウント')"><i class="fa-solid fa-users-gear"></i> 管理アカウント</li>
+      <li class="nav-item" onclick="switchNav('account', '管理アカウント')"><i class="fa-solid fa-users-gear"></i> 管理アカウント</li>
     </ul>
+
+    <!-- ★ 管理アカウントの下に追加するビルドステータス枠 -->
+    <div class="build-status-box">
+      <div class="build-status-header">
+        <span><i class="fa-solid fa-cloud-arrow-up"></i> サイト状態</span>
+        <button onclick="updateBuildStatus()" style="background:none; border:none; color:#94a3b8; padding:0; cursor:pointer;" title="更新">
+          <i class="fa-solid fa-rotate"></i>
+        </button>
+      </div>
+      <div style="display:flex; justify-content:space-between; align-items:center;">
+        <span id="build-status-badge" class="build-badge badge-unknown">確認中...</span>
+        <span id="build-time" style="font-size:0.7rem; color:#64748b;">-</span>
+      </div>
+    </div>
+    
     <div class="sidebar-footer">
       <!-- ★ ストレージ表示枠 -->
       <div class="storage-info-box">
@@ -606,6 +655,7 @@
 
     function initApp() {
       updateStorageUsage();
+      updateBuildStatus();
       switchNav('profile', '基本プロフィール');
     }
 
@@ -1286,6 +1336,40 @@
       } catch (err) {
         hideToast();
         alert('GitHubプッシュエラー: ' + err.message);
+      }
+    }
+
+    // GitHub Pages ビルドステータスの取得
+    async function updateBuildStatus() {
+      const badge = document.getElementById('build-status-badge');
+      const timeEl = document.getElementById('build-time');
+      if (!badge) return;
+
+      try {
+        const res = await fetch(`${GAS_API_URL}?action=getBuildStatus`);
+        const data = await res.json();
+
+        if (data.success) {
+          badge.className = 'build-badge';
+          if (data.status === 'built') {
+            badge.classList.add('badge-success');
+            badge.innerHTML = '<i class="fa-solid fa-check"></i> 公開中';
+          } else if (data.status === 'building') {
+            badge.classList.add('badge-building');
+            badge.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> 反映中';
+          } else if (data.status === 'errored') {
+            badge.classList.add('badge-error');
+            badge.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i> エラー';
+          } else {
+            badge.classList.add('badge-unknown');
+            badge.textContent = data.status;
+          }
+          if (data.updatedAt) {
+            timeEl.textContent = data.updatedAt.slice(5, 16); // "MM-DD HH:mm"
+          }
+        }
+      } catch (e) {
+        console.error('Build status error:', e);
       }
     }
   </script>
