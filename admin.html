@@ -1008,10 +1008,10 @@
             const file = e.target.files[0];
             if (!file) return;
 
-            let folder = 'assets/notice';
-            if (currentActiveSheet === 'visual') folder = 'assets/visual';
-            else if (currentActiveSheet === 'shop') folder = 'assets/shop';
-            else if (currentActiveSheet === 'global_regulations') folder = 'assets/background';
+            // ★ schema.yaml の uploadPath を優先し、未設定の場合はシート名からフォールバック
+            let folder = conf.uploadPath || `assets/${currentActiveSheet}`;
+            // 先頭や末尾のスラッシュを除去して整形
+            folder = folder.replace(/^\/+|\/+$/g, '');
 
             const cleanFileName = file.name.replace(/[^a-zA-Z0-9._-]/g, '_');
             const targetPath = `${folder}/${Date.now()}_${cleanFileName}`;
