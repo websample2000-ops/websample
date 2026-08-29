@@ -127,7 +127,7 @@
             },
             "video_url": {
                 "label": "動画URL",
-                "type": "url",
+                "type": "texturl",
                 "required": true
             },
             "is_active": {
@@ -166,22 +166,22 @@
             },
             "booth": {
                 "label": "BOOTH",
-                "type": "url",
+                "type": "web",
                 "required": false
             },
             "suzuri": {
                 "label": "SUZURI",
-                "type": "url",
+                "type": "web",
                 "required": false
             },
             "base": {
                 "label": "BASE",
-                "type": "url",
+                "type": "web",
                 "required": false
             },
             "fanbox": {
                 "label": "FANBOX",
-                "type": "url",
+                "type": "web",
                 "required": false
             }
         }
