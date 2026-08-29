@@ -40,16 +40,19 @@
             "visual_url": {
                 "label": "立ち絵画像URL",
                 "type": "url",
+                "uploadPath": "assets/visual/mainVisual",
                 "required": true
             },
             "thumb_url": {
                 "label": "アイコン画像URL",
                 "type": "url",
+                "uploadPath": "assets/visual/thumb",
                 "required": true
             },
             "thumb_background": {
                 "label": "アイコン背景画像URL",
                 "type": "url",
+                "uploadPath": "assets/background",
                 "required": true
             },
             "comment": {
@@ -123,6 +126,7 @@
             "image_url": {
                 "label": "サムネイル画像URL",
                 "type": "url",
+                "uploadPath": "assets/moviethumbnail",
                 "required": false
             },
             "video_url": {
@@ -157,6 +161,7 @@
             "merchandise_image": {
                 "label": "商品画像URL",
                 "type": "url",
+                "uploadPath": "assets/shop",
                 "required": true
             },
             "price": {
@@ -211,6 +216,7 @@
             "button_image": {
                 "label": "ボタン画像URL",
                 "type": "url",
+                "uploadPath": "assets/background",
                 "required": true
             },
             "value": {
