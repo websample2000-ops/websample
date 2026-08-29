@@ -949,6 +949,15 @@
           grp.appendChild(dtInput);
           grp.appendChild(textInput);
 
+        } else if (inputType === 'weburl') {
+          // ★ ここに追加
+          const input = document.createElement('input');
+          input.type = 'url';
+          input.id = `field-${h}`;
+          input.value = val;
+          input.placeholder = conf.placeholder || 'https://...';
+          grp.appendChild(input);
+
         } else if (inputType === 'url') {
           const uploadWrap = document.createElement('div');
           uploadWrap.className = 'upload-control-wrap';
