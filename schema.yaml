@@ -127,7 +127,7 @@
             },
             "video_url": {
                 "label": "動画URL",
-                "type": "texturl",
+                "type": "linkurl",
                 "required": true
             },
             "is_active": {
@@ -166,22 +166,22 @@
             },
             "booth": {
                 "label": "BOOTH",
-                "type": "web",
+                "type": "linkurl",
                 "required": false
             },
             "suzuri": {
                 "label": "SUZURI",
-                "type": "web",
+                "type": "linkurl",
                 "required": false
             },
             "base": {
                 "label": "BASE",
-                "type": "web",
+                "type": "linkurl",
                 "required": false
             },
             "fanbox": {
                 "label": "FANBOX",
-                "type": "web",
+                "type": "linkurl",
                 "required": false
             }
         }
@@ -338,42 +338,42 @@
             },
             "youtube_url": {
                 "label": "YouTubeチャンネルURL",
-                "type": "web",
+                "type": "linkurl",
                 "required": false
             },
             "x_url": {
                 "label": "X (旧Twitter) URL",
-                "type": "web",
+                "type": "linkurl",
                 "required": false
             },
             "sns_url-1": {
                 "label": "配信プラットフォーム-1",
-                "type": "web",
+                "type": "linkurl",
                 "required": false
             },
             "sns_url-2": {
                 "label": "配信プラットフォーム-2",
-                "type": "web",
+                "type": "linkurl",
                 "required": false
             },
             "sns_url-3": {
                 "label": "配信プラットフォーム-3",
-                "type": "web",
+                "type": "linkurl",
                 "required": false
             },
             "movie_url-1": {
                 "label": "自己紹介動画URL-1",
-                "type": "web",
+                "type": "linkurl",
                 "required": false
             },
             "movie_url-2": {
                 "label": "自己紹介動画URL-2",
-                "type": "web",
+                "type": "linkurl",
                 "required": false
             },
             "movie_url-3": {
                 "label": "自己紹介動画URL-3",
-                "type": "web",
+                "type": "linkurl",
                 "required": false
             }
         }
