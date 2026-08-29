@@ -621,10 +621,10 @@
                 <input type="text" class="profile-input" id="prof-val-${row._rowIndex}" value="${val}" placeholder="${conf.format || '日付'}">
               </div>
             `;
-          } else if (inputType === 'url') {
+          } else if (inputType === 'url' || inputType === 'linkurl' || inputType === 'weburl') {
             const previewHtml = renderPreviewHtml(val);
             inputHtml = `
-              <input type="url" class="profile-input" id="prof-val-${row._rowIndex}" value="${val}" placeholder="https://..." oninput="updateProfileUrlPreview(${row._rowIndex})">
+              <input type="url" class="profile-input" id="prof-val-${row._rowIndex}" value="${val}" placeholder="${conf.placeholder || 'https://...'}" oninput="updateProfileUrlPreview(${row._rowIndex})">
               <div class="media-preview-box ${previewHtml ? 'show' : ''}" id="prof-prev-${row._rowIndex}">${previewHtml}</div>
             `;
           } else {
@@ -765,7 +765,8 @@
           const conf = colConfs[h] || {};
           const valStr = String(val).trim();
 
-          if (conf.type === 'url' || valStr.startsWith('http')) {
+          // type: url, linkurl, weburl または URL文字列の場合
+          if (['url', 'linkurl', 'weburl'].includes(conf.type) || valStr.startsWith('http')) {
             if (!valStr) {
               td.textContent = '-';
             } else {
@@ -811,7 +812,7 @@
       });
     }
 
-    // 3. モーダルフォーム生成（画像直接アップロード対応）
+    // 3. モーダルフォーム生成（linkurl / weburl / url 完全対応）
     async function openCreateModal() {
       editingRowIndex = null;
       const sheetConf = APP_SCHEMA[currentActiveSheet] || {};
@@ -843,7 +844,8 @@
         const labelText = conf.label || h;
         const isReq = conf.required ? '<span class="required-badge">*必須</span>' : '';
         const inputType = conf.type || 'text';
-        const val = data[h] !== undefined ? data[h] : '';
+        // 前後の空白を取り除き、未定義なら空文字にする
+        const val = (data[h] !== undefined && data[h] !== null) ? String(data[h]).trim() : '';
 
         const grp = document.createElement('div');
         grp.className = 'form-group';
@@ -949,8 +951,8 @@
           grp.appendChild(dtInput);
           grp.appendChild(textInput);
 
-        } else if (inputType === 'linkurl') {
-          // ★ ここに追加
+        } else if (inputType === 'linkurl' || inputType === 'weburl') {
+          // ★ type: linkurl / weburl の専用入力（https://... を確実にplaceholder表示）
           const input = document.createElement('input');
           input.type = 'url';
           input.id = `field-${h}`;
@@ -966,7 +968,7 @@
           input.type = 'url';
           input.id = `field-${h}`;
           input.value = val;
-          input.placeholder = 'https://...';
+          input.placeholder = conf.placeholder || 'https://...';
 
           const prev = document.createElement('div');
           prev.className = 'media-preview-box';
@@ -987,7 +989,6 @@
             }
           };
 
-          // アップロードボタン行
           const uploadBtnRow = document.createElement('div');
           uploadBtnRow.className = 'upload-btn-row';
 
@@ -1007,7 +1008,6 @@
             const file = e.target.files[0];
             if (!file) return;
 
-            // アップロード対象パス決定
             let folder = 'assets/notice';
             if (currentActiveSheet === 'visual') folder = 'assets/visual';
             else if (currentActiveSheet === 'shop') folder = 'assets/shop';
@@ -1065,6 +1065,7 @@
           input.type = 'text';
           input.id = `field-${h}`;
           input.value = val;
+          if (conf.placeholder) input.placeholder = conf.placeholder;
           grp.appendChild(input);
         }
 
@@ -1075,7 +1076,6 @@
       container.appendChild(fieldsFragment);
     }
 
-    // ファイルをBase64文字列に変換するヘルパー
     function readFileAsBase64(file) {
       return new Promise((resolve, reject) => {
         const reader = new FileReader();
