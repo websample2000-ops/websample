@@ -65,6 +65,7 @@
       "visual_url": "https://raw.githubusercontent.com/websample2000-ops/websample/main/assets/visual/mainVisual/sampleimage.png",
       "thumb_url": "https://raw.githubusercontent.com/websample2000-ops/websample/main/assets/visual/thumb/samplethumb.png",
       "thumb_background": "https://raw.githubusercontent.com/websample2000-ops/websample/main/assets/background/thumbbackground.png",
+      "visual_background": "",
       "comment": "サンプルサンプルサンプル",
       "character_design": "潤華ねろ",
       "illustrator": "潤華ねろ",
@@ -78,6 +79,7 @@
       "visual_url": "https://raw.githubusercontent.com/websample2000-ops/websample/main/assets/visual/mainVisual/sample_visual2.png",
       "thumb_url": "https://raw.githubusercontent.com/websample2000-ops/websample/main/assets/visual/thumb/samplethumb3.png",
       "thumb_background": "https://raw.githubusercontent.com/websample2000-ops/websample/main/assets/background/thumbbackground2.png",
+      "visual_background": "https://raw.githubusercontent.com/websample2000-ops/websample/main/assets/background/1788189435048_visual_background1.png",
       "comment": "サンプルサンプルサンプル2",
       "character_design": "潤華ねろ",
       "illustrator": "潤華ねろ",
@@ -7491,7 +7493,7 @@
   "account": [
     {
       "account": "web.sample2000@gmail.com",
-      "password": "admin",
+      "password": "sfdaoiubfdmbpoiHFn:oljbvpOSH",
       "authority": "admin"
     }
   ]
