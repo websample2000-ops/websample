@@ -137,6 +137,8 @@
       justify-content: center;
       align-items: center;
     }
+    
+    /* 立ち絵スライド＆フェードアニメーション用 */
     .profile-visual-box img {
       height: 100% !important;
       width: auto !important;
@@ -144,7 +146,12 @@
       min-width: 600px;
       object-fit: contain;
       filter: drop-shadow(0 15px 25px rgba(0, 0, 0, 0.15));
+      transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.35s ease;
+      will-change: transform, opacity;
+      opacity: 1;
+      transform: translateX(0);
     }
+
     .profile-content-wrap {
       position: relative;
       z-index: 2;
@@ -219,7 +226,9 @@
       width: 65px; height: 65px; border-radius: 8px; overflow: hidden; position: relative;
       cursor: pointer; border: 2px solid transparent; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
       background-color: #f1f2f6;
+      transition: transform 0.2s, border-color 0.2s;
     }
+    .visual-thumb-item:hover { transform: translateY(-2px); }
     .visual-thumb-item.active { border-color: #00158f; box-shadow: 0 0 0 2px rgba(0, 21, 143, 0.3); }
     .thumb-bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 1; }
     .thumb-fg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; z-index: 2; }
@@ -610,7 +619,7 @@
       }
     }
 
-    // 1. プロフィール描画（オブジェクト形式・配列形式の双方に対応）
+    // 1. プロフィール描画
     function renderProfile(profileData, visualData) {
       if (!profileData) return;
 
@@ -661,14 +670,52 @@
       document.getElementById('prof-fan-name').textContent = getVal('fan_name');
       document.getElementById('prof-streaming').textContent = formatDate(p['streaming'], true);
 
+      // ★ 右スライド＆フェード切り替え処理
+      let isSwitchingVisual = false;
       const updateVisualDisplay = (item) => {
         const standingImg = document.getElementById('prof-standing-img');
         const visualSrc = item.visual_url || item.standing_url || p['standing_url'] || p['visual_url'];
+
         if (visualSrc) {
-          standingImg.src = visualSrc;
-          standingImg.style.display = 'block';
+          if (standingImg.style.display !== 'none' && standingImg.src && standingImg.src !== visualSrc) {
+            if (isSwitchingVisual) return;
+            isSwitchingVisual = true;
+
+            // 1. 現在の立ち絵を「右へスライドしながらフェードアウト」
+            standingImg.style.transition = 'transform 0.28s cubic-bezier(0.4, 0, 1, 1), opacity 0.28s ease';
+            standingImg.style.transform = 'translateX(60px)';
+            standingImg.style.opacity = '0';
+
+            setTimeout(() => {
+              // 2. 新しい画像をセットし、アニメーションなしで「右側の開始位置」へ即座に移動
+              standingImg.src = visualSrc;
+              standingImg.style.transition = 'none';
+              standingImg.style.transform = 'translateX(60px)';
+              standingImg.style.opacity = '0';
+
+              // DOMリフロー強制
+              void standingImg.offsetWidth;
+
+              // 3. 右側から「定位置へスライドしながらフェードイン」
+              standingImg.style.transition = 'transform 0.38s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.35s ease';
+              standingImg.style.transform = 'translateX(0)';
+              standingImg.style.opacity = '1';
+
+              setTimeout(() => {
+                isSwitchingVisual = false;
+              }, 380);
+            }, 280);
+
+          } else {
+            // 初回表示時
+            standingImg.src = visualSrc;
+            standingImg.style.display = 'block';
+            standingImg.style.opacity = '1';
+            standingImg.style.transform = 'translateX(0)';
+          }
         }
 
+        // クレジット表示更新
         const creditsContainer = document.getElementById('prof-credits');
         creditsContainer.innerHTML = '';
         const creditConfigs = [
@@ -715,6 +762,7 @@
             thumbBox.appendChild(fgImg);
           }
           thumbBox.addEventListener('click', () => {
+            if (thumbBox.classList.contains('active')) return;
             document.querySelectorAll('.visual-thumb-item').forEach(el => el.classList.remove('active'));
             thumbBox.classList.add('active');
             updateVisualDisplay(vItem);
