@@ -60,7 +60,7 @@
                 "type": "text",
                 "required": false
             },
-            "image_background": {
+            "visual_background": {
                 "label": "背景画像　※設定されている場合立ち絵選択中背景が変わります",
                 "type": "url",
                 "uploadPath": "assets/background",
