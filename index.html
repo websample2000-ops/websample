@@ -619,6 +619,9 @@
       }
     }
 
+    // デフォルト背景のURLを保持する変数
+    let defaultPageBackground = '';
+
     // 1. プロフィール描画
     function renderProfile(profileData, visualData) {
       if (!profileData) return;
@@ -670,33 +673,36 @@
       document.getElementById('prof-fan-name').textContent = getVal('fan_name');
       document.getElementById('prof-streaming').textContent = formatDate(p['streaming'], true);
 
-      // ★ 右スライド＆フェード切り替え処理
+      // ★ 立ち絵・背景切り替え処理
       let isSwitchingVisual = false;
       const updateVisualDisplay = (item) => {
         const standingImg = document.getElementById('prof-standing-img');
         const visualSrc = item.visual_url || item.standing_url || p['standing_url'] || p['visual_url'];
+
+        // 背景画像の動的切り替え（visual_background があれば適用、無ければデフォルト）
+        if (item.visual_background && String(item.visual_background).trim() !== '') {
+          document.body.style.backgroundImage = `url('${item.visual_background.trim()}')`;
+        } else if (defaultPageBackground) {
+          document.body.style.backgroundImage = `url('${defaultPageBackground}')`;
+        }
 
         if (visualSrc) {
           if (standingImg.style.display !== 'none' && standingImg.src && standingImg.src !== visualSrc) {
             if (isSwitchingVisual) return;
             isSwitchingVisual = true;
 
-            // 1. 現在の立ち絵を「右へスライドしながらフェードアウト」
             standingImg.style.transition = 'transform 0.28s cubic-bezier(0.4, 0, 1, 1), opacity 0.28s ease';
             standingImg.style.transform = 'translateX(60px)';
             standingImg.style.opacity = '0';
 
             setTimeout(() => {
-              // 2. 新しい画像をセットし、アニメーションなしで「右側の開始位置」へ即座に移動
               standingImg.src = visualSrc;
               standingImg.style.transition = 'none';
               standingImg.style.transform = 'translateX(60px)';
               standingImg.style.opacity = '0';
 
-              // DOMリフロー強制
               void standingImg.offsetWidth;
 
-              // 3. 右側から「定位置へスライドしながらフェードイン」
               standingImg.style.transition = 'transform 0.38s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.35s ease';
               standingImg.style.transform = 'translateX(0)';
               standingImg.style.opacity = '1';
@@ -707,7 +713,6 @@
             }, 280);
 
           } else {
-            // 初回表示時
             standingImg.src = visualSrc;
             standingImg.style.display = 'block';
             standingImg.style.opacity = '1';
@@ -1277,7 +1282,8 @@
         const bgItem = globalData.find(row => (row.item || row['項目'] || row.key) === 'page_background' || (row.item || row['項目'] || row.key) === 'background');
         const bgVal = bgItem ? (bgItem.value || bgItem['設定値']) : (globalData[0].page_background || globalData[0].background || '');
         if (bgVal) {
-          document.body.style.backgroundImage = `url('${bgVal}')`;
+          defaultPageBackground = bgVal.trim();
+          document.body.style.backgroundImage = `url('${defaultPageBackground}')`;
         }
       }
 
