@@ -60,6 +60,12 @@
                 "type": "text",
                 "required": false
             },
+            "image_background": {
+                "label": "背景画像　※設定されている場合立ち絵選択中背景が変わります",
+                "type": "url",
+                "uploadPath": "assets/background",
+                "required": false
+            },
             "character_design": {
                 "label": "キャラクター案",
                 "type": "text",
