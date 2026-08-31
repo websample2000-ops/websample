@@ -75,8 +75,8 @@
     {
       "id": 100002,
       "costume_name": "sample1",
-      "visual_url": "https://raw.githubusercontent.com/websample2000-ops/websample/main/assets/visual/mainVisual/sampleimage1.png",
-      "thumb_url": "https://raw.githubusercontent.com/websample2000-ops/websample/main/assets/visual/thumb/samplethumb1.png",
+      "visual_url": "https://raw.githubusercontent.com/websample2000-ops/websample/main/assets/visual/mainVisual/sample_visual2.png",
+      "thumb_url": "https://raw.githubusercontent.com/websample2000-ops/websample/main/assets/visual/thumb/samplethumb3.png",
       "thumb_background": "https://raw.githubusercontent.com/websample2000-ops/websample/main/assets/background/thumbbackground2.png",
       "comment": "サンプルサンプルサンプル2",
       "character_design": "潤華ねろ",
@@ -84,32 +84,6 @@
       "2d_animation": "潤華ねろ",
       "3d_modeling": "潤華ねろ",
       "priority": 2
-    },
-    {
-      "id": 100003,
-      "costume_name": "sample2",
-      "visual_url": "https://raw.githubusercontent.com/websample2000-ops/websample/main/assets/visual/mainVisual/sampleimage2.png",
-      "thumb_url": "https://raw.githubusercontent.com/websample2000-ops/websample/main/assets/visual/thumb/samplethumb2.png",
-      "thumb_background": "https://raw.githubusercontent.com/websample2000-ops/websample/main/assets/background/thumbbackground2.png",
-      "comment": "",
-      "character_design": "",
-      "illustrator": "",
-      "2d_animation": "",
-      "3d_modeling": "",
-      "priority": ""
-    },
-    {
-      "id": 4,
-      "costume_name": "サンプル",
-      "visual_url": "https://raw.githubusercontent.com/websample2000-ops/websample/main/assets/visual/mainVisual/1787975880622_sampleimage.png",
-      "thumb_url": "https://raw.githubusercontent.com/websample2000-ops/websample/main/assets/visual/thumb/1787975889849_samplethumb.png",
-      "thumb_background": "https://raw.githubusercontent.com/websample2000-ops/websample/main/assets/background/1787975897006_thumbbackground2.png",
-      "comment": "サンプル用",
-      "character_design": "ねろ",
-      "illustrator": "ねろ",
-      "2d_animation": "",
-      "3d_modeling": "",
-      "priority": 4
     }
   ],
   "shop": [
